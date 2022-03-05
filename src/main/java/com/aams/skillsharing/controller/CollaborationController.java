@@ -1,5 +1,6 @@
 package com.aams.skillsharing.controller;
 
+import com.aams.skillsharing.dao.*;
 import com.aams.skillsharing.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;

@@ -1,5 +1,7 @@
 package com.aams.skillsharing.controller;
 
+
+import com.aams.skillsharing.dao.UserDao;
 import com.aams.skillsharing.model.InternalUser;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;

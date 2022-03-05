@@ -1,5 +1,8 @@
 package com.aams.skillsharing.controller;
 
+import com.aams.skillsharing.dao.MessageDao;
+import com.aams.skillsharing.dao.OfferDao;
+import com.aams.skillsharing.dao.RequestDao;
 import com.aams.skillsharing.model.InternalUser;
 import com.aams.skillsharing.model.Message;
 import org.springframework.beans.factory.annotation.Autowired;

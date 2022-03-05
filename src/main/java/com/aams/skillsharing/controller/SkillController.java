@@ -1,5 +1,6 @@
 package com.aams.skillsharing.controller;
 
+import com.aams.skillsharing.dao.SkillDao;
 import com.aams.skillsharing.model.InternalUser;
 import com.aams.skillsharing.model.Skill;
 import com.aams.skillsharing.model.SkillLevel;
