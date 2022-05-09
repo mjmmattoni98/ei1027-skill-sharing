@@ -69,12 +69,12 @@ CREATE TABLE collaboration (
     id_offer INTEGER NOT NULL,
     id_request INTEGER NOT NULL,
     hours INTEGER NOT NULL DEFAULT 0,
-    assessment INTEGER NOT NULL,
-    state COLLABORATION_STATE NOT NULL,
+    assessment INTEGER NOT NULL DEFAULT 1,
+    state COLLABORATION_STATE NOT NULL DEFAULT 'active',
     CONSTRAINT collaboration_pk PRIMARY KEY (id_offer, id_request),
     CONSTRAINT collaboration_fk_offer FOREIGN KEY (id_offer) REFERENCES offer(id) ON DELETE  RESTRICT ON UPDATE CASCADE,
     CONSTRAINT collaboration_fk_request FOREIGN KEY (id_request) REFERENCES request(id) ON DELETE  RESTRICT ON UPDATE CASCADE,
-    CONSTRAINT collaboration_hours_ri CHECK (hours > 0),
+    CONSTRAINT collaboration_hours_ri CHECK (hours >= 0),
     CONSTRAINT collaboration_assessment_ri CHECK (assessment > 0 AND assessment <= 5)
 );
 
