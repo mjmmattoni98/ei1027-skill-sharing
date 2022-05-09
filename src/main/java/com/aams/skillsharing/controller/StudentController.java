@@ -26,11 +26,11 @@ public class StudentController extends RoleController {
 
     @RequestMapping("/profile")
     public String studentProfile(HttpSession session, Model model){
-        InternalUser user = checkSession(session, STUDENT_ROLE);
-        if (user == null){
+        if (session.getAttribute("user") == null){
             model.addAttribute("user", new InternalUser());
             return "login";
         }
+        InternalUser user = (InternalUser) session.getAttribute("user");
 
         model.addAttribute("student", studentDao.getStudent(user.getUsername()));
         return "student/profile";

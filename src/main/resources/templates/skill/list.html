@@ -47,11 +47,11 @@
                    role="button">Delete</a>
             </td>
             <td th:if="${session.user != null}">
-                <a th:href="@{/request/list/{name}(name=${skill.name})}" class="btn btn-info"
+                <a th:href="@{/request/list/skill/{name}(name=${skill.name})}" class="btn btn-info"
                    role="button">See requests</a>
             </td>
             <td th:if="${session.user != null}">
-                <a th:href="@{/offer/list/{name}(name=${skill.name})}" class="btn btn-info"
+                <a th:href="@{/offer/list/skill/{name}(name=${skill.name})}" class="btn btn-info"
                    role="button">See offers</a>
             </td>
             <td th:if="${session.user != null}">
