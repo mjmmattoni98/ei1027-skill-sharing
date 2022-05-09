@@ -75,6 +75,6 @@ public class StudentController extends RoleController {
         validator.validate(student, bindingResult);
         if (bindingResult.hasErrors()) return "student/update";
         studentDao.updateStudent(student);
-        return "redirect:/student/perfil";
+        return "redirect:/student/profile";
     }
 }

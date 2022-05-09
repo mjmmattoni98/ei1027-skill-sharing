@@ -11,6 +11,6 @@ public class InternalUser implements Serializable {
     private boolean isSkp;
 
     public String getUrlMainPage() {
-        return "student/perfil";
+        return "student/profile";
     }
 }
