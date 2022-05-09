@@ -21,12 +21,12 @@ public class CollaborationDao {
     }
 
     public void addCollaboration(Collaboration collaboration) throws DuplicateKeyException {
-        jdbcTemplate.update("INSERT INTO collaboration VALUES (?,?,?,?,?)",
+        jdbcTemplate.update("INSERT INTO collaboration VALUES (?,?,?,?,?::collaboration_state)",
                 collaboration.getIdOffer(),
                 collaboration.getIdRequest(),
                 collaboration.getHours(),
-                collaboration.getAssessment().getId(),
-                collaboration.getState().getId()
+                collaboration.getAssessment(),
+                collaboration.getState()
         );
     }
 
@@ -45,12 +45,13 @@ public class CollaborationDao {
     }
 
     public void updateCollaboration(Collaboration collaboration) {
-        jdbcTemplate.update("UPDATE collaboration SET id_offer = ?, id_request = ?, hours = ?, assessment = ?, state = ? WHERE id_offer = ? AND id_request = ?",
+        jdbcTemplate.update("UPDATE collaboration SET id_offer = ?, id_request = ?, hours = ?, assessment = ?, " +
+                        "state = ?::collaboration_state WHERE id_offer = ? AND id_request = ?",
                 collaboration.getIdOffer(),
                 collaboration.getIdRequest(),
                 collaboration.getHours(),
-                collaboration.getAssessment().getId(),
-                collaboration.getState().getId(),
+                collaboration.getAssessment(),
+                collaboration.getState(),
                 collaboration.getIdOffer(),
                 collaboration.getIdRequest()
         );

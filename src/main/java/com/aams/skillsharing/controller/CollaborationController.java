@@ -51,11 +51,11 @@ public class CollaborationController extends RoleController{
 
     @RequestMapping("/list")
     public String listCollaborations(HttpSession session, Model model) {
-        InternalUser user = checkSession(session, SKP_ROLE);
-        if (user == null){
+        if (session.getAttribute("user") == null){
             model.addAttribute("user", new InternalUser());
             return "login";
         }
+        InternalUser user = (InternalUser) session.getAttribute("user");
 
         model.addAttribute("collaborations", collaborationDao.getCollaborations());
         return "collaboration/list";
@@ -126,10 +126,6 @@ public class CollaborationController extends RoleController{
         if (!offer.getUsername().equals(user.getUsername()) && !request.getUsername().equals(user.getUsername()))
             throw new SkillSharingException("You are not allowed to update this collaboration", "NotAllowed", "/");
         model.addAttribute("collaboration", collaboration);
-        List<String> assessments = new LinkedList<>();
-        for(AssessmentScore assessment : AssessmentScore.values())
-            assessments.add(assessment.getId());
-        model.addAttribute("assessments", assessments);
         List<String> states = new LinkedList<>();
         for(CollaborationState state : CollaborationState.values())
             states.add(state.getId());

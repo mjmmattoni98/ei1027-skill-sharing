@@ -14,7 +14,7 @@ public class SkillRowMapper implements RowMapper<Skill> {
         Skill skill = new Skill();
         skill.setName(rs.getString("name"));
         skill.setDescription(rs.getString("description"));
-        skill.setLevel(SkillLevel.fromId(rs.getString("level")));
+        skill.setLevel(rs.getString("level"));
         skill.setStartDate(rs.getObject("start_date", LocalDate.class));
         skill.setFinishDate(rs.getObject("finish_date", LocalDate.class));
 

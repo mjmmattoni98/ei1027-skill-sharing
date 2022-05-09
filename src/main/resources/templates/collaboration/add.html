@@ -1,10 +1,54 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragments/base}">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Add collaboration</title>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/skill_sharing.css"
+          th:href="@{/css/skill_sharing.css}"/>
 </head>
 <body>
+<div class="container" layout:fragment="content">
+    <h2>New collaboration</h2>
+    <form class="form-horizontal" action="#" th:action="@{/collaboration/add}"
+          th:object="${collaboration}" method="post">
 
+        <div class="form-group row">
+            <label class="control-label col-sm-2" for="idOffer">ID offer:</label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control" id="idOffer" th:field="*{idOffer}" readonly/>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label class="control-label col-sm-2" for="studentOffer">Student offer:</label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control" id="studentOffer" th:field="*{studentOffer}" readonly/>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label class="control-label col-sm-2" for="idRequest">ID request:</label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control" id="idRequest" th:field="*{idRequest}" readonly/>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label class="control-label col-sm-2" for="studentRequest">Student request:</label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control" id="studentRequest" th:field="*{studentRequest}" readonly/>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <div class="col-sm-offset-2 col-sm-4">
+                <button type="submit" class="btn btn-primary">Create collaboration</button>
+            </div>
+        </div>
+    </form>
+</div>
 </body>
 </html>

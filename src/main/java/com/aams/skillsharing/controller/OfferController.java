@@ -1,8 +1,12 @@
 package com.aams.skillsharing.controller;
 
+import com.aams.skillsharing.dao.CollaborationDao;
 import com.aams.skillsharing.dao.OfferDao;
+import com.aams.skillsharing.dao.RequestDao;
+import com.aams.skillsharing.model.Collaboration;
 import com.aams.skillsharing.model.InternalUser;
 import com.aams.skillsharing.model.Offer;
+import com.aams.skillsharing.model.Request;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Controller;
@@ -17,6 +21,8 @@ import java.util.List;
 @RequestMapping("/offer")
 public class OfferController extends RoleController{
     private OfferDao offerDao;
+    private RequestDao requestDao;
+    private CollaborationDao collaborationDao;
     private static final OfferValidator validator = new OfferValidator();
 
     @Autowired
@@ -24,10 +30,37 @@ public class OfferController extends RoleController{
         this.offerDao = offerDao;
     }
 
+    @Autowired
+    public void setRequestDao(RequestDao requestDao) {
+        this.requestDao = requestDao;
+    }
+
+    @Autowired
+    public void setCollaborationDao(CollaborationDao collaborationDao) {
+        this.collaborationDao = collaborationDao;
+    }
+
     @RequestMapping("/list")
     public String listOffers(Model model) {
         List<Offer> offers = offerDao.getOffers();
 
+        model.addAttribute("offers", offers);
+        return "offer/list";
+    }
+
+    @RequestMapping("/list/collaborate/{id}")
+    public String listOffersToCollaborate(HttpSession session, Model model, @PathVariable int id) {
+        if (session.getAttribute("user") == null){
+            model.addAttribute("user", new InternalUser());
+            return "login";
+        }
+
+        Request request = requestDao.getRequest(id);
+        List<Offer> offers = offerDao.getOffersSkill(request.getName());
+        offers.removeIf(offer -> offer.getUsername().equals(request.getUsername()) &&
+                        collaborationDao.getCollaboration(offer.getId(), request.getId()) != null);
+
+        model.addAttribute("request", request.getId());
         model.addAttribute("offers", offers);
         return "offer/list";
     }
@@ -48,7 +81,7 @@ public class OfferController extends RoleController{
     public String listOffersSkill(Model model, @PathVariable String name) {
         List<Offer> offers = offerDao.getOffersSkill(name);
 
-        model.addAttribute("offer", offers);
+        model.addAttribute("offers", offers);
         model.addAttribute("skill", name);
         return "offer/list";
     }
