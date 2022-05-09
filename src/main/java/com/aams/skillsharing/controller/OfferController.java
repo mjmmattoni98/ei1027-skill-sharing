@@ -32,7 +32,7 @@ public class OfferController extends RoleController{
         return "offer/list";
     }
 
-    @RequestMapping("/list/{username}")
+    @RequestMapping("/list/student/{username}")
     public String listOffersStudent(HttpSession session, Model model, @PathVariable String username) {
         if (session.getAttribute("user") == null){
             model.addAttribute("user", new InternalUser());
@@ -44,7 +44,7 @@ public class OfferController extends RoleController{
         return "offer/list";
     }
 
-    @RequestMapping("/list/{name}")
+    @RequestMapping("/list/skill/{name}")
     public String listOffersSkill(Model model, @PathVariable String name) {
         List<Offer> offers = offerDao.getOffersSkill(name);
 

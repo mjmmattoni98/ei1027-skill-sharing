@@ -32,7 +32,7 @@ public class RequestController extends RoleController{
         return "request/list";
     }
 
-    @RequestMapping("/list/{username}")
+    @RequestMapping("/list/student/{username}")
     public String listRequestsStudent(HttpSession session, Model model, @PathVariable String username) {
         if (session.getAttribute("user") == null){
             model.addAttribute("user", new InternalUser());
@@ -44,7 +44,7 @@ public class RequestController extends RoleController{
         return "request/list";
     }
 
-    @RequestMapping("/list/{name}")
+    @RequestMapping("/list/skill/{name}")
     public String listRequestsSkill(Model model, @PathVariable String name) {
         List<Request> requests = requestDao.getRequestsSkill(name);
 
