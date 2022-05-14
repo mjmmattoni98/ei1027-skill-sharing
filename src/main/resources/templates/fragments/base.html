@@ -23,14 +23,7 @@
 <header class="page-header">
   <h1>Skill sharing on University Jaume I</h1>
 </header>
-<div class="loggeduser" th:object="${session}">1
-  <td th:if="${session.user != null and session.user.isSkp == true}">
-    <div th:replace="fragments/nav"></div>
-  </td>
-  <td th:if="${session.user != null and session.user.isSkp == false}">
-    <div th:replace="fragments/navStudent"></div>
-  </td>
-</div>
+<div th:replace="fragments/nav"></div>
 <div th:replace="fragments/loginInfo"></div>
 <div layout:fragment="content"></div>
 <footer>

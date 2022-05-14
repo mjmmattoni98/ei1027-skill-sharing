@@ -1,10 +1,36 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
   <div class="navbar-collapse collapse">
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item" ><a class="nav-link" href="/skill/list" th:href="@{/skill/list}">See skills</a></li>
-      <li class="nav-item" ><a class="nav-link" href="/request/list" th:href="@{/request/list}">See requests</a></li>
-      <li class="nav-item" ><a class="nav-link" href="/offer/list" th:href="@{/offer/list}">See offers</a></li>
-      <li class="nav-item" ><a class="nav-link" href="/collaboration/list" th:href="@{/collaboration/list}">See collaborations</a></li>
-    </ul>
+    <div class="loggeduser">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="/" th:href="@{/}">Home page</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/skill/list" th:href="@{/skill/list}">See skills</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/request/list" th:href="@{/request/list}">See requests</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/offer/list" th:href="@{/offer/list}">See offers</a>
+        </li>
+        <td th:if="${session.user != null}">
+          <li class="nav-item">
+            <a class="nav-link" th:href="@{/collaboration/list/{username}(username=${session.user.username})}">My collaborations</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" th:href="@{/request/list/student/{username}(username=${session.user.username})}">My requests</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" th:href="@{/offer/list/student/{username}(username=${session.user.username})}">My offers</a>
+          </li>
+        </td>
+        <td th:if="${session.user != null and session.user.isSkp}">
+          <li class="nav-item">
+            <a class="nav-link" href="/student/list" th:href="@{/student/list}">See students</a>
+          </li>
+        </td>
+      </ul>
+    </div>
   </div>
 </nav>
