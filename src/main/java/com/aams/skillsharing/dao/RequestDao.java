@@ -43,8 +43,7 @@ public class RequestDao {
     }
 
     public void updateRequest(Request request) {
-        jdbcTemplate.update("UPDATE request SET id = ?, name = ?, username = ?, start_date = ?, finish_date = ?, description = ? WHERE id = ?",
-                request.getId(),
+        jdbcTemplate.update("UPDATE request SET name = ?, username = ?, start_date = ?, finish_date = ?, description = ? WHERE id = ?",
                 request.getName(),
                 request.getUsername(),
                 request.getStartDate(),

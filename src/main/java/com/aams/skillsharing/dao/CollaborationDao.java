@@ -45,10 +45,8 @@ public class CollaborationDao {
     }
 
     public void updateCollaboration(Collaboration collaboration) {
-        jdbcTemplate.update("UPDATE collaboration SET id_offer = ?, id_request = ?, hours = ?, assessment = ?, " +
+        jdbcTemplate.update("UPDATE collaboration SET hours = ?, assessment = ?, " +
                         "state = ?::collaboration_state WHERE id_offer = ? AND id_request = ?",
-                collaboration.getIdOffer(),
-                collaboration.getIdRequest(),
                 collaboration.getHours(),
                 collaboration.getAssessment(),
                 collaboration.getState(),

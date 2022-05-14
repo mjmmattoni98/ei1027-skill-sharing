@@ -43,8 +43,7 @@ public class SkillDao {
     }
 
     public void updateSkill(Skill skill) {
-        jdbcTemplate.update("UPDATE skill SET name = ?, description = ?, level = ?, start_date = ?, finish_date = ? WHERE name = ?",
-                skill.getName(),
+        jdbcTemplate.update("UPDATE skill SET description = ?, level = ?, start_date = ?, finish_date = ? WHERE name = ?",
                 skill.getDescription(),
                 skill.getLevel(),
                 skill.getStartDate(),

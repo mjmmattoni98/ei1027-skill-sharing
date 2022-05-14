@@ -43,8 +43,7 @@ public class OfferDao {
     }
 
     public void updateOffer(Offer offer) {
-        jdbcTemplate.update("UPDATE offer SET id = ?, name = ?, username = ?, start_date = ?, finish_date = ?, description = ? WHERE id = ?",
-                offer.getId(),
+        jdbcTemplate.update("UPDATE offer SET name = ?, username = ?, start_date = ?, finish_date = ?, description = ? WHERE id = ?",
                 offer.getName(),
                 offer.getUsername(),
                 offer.getStartDate(),
