@@ -42,7 +42,7 @@
             <td th:text="${collaboration.hours}"></td>
             <td th:text="${collaboration.assessment}"></td>
             <td th:text="${collaboration.state}"></td>
-            <td th:if="${session.user != null and student == null and #strings.equals(session.user.username, collaboration.studentOffer)}">
+            <td th:if="${session.user != null and student != null and #strings.equals(session.user.username, collaboration.studentOffer)}">
                 <a th:href="@{/collaboration/update/{idOffer}/{idRequest}(idOffer=${collaboration.idOffer}, idRequest=${collaboration.idRequest})}"
                    class="btn btn-warning" role="button">Update</a>
             </td>

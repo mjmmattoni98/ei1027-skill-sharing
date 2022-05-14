@@ -2,6 +2,7 @@ package com.aams.skillsharing.controller;
 
 import com.aams.skillsharing.dao.EmailDao;
 import com.aams.skillsharing.dao.StudentDao;
+import com.aams.skillsharing.model.Email;
 import com.aams.skillsharing.model.InternalUser;
 import com.aams.skillsharing.model.Student;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,14 +31,13 @@ public class EmailController extends RoleController{
 
     @RequestMapping("/list/{receiver}")
     public String listEmails(HttpSession session, Model model, @PathVariable String receiver) {
-        InternalUser user = checkSession(session, STUDENT_ROLE);
-        if (user == null){
+        if (session.getAttribute("user") == null){
             model.addAttribute("user", new InternalUser());
             return "login";
         }
+        InternalUser user = (InternalUser) session.getAttribute("user");
 
         Student student = studentDao.getStudent(user.getUsername());
-
         if (!student.getEmail().equals(receiver)) {
             throw new SkillSharingException("You can only see your own emails",
                     "AccesDenied", "../" + user.getUrlMainPage());
@@ -45,5 +45,24 @@ public class EmailController extends RoleController{
 
         model.addAttribute("emails", emailDAO.getEmails(receiver));
         return "email/list";
+    }
+
+    @RequestMapping(value = "/delete/{id}")
+    public String processDeleteSkill(HttpSession session, Model model, @PathVariable int id) {
+        if (session.getAttribute("user") == null){
+            model.addAttribute("user", new InternalUser());
+            return "login";
+        }
+        InternalUser user = (InternalUser) session.getAttribute("user");
+
+        Student student = studentDao.getStudent(user.getUsername());
+        Email email = emailDAO.getEmail(id);
+        if (!student.getEmail().equals(email.getReceiver())) {
+            throw new SkillSharingException("You cannot delete emails of other students",
+                    "AccesDenied", "../" + user.getUrlMainPage());
+        }
+
+        emailDAO.deleteEmail(id);
+        return "redirect:../list/";
     }
 }

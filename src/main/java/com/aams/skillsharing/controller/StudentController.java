@@ -24,6 +24,17 @@ public class StudentController extends RoleController {
         this.studentDao = studentDao;
     }
 
+    @RequestMapping("/list")
+    public String listStudents(HttpSession session, Model model) {
+        InternalUser user = checkSession(session, SKP_ROLE);
+        if (user == null){
+            model.addAttribute("user", new InternalUser());
+            return "login";
+        }
+
+        model.addAttribute("students", studentDao.getStudents());
+        return "student/list";
+    }
     @RequestMapping("/profile")
     public String studentProfile(HttpSession session, Model model){
         if (session.getAttribute("user") == null){

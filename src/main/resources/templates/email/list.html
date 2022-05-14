@@ -22,6 +22,7 @@
       <th>Send date</th>
       <th>Subject</th>
       <th>Body</th>
+      <th></th>
     </tr>
     </thead>
     <tbody>
@@ -30,6 +31,10 @@
       <td th:text="${email.sendDate}"></td>
       <td th:text="${email.subject}"></td>
       <td th:text="${email.body}"></td>
+      <td th:if="${session.user != null and session.user.isSkp}">
+        <a th:href="@{/email/delete/{id}(id=${email.id})}" class="btn btn-danger"
+           role="button">Delete</a>
+      </td>
     </tr>
     </tbody>
   </table>

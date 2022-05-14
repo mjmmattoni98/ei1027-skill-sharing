@@ -51,11 +51,11 @@ public class CollaborationController extends RoleController{
 
     @RequestMapping("/list")
     public String listCollaborations(HttpSession session, Model model) {
-        if (session.getAttribute("user") == null){
+        InternalUser user = checkSession(session, SKP_ROLE);
+        if (user == null){
             model.addAttribute("user", new InternalUser());
             return "login";
         }
-        InternalUser user = (InternalUser) session.getAttribute("user");
 
         model.addAttribute("collaborations", collaborationDao.getCollaborations());
         return "collaboration/list";
@@ -67,6 +67,10 @@ public class CollaborationController extends RoleController{
             model.addAttribute("user", new InternalUser());
             return "login";
         }
+        InternalUser user = (InternalUser) session.getAttribute("user");
+
+        if (!user.getUsername().equals(username))
+            throw new SkillSharingException("You are not allowed to see other student's collaborations", "NotAllowed", "/");
 
         model.addAttribute("collaborations", collaborationDao.getCollaborationsStudent(username));
         model.addAttribute("student", username);
