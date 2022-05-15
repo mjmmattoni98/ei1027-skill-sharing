@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragments/base}">
+<head>
+    <title>Manage skills</title>
+    <meta charset="UTF-8"/>
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/skill_sharing.css"
+          th:href="@{/css/skill_sharing.css}"/>
+</head>
+<body>
+<div class="container" layout:fragment="content">
+    <h1>Information about the student <b th:text="${student}"></b></h1>
+
+    <h2>Balance of the hours for the student</h2>
+    <div class="form-group row">
+        <label class="control-label col-sm-2" for="balance">Balance hours:</label>
+        <div class="col-sm-4">
+            <input type="number" class="form-control" id="balance" th:field="*{balance_hours}" readonly/>
+        </div>
+    </div>
+
+    <h2>Average for the assessment score of the collaborations</h2>
+    <div class="form-group row">
+        <label class="control-label col-sm-2" for="average_assessment">Average assessment score:</label>
+        <div class="col-sm-4">
+            <input type="number" class="form-control" id="average_assessment" th:field="*{average_assessment}"
+                   readonly/>
+        </div>
+    </div>
+
+    <h2>List of offers</h2>
+    <div th:if="${#lists.isEmpty(offers)}">
+        <h3>There are currently no offers for this student</h3>
+    </div>
+    <table class="table table-striped" th:unless="${#lists.isEmpty(offers)}">
+        <thead>
+        <tr>
+            <th>Skill</th>
+            <th>Description</th>
+            <th>Start date</th>
+            <th>Finish date</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="offer: ${offers}">
+            <td th:text="${offer.name}"></td>
+            <td th:text="${offer.description}"></td>
+            <td th:text="${offer.startDate}"></td>
+            <td th:text="${offer.finishDate}"></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h2>List of requests</h2>
+    <div th:if="${#lists.isEmpty(requests)}">
+        <h3>There are currently no requests for this student</h3>
+    </div>
+    <table class="table table-striped" th:unless="${#lists.isEmpty(requests)}">
+        <thead>
+        <tr>
+            <th>Skill</th>
+            <th>Description</th>
+            <th>Start date</th>
+            <th>Finish date</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="request: ${requests}">
+            <td th:text="${request.name}"></td>
+            <td th:text="${request.description}"></td>
+            <td th:text="${request.startDate}"></td>
+            <td th:text="${request.finishDate}"></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h2>List of collaborations</h2>
+    <div th:if="${#lists.isEmpty(collaborations)}">
+        <h3>There are currently no collaborations for this student</h3>
+    </div>
+    <table class="table table-striped" th:unless="${#lists.isEmpty(collaborations)}">
+        <thead>
+        <tr>
+            <th>ID offer</th>
+            <th>Student offer</th>
+            <th>ID request</th>
+            <th>Student request</th>
+            <th>Total hours</th>
+            <th>Assessment score</th>
+            <th>Collaboration's state</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="collaboration: ${collaborations}">
+            <td th:text="${collaboration.idOffer}"></td>
+            <td th:text="${collaboration.studentOffer}"></td>
+            <td th:text="${collaboration.idRequest}"></td>
+            <td th:text="${collaboration.studentRequest}"></td>
+            <td th:text="${collaboration.hours}"></td>
+            <td th:text="${collaboration.assessment}"></td>
+            <td th:text="${collaboration.state}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

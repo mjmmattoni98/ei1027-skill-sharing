@@ -51,10 +51,8 @@ public class StudentDao {
     }
 
     public void updateStudent(Student student) {
-        jdbcTemplate.update("UPDATE student SET balance_hours = ?, is_blocked = ?, name = ?, surname = ?, " +
+        jdbcTemplate.update("UPDATE student SET name = ?, surname = ?, " +
                         "email = ?, street = ?, number = ?, pc = ?, locality = ?, degree = ? WHERE username = ?",
-                student.getBalanceHours(),
-                student.isBlocked(),
                 student.getName(),
                 student.getSurname(),
                 student.getEmail(),
