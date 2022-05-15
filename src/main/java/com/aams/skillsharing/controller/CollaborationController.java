@@ -50,28 +50,14 @@ public class CollaborationController extends RoleController{
     }
 
     @RequestMapping("/list")
-    public String listCollaborations(HttpSession session, Model model) {
-        InternalUser user = checkSession(session, SKP_ROLE);
-        if (user == null){
-            model.addAttribute("user", new InternalUser());
-            return "login";
-        }
-
-        model.addAttribute("collaborations", collaborationDao.getCollaborations());
-        return "collaboration/list";
-    }
-
-    @RequestMapping("/list/{username}")
-    public String listCollaborationsStudent(HttpSession session, Model model, @PathVariable String username) {
+    public String listCollaborationsStudent(HttpSession session, Model model) {
         if (session.getAttribute("user") == null){
             model.addAttribute("user", new InternalUser());
             return "login";
         }
         InternalUser user = (InternalUser) session.getAttribute("user");
 
-        if (!user.getUsername().equals(username))
-            throw new SkillSharingException("You are not allowed to see other student's collaborations", "NotAllowed", "/");
-
+        String username = user.getUsername();
         model.addAttribute("collaborations", collaborationDao.getCollaborationsStudent(username));
         model.addAttribute("student", username);
         return "collaboration/list";
@@ -142,6 +128,24 @@ public class CollaborationController extends RoleController{
                                       BindingResult bindingResult) {
         validator.validate(collaboration, bindingResult);
         if (bindingResult.hasErrors()) return "collaboration/update";
+
+        Collaboration oldCollaboration = collaborationDao.getCollaboration(
+                collaboration.getIdOffer(),
+                collaboration.getIdRequest()
+        );
+        if (collaboration.getHours() != oldCollaboration.getHours()) {
+            Student studentOffer = studentDao.getStudent(offerDao.getOffer(collaboration.getIdOffer()).getUsername());
+            int balanceHours = studentOffer.getBalanceHours() - oldCollaboration.getHours() + collaboration.getHours();
+            studentOffer.setBalanceHours(balanceHours);
+            studentDao.updateStudent(studentOffer);
+
+            Student studentRequest = studentDao.getStudent(requestDao.getRequest(collaboration.getIdRequest()).getUsername());
+            balanceHours = studentRequest.getBalanceHours() + oldCollaboration.getHours() - collaboration.getHours();
+            studentRequest.setBalanceHours(balanceHours);
+            studentDao.updateStudent(studentRequest);
+
+        }
+
         collaborationDao.updateCollaboration(collaboration);
         return "redirect:list/";
     }

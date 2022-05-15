@@ -57,7 +57,11 @@ public class CollaborationDao {
 
     public Collaboration getCollaboration(int idOffer, int idRequest) {
         try {
-            return jdbcTemplate.queryForObject("SELECT * FROM collaboration WHERE id_offer = ? AND id_request = ?",
+            return jdbcTemplate.queryForObject("SELECT id_offer, id_request, hours, assessment, state, " +
+                            "o.username as student_offer, r.username as student_request " +
+                            "FROM collaboration JOIN offer o ON collaboration.id_offer = o.id " +
+                            "JOIN request r ON collaboration.id_request = r.id " +
+                            "WHERE id_offer = ? AND id_request = ?",
                     new CollaborationRowMapper(),
                     idOffer,
                     idRequest
