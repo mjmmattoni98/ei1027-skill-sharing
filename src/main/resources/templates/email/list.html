@@ -26,14 +26,16 @@
     </tr>
     </thead>
     <tbody>
-    <tr th:each="email: ${emails}">
+    <tr th:each="email: ${#lists.sort(emails)}">
       <td th:text="${email.sender}"></td>
       <td th:text="${email.sendDate}"></td>
       <td th:text="${email.subject}"></td>
       <td th:text="${email.body}"></td>
       <td th:if="${session.user != null and session.user.isSkp}">
-        <a th:href="@{/email/delete/{id}(id=${email.id})}" class="btn btn-danger"
-           role="button">Delete</a>
+        <a th:href="@{/email/delete/{id}(id=${email.id})}" class="btn btn-danger" role="button"
+           th:onclick="return confirm('Are you sure you want to delete the email?');">
+          Delete
+        </a>
       </td>
     </tr>
     </tbody>

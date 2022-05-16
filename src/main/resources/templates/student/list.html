@@ -26,7 +26,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="student: ${students}">
+        <tr th:each="student: ${#lists.sort(students)}">
             <td th:text="${student.name}"></td>
             <td th:text="${student.surname}"></td>
             <td th:text="${student.email}"></td>

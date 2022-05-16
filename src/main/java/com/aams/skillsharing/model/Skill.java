@@ -6,7 +6,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import java.time.LocalDate;
 
 @Data
-public class Skill {
+public class Skill implements Comparable<Skill> {
     private String name;
     private String description;
     private SkillLevel level;
@@ -23,6 +23,11 @@ public class Skill {
         if (this.level == null)
             return null;
         return this.level.getId();
+    }
+
+    @Override
+    public int compareTo(Skill o) {
+        return this.getName().compareTo(o.getName());
     }
 
 }
