@@ -22,6 +22,7 @@
             <th>Surname</th>
             <th>Email</th>
             <th>Username</th>
+            <th>Blocked</th>
             <th></th>
         </tr>
         </thead>
@@ -31,6 +32,7 @@
             <td th:text="${student.surname}"></td>
             <td th:text="${student.email}"></td>
             <td th:text="${student.username}"></td>
+            <td th:text="${student.blocked}"></td>
             <td th:if="${session.user != null and session.user.isSkp}">
                 <a th:href="@{/student/statistics/{username}(username=${student.username})}" class="btn btn-info"
                    role="button">See statistics</a>

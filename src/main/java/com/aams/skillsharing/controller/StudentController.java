@@ -1,9 +1,6 @@
 package com.aams.skillsharing.controller;
 
-import com.aams.skillsharing.dao.CollaborationDao;
-import com.aams.skillsharing.dao.OfferDao;
-import com.aams.skillsharing.dao.RequestDao;
-import com.aams.skillsharing.dao.StudentDao;
+import com.aams.skillsharing.dao.*;
 import com.aams.skillsharing.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -14,6 +11,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -23,6 +22,7 @@ public class StudentController extends RoleController {
     private CollaborationDao collaborationDao;
     private OfferDao offerDao;
     private RequestDao requestDao;
+    private EmailDao emailDao;
     private static final StudentValidator validator = new StudentValidator();
 
     @Autowired
@@ -43,6 +43,11 @@ public class StudentController extends RoleController {
     @Autowired
     public void setRequestDao(RequestDao requestDao) {
         this.requestDao = requestDao;
+    }
+
+    @Autowired
+    public void setEmailDao(EmailDao emailDao) {
+        this.emailDao = emailDao;
     }
 
     @RequestMapping("/list")
@@ -135,5 +140,28 @@ public class StudentController extends RoleController {
         if (bindingResult.hasErrors()) return "student/update";
         studentDao.updateStudent(student);
         return "redirect:/student/profile";
+    }
+
+    @RequestMapping(value = "/block/{username}")
+    public String processBlockStudent(HttpSession session, Model model, @PathVariable String username) {
+        InternalUser user = checkSession(session, SKP_ROLE);
+        if (user == null){
+            model.addAttribute("user", new InternalUser());
+            return "login";
+        }
+
+        Student student = studentDao.getStudent(username);
+        student.setBlocked(true);
+        studentDao.updateStudent(student);
+
+        Email email = new Email();
+        email.setReceiver(student.getEmail());
+        email.setSubject("Block account");
+        email.setBody("Your account has been blocked by the administrator");
+        email.setSendDate(LocalDate.now());
+        email.setSender("skill.sharing@gmail.com");
+        emailDao.addEmail(email);
+
+        return "redirect:../list/";
     }
 }
