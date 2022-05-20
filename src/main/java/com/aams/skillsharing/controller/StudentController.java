@@ -23,6 +23,7 @@ public class StudentController extends RoleController {
     private RequestDao requestDao;
     private EmailDao emailDao;
     private static final StudentValidator validator = new StudentValidator();
+    private static final StudentUpdateValidator updateValidator = new StudentUpdateValidator();
 
     @Autowired
     public void setStudentDao(StudentDao studentDao) {
@@ -135,7 +136,7 @@ public class StudentController extends RoleController {
     @PostMapping(value = "/update")
     public String processUpdateSubmit(@ModelAttribute("student") Student student,
                                       BindingResult bindingResult) {
-        validator.validate(student, bindingResult);
+        updateValidator.validate(student, bindingResult);
         if (bindingResult.hasErrors()) return "student/update";
         studentDao.updateStudent(student);
         return "redirect:/student/profile";
