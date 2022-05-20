@@ -1,5 +1,6 @@
 package com.aams.skillsharing.dao;
 
+import com.aams.skillsharing.model.Offer;
 import com.aams.skillsharing.model.Request;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
@@ -36,7 +37,7 @@ public class RequestDao {
         );
     }
 
-    public void deleteRequest(int id){
+    public void deleteRequest(int id) {
         jdbcTemplate.update("DELETE FROM request WHERE id = ?",
                 id
         );
@@ -53,7 +54,7 @@ public class RequestDao {
         );
     }
 
-    public Request getRequest(int id){
+    public Request getRequest(int id) {
         try {
             return jdbcTemplate.queryForObject("SELECT * FROM request WHERE id = ?",
                     new RequestRowMapper(),
@@ -64,7 +65,7 @@ public class RequestDao {
         }
     }
 
-    public List<Request> getRequests(){
+    public List<Request> getRequests() {
         try {
             return jdbcTemplate.query("SELECT * FROM request",
                     new RequestRowMapper()
@@ -74,7 +75,7 @@ public class RequestDao {
         }
     }
 
-    public List<Request> getRequestsStudent(String username){
+    public List<Request> getRequestsStudent(String username) {
         try {
             return jdbcTemplate.query("SELECT * FROM request WHERE username = ?",
                     new RequestRowMapper(),
@@ -85,9 +86,21 @@ public class RequestDao {
         }
     }
 
-    public List<Request> getRequestsSkill(String name){
+    public List<Request> getRequestsSkill(String name) {
         try {
             return jdbcTemplate.query("SELECT * FROM request WHERE name = ?",
+                    new RequestRowMapper(),
+                    name
+            );
+        } catch (EmptyResultDataAccessException e) {
+            return new ArrayList<>();
+        }
+    }
+
+    public List<Request> getRequestsSkillNotCollaborating(String name) {
+        try {
+            return jdbcTemplate.query("SELECT * FROM request WHERE name = ? AND " +
+                            "id NOT IN (SELECT id_request FROM collaboration)",
                     new RequestRowMapper(),
                     name
             );

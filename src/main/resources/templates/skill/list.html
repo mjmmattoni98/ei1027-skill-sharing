@@ -43,7 +43,7 @@
                    role="button">Update</a>
             </td>
             <td th:if="${session.user != null and session.user.isSkp}">
-                <a th:href="@{/skill/delete/{name}(name=${skill.name})}" class="btn btn-danger" role="button"
+                <a th:href="@{/skill/disable/{name}(name=${skill.name})}" class="btn btn-danger" role="button"
                    th:onclick="return confirm('Are you sure you want to disable the skill ' + [[${skill.name}]] + '?');">
                     Disable
                 </a>
