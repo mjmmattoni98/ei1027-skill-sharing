@@ -15,6 +15,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.time.LocalDate;
 import java.util.List;
 
 @Controller
@@ -43,6 +44,8 @@ public class OfferController extends RoleController{
     @RequestMapping("/list")
     public String listOffers(Model model) {
         List<Offer> offers = offerDao.getOffers();
+        offers.removeIf(offer -> offer.getFinishDate() != null &&
+                offer.getFinishDate().compareTo(LocalDate.now()) < 0);
 
         model.addAttribute("offers", offers);
         return "offer/list";
@@ -57,8 +60,12 @@ public class OfferController extends RoleController{
 
         Request request = requestDao.getRequest(id);
         List<Offer> offers = offerDao.getOffersSkill(request.getName());
+        // Remove my offers and the offers that are already collaborating with the request
         offers.removeIf(offer -> offer.getUsername().equals(request.getUsername()) &&
                         collaborationDao.getCollaboration(offer.getId(), request.getId()) != null);
+        offers.removeIf(offer -> offer.getFinishDate() != null &&
+                offer.getFinishDate().compareTo(LocalDate.now()) < 0);
+
 
         model.addAttribute("request", request.getId());
         model.addAttribute("offers", offers);
@@ -71,8 +78,17 @@ public class OfferController extends RoleController{
             model.addAttribute("user", new InternalUser());
             return "login";
         }
+        InternalUser user = (InternalUser) session.getAttribute("user");
 
-        model.addAttribute("offers", offerDao.getOffersStudent(username));
+        if (user.getUsername().equals(username))
+            throw new SkillSharingException("You cannot list offers of other students",
+                    "AccesDenied", "../" + user.getUrlMainPage());
+
+        List<Offer> offers = offerDao.getOffersStudent(username);
+        offers.removeIf(offer -> offer.getFinishDate() != null &&
+                offer.getFinishDate().compareTo(LocalDate.now()) < 0);
+
+        model.addAttribute("offers", offers);
         model.addAttribute("student", username);
         return "offer/list";
     }
@@ -80,6 +96,8 @@ public class OfferController extends RoleController{
     @RequestMapping("/list/skill/{name}")
     public String listOffersSkill(Model model, @PathVariable String name) {
         List<Offer> offers = offerDao.getOffersSkill(name);
+        offers.removeIf(offer -> offer.getFinishDate() != null &&
+                offer.getFinishDate().compareTo(LocalDate.now()) < 0);
 
         model.addAttribute("offers", offers);
         model.addAttribute("skill", name);
@@ -140,5 +158,24 @@ public class OfferController extends RoleController{
         if (bindingResult.hasErrors()) return "offer/update";
         offerDao.updateOffer(offer);
         return "redirect:list/";
+    }
+
+    @RequestMapping(value = "/cancel/{id}")
+    public String processCancelOffer(HttpSession session, Model model, @PathVariable int id) {
+        if (session.getAttribute("user") == null){
+            model.addAttribute("user", new InternalUser());
+            return "login";
+        }
+        InternalUser user = (InternalUser) session.getAttribute("user");
+
+        Offer offer = offerDao.getOffer(id);
+        if (!offer.getUsername().equals(user.getUsername())) {
+            throw new SkillSharingException("You cannot cancel offers of other students",
+                    "AccesDenied", "../" + user.getUrlMainPage());
+        }
+
+        offer.setFinishDate(LocalDate.now());
+        offerDao.updateOffer(offer);
+        return "redirect:../list/";
     }
 }

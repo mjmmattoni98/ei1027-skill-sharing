@@ -33,6 +33,7 @@
             <th>Finish date</th>
             <th></th>
             <th></th>
+            <th></th>
         </tr>
         </thead>
         <tbody>
@@ -46,9 +47,16 @@
                 <a th:href="@{/request/update/{id}(id=${request.id})}" class="btn btn-warning"
                    role="button">Update</a>
             </td>
-            <td th:if="${session.user != null and #strings.equals(session.user.username, request.username)}">
+            <td th:if="${session.user != null and #strings.equals(session.user.username, request.username) &&
+            session.user.balanceHours <= 20}">
                 <a th:href="@{/offer/list/collaborate/{id}(id=${request.id})}" class="btn btn-info"
                    role="button">See offers to collaborate</a>
+            </td>
+            <td th:if="${session.user != null and #strings.equals(session.user.username, request.username)}">
+                <a th:href="@{/request/cancel/{id}(id=${request.id})}" class="btn btn-danger" role="button"
+                   th:onclick="return confirm('Are you sure you want to cancel this request?');">
+                    Cancel
+                </a>
             </td>
         </tr>
         </tbody>

@@ -9,8 +9,9 @@ public class InternalUser implements Serializable {
     private String username;
     private String password;
     private boolean isSkp;
+    private int balanceHours;
 
     public String getUrlMainPage() {
-        return "student/profile";
+        return "skill/list";
     }
 }

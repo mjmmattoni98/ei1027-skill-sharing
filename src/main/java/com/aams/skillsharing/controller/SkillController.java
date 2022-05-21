@@ -52,8 +52,17 @@ public class SkillController extends RoleController {
     @RequestMapping("/list")
     public String listSkills(Model model) {
         List<Skill> skills = skillDao.getSkills();
+        List<Skill> skillsAvailable = new LinkedList<>();
+        List<Skill> skillsDisabled = new LinkedList<>();
+        for (Skill skill : skills)
+            if (skill.getFinishDate() != null && skill.getFinishDate().compareTo(LocalDate.now()) <= 0)
+                skillsDisabled.add(skill);
+            else
+                skillsAvailable.add(skill);
 
-        model.addAttribute("skills", skills);
+
+        model.addAttribute("skills", skillsAvailable);
+        model.addAttribute("skills_disabled", skillsDisabled);
         return "skill/list";
     }
 
@@ -129,7 +138,8 @@ public class SkillController extends RoleController {
 
         List<Offer> offers = offerDao.getOffersSkillNotCollaborating(name);
         for(Offer offer : offers){
-            offerDao.deleteOffer(offer);
+            offer.setFinishDate(LocalDate.now());
+            offerDao.updateOffer(offer);
 
             Student student = studentDao.getStudent(offer.getUsername());
             Email email = new Email();
@@ -143,7 +153,8 @@ public class SkillController extends RoleController {
 
         List<Request> requests = requestDao.getRequestsSkillNotCollaborating(name);
         for(Request request : requests){
-            requestDao.deleteRequest(request);
+            request.setFinishDate(LocalDate.now());
+            requestDao.updateRequest(request);
 
             Student student = studentDao.getStudent(request.getUsername());
             Email email = new Email();
