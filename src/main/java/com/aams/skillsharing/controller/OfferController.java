@@ -61,8 +61,9 @@ public class OfferController extends RoleController{
         Request request = requestDao.getRequest(id);
         List<Offer> offers = offerDao.getOffersSkill(request.getName());
         // Remove my offers and the offers that are already collaborating with the request
-        offers.removeIf(offer -> offer.getUsername().equals(request.getUsername()) &&
+        offers.removeIf(offer -> offer.getUsername().equals(request.getUsername()) ||
                         collaborationDao.getCollaboration(offer.getId(), request.getId()) != null);
+        // Remove offers not available
         offers.removeIf(offer -> offer.getFinishDate() != null &&
                 offer.getFinishDate().compareTo(LocalDate.now()) < 0);
 
@@ -80,7 +81,7 @@ public class OfferController extends RoleController{
         }
         InternalUser user = (InternalUser) session.getAttribute("user");
 
-        if (user.getUsername().equals(username))
+        if (!user.getUsername().equals(username))
             throw new SkillSharingException("You cannot list offers of other students",
                     "AccesDenied", "../" + user.getUrlMainPage());
 

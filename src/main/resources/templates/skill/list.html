@@ -56,11 +56,11 @@
                 <a th:href="@{/offer/list/skill/{name}(name=${skill.name})}" class="btn btn-info"
                    role="button">See offers</a>
             </td>
-            <td th:if="${session.user != null && session.user.balanceHours <= 20}">
+            <td th:if="${session.user != null && session.user.balanceHours ge -20}">
                 <a th:href="@{/request/add/{name}(name=${skill.name})}" class="btn btn-success"
                    role="button">Add request</a>
             </td>
-            <td th:if="${session.user != null && session.user.balanceHours <= 20}">
+            <td th:if="${session.user != null && session.user.balanceHours ge -20}">
                 <a th:href="@{/offer/add/{name}(name=${skill.name})}" class="btn btn-success"
                    role="button">Add offer</a>
             </td>

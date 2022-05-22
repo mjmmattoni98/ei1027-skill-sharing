@@ -50,7 +50,7 @@
                 <a th:href="@{/offer/update/{id}(id=${offer.id})}" class="btn btn-warning"
                    role="button">Update</a>
             </td>
-            <td th:if="${session.user != null and request != null && session.user.balanceHours <= 20}">
+            <td th:if="${session.user != null and request != null && session.user.balanceHours ge -20}">
                 <a th:href="@{/collaboration/add/{idOffer}/{idRequest}(idOffer=${offer.id}, idRequest=${request})}"
                    class="btn btn-success"
                    role="button">Apply for collaboration</a>

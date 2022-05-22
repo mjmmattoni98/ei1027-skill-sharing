@@ -144,12 +144,12 @@ public class CollaborationController extends RoleController{
             studentRequest.setBalanceHours(balanceHours);
             studentDao.updateStudent(studentRequest);
 
-            if (balanceHours > 20){
+            if (balanceHours < -20){
                 Email email = new Email();
                 email.setSender("skill.sharing@gmail.com");
                 email.setReceiver(studentRequest.getEmail());
                 email.setSendDate(LocalDate.now());
-                email.setSubject("Max limit hours reached");
+                email.setSubject("Limit hours reached");
                 email.setBody("You have reached the limit of hours received against hours offered.\n" +
                         "You can no longer ask for collaborations nor create offers or requests.");
                 emailDao.addEmail(email);
