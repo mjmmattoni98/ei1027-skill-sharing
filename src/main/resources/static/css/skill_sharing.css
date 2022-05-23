@@ -40,6 +40,17 @@ html, body{
     box-shadow: 1px 1px 100px rgb(128 128 128 / 30%);
 }
 
+.lista p{
+    margin: auto;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.titulo-seccion{
+    text-align: center;
+    padding-bottom: 25px;
+}
+
 /* Estilo UJI*/
 
 .bg-UJI {
