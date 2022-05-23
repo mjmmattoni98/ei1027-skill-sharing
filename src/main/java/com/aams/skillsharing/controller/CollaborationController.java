@@ -88,7 +88,7 @@ public class CollaborationController extends RoleController{
             collaborationDao.addCollaboration(collaboration);
             Student student = studentDao.getStudent(offerDao.getOffer(collaboration.getIdOffer()).getUsername());
             Email email = new Email();
-            email.setSender("skill.sharing@uji.es");
+            email.setSender("skill.sharing@gmail.com");
             email.setReceiver(student.getEmail());
             email.setSendDate(LocalDate.now());
             email.setSubject("New collaboration");
@@ -144,6 +144,16 @@ public class CollaborationController extends RoleController{
             studentRequest.setBalanceHours(balanceHours);
             studentDao.updateStudent(studentRequest);
 
+            if (balanceHours < -20){
+                Email email = new Email();
+                email.setSender("skill.sharing@gmail.com");
+                email.setReceiver(studentRequest.getEmail());
+                email.setSendDate(LocalDate.now());
+                email.setSubject("Limit hours reached");
+                email.setBody("You have reached the limit of hours received against hours offered.\n" +
+                        "You can no longer ask for collaborations nor create offers or requests.");
+                emailDao.addEmail(email);
+            }
         }
 
         collaborationDao.updateCollaboration(collaboration);

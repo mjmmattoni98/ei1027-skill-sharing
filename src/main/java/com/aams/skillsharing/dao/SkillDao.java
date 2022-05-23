@@ -8,6 +8,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,6 +39,20 @@ public class SkillDao {
 
     public void deleteSkill(String name){
         jdbcTemplate.update("DELETE FROM skill WHERE name = ?",
+                name
+        );
+    }
+
+    public void disableSkill(Skill skill) {
+        jdbcTemplate.update("UPDATE skill SET finish_date = ? WHERE name = ?",
+                LocalDate.now(),
+                skill.getName()
+        );
+    }
+
+    public void disableSkill(String name) {
+        jdbcTemplate.update("UPDATE skill SET finish_date = ? WHERE name = ?",
+                LocalDate.now(),
                 name
         );
     }

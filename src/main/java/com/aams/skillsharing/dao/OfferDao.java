@@ -36,7 +36,7 @@ public class OfferDao {
         );
     }
 
-    public void deleteOffer(int id){
+    public void deleteOffer(int id) {
         jdbcTemplate.update("DELETE FROM offer WHERE id = ?",
                 id
         );
@@ -53,7 +53,7 @@ public class OfferDao {
         );
     }
 
-    public Offer getOffer(int id){
+    public Offer getOffer(int id) {
         try {
             return jdbcTemplate.queryForObject("SELECT * FROM offer WHERE id = ?",
                     new OfferRowMapper(),
@@ -64,7 +64,7 @@ public class OfferDao {
         }
     }
 
-    public List<Offer> getOffers(){
+    public List<Offer> getOffers() {
         try {
             return jdbcTemplate.query("SELECT * FROM offer",
                     new OfferRowMapper()
@@ -74,7 +74,7 @@ public class OfferDao {
         }
     }
 
-    public List<Offer> getOffersStudent(String username){
+    public List<Offer> getOffersStudent(String username) {
         try {
             return jdbcTemplate.query("SELECT * FROM offer WHERE username = ?",
                     new OfferRowMapper(),
@@ -85,9 +85,21 @@ public class OfferDao {
         }
     }
 
-    public List<Offer> getOffersSkill(String name){
+    public List<Offer> getOffersSkill(String name) {
         try {
             return jdbcTemplate.query("SELECT * FROM offer WHERE name = ?",
+                    new OfferRowMapper(),
+                    name
+            );
+        } catch (EmptyResultDataAccessException e) {
+            return new ArrayList<>();
+        }
+    }
+
+    public List<Offer> getOffersSkillNotCollaborating(String name) {
+        try {
+            return jdbcTemplate.query("SELECT * FROM offer WHERE name = ? AND " +
+                            "id NOT IN (SELECT id_offer FROM collaboration)",
                     new OfferRowMapper(),
                     name
             );

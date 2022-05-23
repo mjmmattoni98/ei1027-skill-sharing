@@ -44,7 +44,7 @@ public class InternalLoginController {
             return "login";
         }
         // Comprobar que el login es el correcto intentando cargar el usuario
-        user = userDao.loadUserByUsername(user.getUsername(), user.getPassword());
+        user = userDao.loadUserByUsername(user.getUsername().toLowerCase(), user.getPassword());
         if (user == null) {
             bindingResult.rejectValue("password", "badpw", "Contrasenya incorrecta");
             return "login";
