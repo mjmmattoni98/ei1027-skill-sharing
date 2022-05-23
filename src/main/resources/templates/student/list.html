@@ -4,13 +4,9 @@
 <head>
     <title>Manage skills</title>
     <meta charset="UTF-8" />
-    <link rel="stylesheet"
-          href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"/>
-    <link rel="stylesheet" type="text/css" href="/css/skill_sharing.css"
-          th:href="@{/css/skill_sharing.css}"/>
 </head>
 <body>
-<div class="container" layout:fragment="content">
+<div layout:fragment="content">
     <h1>List of skills available in the platform</h1>
     <div th:if="${#lists.isEmpty(students)}">
         <h2>There are currently no students in the platform</h2>

@@ -4,13 +4,9 @@
 <head>
     <title>Update skill</title>
     <meta charset="UTF-8" />
-    <link rel="stylesheet"
-          href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"/>
-    <link rel="stylesheet" type="text/css" href="/css/skill_sharing.css"
-          th:href="@{/css/skill_sharing.css}"/>
 </head>
 <body>
-<div class="container" layout:fragment="content">
+<div layout:fragment="content">
     <h2>Update skill</h2>
     <form class="form-horizontal" action="#" th:action="@{/skill/update}"
           th:object="${skill}" method="post">

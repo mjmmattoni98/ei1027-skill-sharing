@@ -16,6 +16,30 @@
     margin-right: 10pt;
 }
 
+
+/* General */
+html, body{
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    display: -webkit-box;
+    flex-direction: column;
+}
+
+.div-fondo{
+    height: 100%;
+    width: 100%;
+    background-color: #8080801c;
+}
+
+.seccion {
+    padding: 50px 10px;
+    margin: 20px;
+    background-color: white;
+    border: #80808059 solid 1px;
+    box-shadow: 1px 1px 100px rgb(128 128 128 / 30%);
+}
+
 /* Estilo UJI*/
 
 .bg-UJI {

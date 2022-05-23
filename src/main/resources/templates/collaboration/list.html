@@ -4,13 +4,9 @@
 <head>
     <title>Manage collaborations</title>
     <meta charset="UTF-8" />
-    <link rel="stylesheet"
-          href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"/>
-    <link rel="stylesheet" type="text/css" href="/css/skill_sharing.css"
-          th:href="@{/css/skill_sharing.css}"/>
 </head>
 <body>
-<div class="container" layout:fragment="content">
+<div layout:fragment="content">
     <div th:if="${student != null}">
         <h1>List of collaborations for the student <b th:text="${student}"></b></h1>
     </div>

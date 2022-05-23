@@ -6,7 +6,7 @@
     <meta charset="UTF-8"/>
 </head>
 <body>
-<div class="container" layout:fragment="content">
+<div layout:fragment="content">
     <h1>List of skills available in the platform</h1>
     <div th:if="${#lists.isEmpty(skills)}">
         <h2>No skills available</h2>
