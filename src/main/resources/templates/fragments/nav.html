@@ -1,6 +1,6 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg navbar-UJI bg-UJI">
   <div class="container-fluid">
-    <h3>Skill sharing on University Jaume I</h3>
+    <img id="logo" src="https://aulavirtual.uji.es/pluginfile.php/2/core_admin/logocompact/300x300/1653188492/logo_compacto.png" alt="AulaVirtual">
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item"><a class="nav-link" href="/" th:href="@{/}">Home page</a></li>
@@ -16,19 +16,21 @@
         <li th:if="${session.user != null}" class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             My Things</a>
-          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <ul class="dropdown-menu">
             <li><a class="nav-link" th:href="@{/request/list/student/{username}(username=${session.user.username})}">My requests</a></li>
             <li><a class="nav-link" th:href="@{/offer/list/student/{username}(username=${session.user.username})}">My offers</a></li>
             <li><a class="nav-link" href="/collaboration/list" th:href="@{/collaboration/list}">My collaborations</a></li>
           </ul>
         </li>
       </ul>
-      <a th:if="${session.user == null}" class="btn btn-link" href="/login" th:href="@{/login}">Log in</a>
-      <div th:unless="${session.user == null}" class="dropdown">
-        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-          Authenticated as <span th:text="${session.user.username}"></span>
+      <div th:if="${session.user == null}">
+          <a class="btn btn-link" href="/login" th:href="@{/login}">Log in</a>
+      </div>
+      <div th:unless="${session.user == null}" class="dropdown perfil">
+        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+          <span th:text="${session.user.username}"></span>
         </button>
-        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+        <ul class="dropdown-menu">
           <li><a class="btn btn-link" href="/student/profile" th:href="@{/student/profile}">Profile</a></li>
           <li><a class="btn btn-link" href="/logout" th:href="@{/logout}">Log out</a></li>
         </ul>
