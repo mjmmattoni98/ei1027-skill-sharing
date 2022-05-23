@@ -42,8 +42,8 @@ public class HomePageController extends RoleController{
         InternalUser user = (InternalUser) session.getAttribute("user");
         String username = user.getUsername();
         model.addAttribute("collaborations", collaborationDao.getCollaborationsStudent(username));
-        model.addAttribute("offers", offerDao.getOffers());
-        model.addAttribute("requests", requestDao.getRequests());
+        model.addAttribute("offers", offerDao.getOffersStudent(username));
+        model.addAttribute("requests", requestDao.getRequestsStudent(username));
         model.addAttribute("student", username);
         return "homePage/list";
     }
