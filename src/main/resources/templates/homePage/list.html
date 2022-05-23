@@ -13,7 +13,7 @@
 <div class="container" layout:fragment="content">
   <div style="display:flex;">
     <!--    Request-->
-    <section>
+    < >
       <h1>My requests</h1>
       <div th:if="${#lists.isEmpty(requests)}">
         <h2>No requests available</h2>
@@ -54,9 +54,20 @@
     <div style="margin: 25px;"></div>
 
     <section>
-      <h1>My offers</h1>
+      <div>
+        <h1>My offers</h1>
+      </div>
       <div th:if="${#lists.isEmpty(offers)}">
         <h2>No offers available</h2>
+      </div>
+      <div style="display: flex; flex-direction: column;">
+        <div style="display: flex;"><div class="input-group input-group-sm mb-3" style="padding: 10px;">
+          <form action="#" th:action="@{/homePage/offerPerSkill}" th:object="${offer}" method="post">
+            <div class="input-group-prepend"><span class="input-group-text" id="inputGroup-sizing-sm">Skill</span></div>
+              <input id="name" type="text" class="form-control" aria-label="Small" placeholder="Skill" aria-describedby="inputGroup-sizing-sm">
+            <button type="submit" class="btn btn-dark">Filtrar</button>
+          </form>
+        </div>
       </div>
       <table class="table table-striped" th:unless="${#lists.isEmpty(offers)}">
         <thead>

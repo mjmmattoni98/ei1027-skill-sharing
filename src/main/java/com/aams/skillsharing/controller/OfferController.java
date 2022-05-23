@@ -179,4 +179,5 @@ public class OfferController extends RoleController{
         offerDao.updateOffer(offer);
         return "redirect:../list/";
     }
+
 }

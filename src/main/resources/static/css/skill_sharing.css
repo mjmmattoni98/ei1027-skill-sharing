@@ -1,21 +1,3 @@
-/* Estil aplicat al cos de la pàgina */
-body {
-    font-family: Helvetica, Arial, sans-serif;
-    background-color: white;
-}
-
-/* Capçalera de nivell 1 */
-h1 {
-    font-size: x-large;
-    color: orange;
-}
-
-/* Capçalera de nivell 2 */
-h2 {
-    font-size: large;
-    color: blue;
-}
-
 /* Classe CSS error */
 .error {
     color: red;

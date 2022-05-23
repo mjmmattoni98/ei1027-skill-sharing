@@ -1,36 +1,38 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <div class="navbar-collapse collapse">
-    <div class="loggeduser">
-      <ul class="navbar-nav mr-auto">
-        <li class="nav-item">
-          <a class="nav-link" href="/" th:href="@{/}">Home page</a>
+  <div class="container-fluid">
+    <h3>Skill sharing on University Jaume I</h3>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item"><a class="nav-link" href="/" th:href="@{/}">Home page</a></li>
+        <li class="nav-item"><a class="nav-link" href="/skill/list" th:href="@{/skill/list}">See skills</a></li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            See Things</a>
+          <ul class="dropdown-menu">
+            <li><a class="nav-link" href="/request/list" th:href="@{/request/list}">See requests</a></li>
+            <li><a class="nav-link" href="/offer/list" th:href="@{/offer/list}">See offers</a></li>
+          </ul>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/skill/list" th:href="@{/skill/list}">See skills</a>
+        <li th:if="${session.user != null}" class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            My Things</a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li><a class="nav-link" th:href="@{/request/list/student/{username}(username=${session.user.username})}">My requests</a></li>
+            <li><a class="nav-link" th:href="@{/offer/list/student/{username}(username=${session.user.username})}">My offers</a></li>
+            <li><a class="nav-link" href="/collaboration/list" th:href="@{/collaboration/list}">My collaborations</a></li>
+          </ul>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/request/list" th:href="@{/request/list}">See requests</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/offer/list" th:href="@{/offer/list}">See offers</a>
-        </li>
-        <td th:if="${session.user != null}">
-          <li class="nav-item">
-            <a class="nav-link" href="/collaboration/list" th:href="@{/collaboration/list}">My collaborations</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" th:href="@{/request/list/student/{username}(username=${session.user.username})}">My requests</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" th:href="@{/offer/list/student/{username}(username=${session.user.username})}">My offers</a>
-          </li>
-        </td>
-        <td th:if="${session.user != null and session.user.isSkp}">
-          <li class="nav-item">
-            <a class="nav-link" href="/student/list" th:href="@{/student/list}">See students</a>
-          </li>
-        </td>
       </ul>
+      <a th:if="${session.user == null}" class="btn btn-link" href="/login" th:href="@{/login}">Log in</a>
+      <div th:unless="${session.user == null}" class="dropdown">
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+          Authenticated as <span th:text="${session.user.username}"></span>
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+          <li><a class="btn btn-link" href="/student/profile" th:href="@{/student/profile}">Profile</a></li>
+          <li><a class="btn btn-link" href="/logout" th:href="@{/logout}">Log out</a></li>
+        </ul>
+      </div>
     </div>
   </div>
 </nav>

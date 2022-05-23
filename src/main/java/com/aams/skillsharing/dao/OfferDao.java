@@ -85,6 +85,18 @@ public class OfferDao {
         }
     }
 
+    public List<Offer> getOffersStudentSkill(String username, String skill) {
+        try {
+            return jdbcTemplate.query("SELECT * FROM offer WHERE username = ? AND name = ?",
+                    new OfferRowMapper(),
+                    username,
+                    skill
+            );
+        } catch (EmptyResultDataAccessException e) {
+            return new ArrayList<>();
+        }
+    }
+
     public List<Offer> getOffersSkill(String name) {
         try {
             return jdbcTemplate.query("SELECT * FROM offer WHERE name = ?",
