@@ -23,14 +23,38 @@
     background-color: #002744 !important;
 }
 
+.btn-UJI{
+    font-weight: bolder;
+    color: #fff;
+    background-color: #3C688B;
+    border-color: #3C688B;
+}
+
+.btn-UJI:active, .btn-UJI:focus, .btn-UJI:hover{
+    color: #fff;
+    background-color: #002744;
+    border-color: #002744;
+}
+
+.btn-UJI:focus{
+    box-shadow: 0 0 0 0.25rem #0d6efd40;
+}
+
 /*  NavBar UJI*/
 
 .navbar-UJI .navbar-nav .nav-link{
     color: #f8f9fa;
 }
 
+.navbar h3 {
+    color: white;
+    margin: auto;
+    font-weight: normal;
+}
+
 .navbar #logo {
-    padding-inline: 20px;
+    padding-left: 20px;
+    padding-right: 50px;
 }
 
 .navbar span {
@@ -40,7 +64,7 @@
 }
 
 .navbar a {
-   padding-inline: 0px;
+   padding-inline: 15px !important;
    color: white;
    text-decoration: none;
 }
@@ -52,6 +76,10 @@
 
 .navbar .dropdown-menu a {
     color: black !important;
+}
+
+.navbar .login a {
+    margin-right: 60px;
 }
 
 .navbar .perfil button {
@@ -73,5 +101,40 @@
     justify-content: center;
 }
 
+/* LOGIN */
+
+.menu-login{
+    width: 550px;
+    margin: auto;
+    padding: 0px 30px 30px 30px;
+    border: #002744 solid 1px;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+}
+
+.menu-login h3 {
+    position: relative;
+    top: -20px;
+    background-color: white;
+    width: fit-content;
+    padding-inline: 15px;
+}
+
+.menu-login span {
+    width: 85px;
+    justify-content: center;
+    font-weight: bolder;
+}
+
+.menu-login a, .menu-login a:hover{
+    color: gray;
+    font-weight: bolder;
+}
+
+.menu-login a:hover{
+    color: gray;
+    font-weight: bolder;
+}
 
 
