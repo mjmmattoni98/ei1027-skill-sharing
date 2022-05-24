@@ -1,6 +1,7 @@
 package com.aams.skillsharing.controller;
 
 import com.aams.skillsharing.dao.RequestDao;
+import com.aams.skillsharing.dao.SkillDao;
 import com.aams.skillsharing.model.InternalUser;
 import com.aams.skillsharing.model.Request;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,11 +19,17 @@ import java.util.List;
 @RequestMapping("/request")
 public class RequestController extends RoleController{
     private RequestDao requestDao;
+    private SkillDao skillDao;
     private static final RequestValidator validator = new RequestValidator();
 
     @Autowired
     public void setRequestDao(RequestDao requestDao) {
         this.requestDao = requestDao;
+    }
+
+    @Autowired
+    public void setSkillDao(SkillDao skillDao) {
+        this.skillDao = skillDao;
     }
 
     @RequestMapping("/list")
@@ -88,6 +95,7 @@ public class RequestController extends RoleController{
         Request request = new Request();
         request.setUsername(user.getUsername());
         model.addAttribute("request", request);
+        model.addAttribute("skills", skillDao.getAvailableSkills());
         return "request/add";
     }
 

@@ -88,4 +88,24 @@ public class SkillDao {
             return new ArrayList<>();
         }
     }
+
+    public List<Skill> getAvailableSkills () {
+        try {
+            return jdbcTemplate.query("select * from skill WHERE (current_date) >= start_date AND COALESCE((current_date < finish_date),true)",
+                    new SkillRowMapper()
+            );
+        } catch (EmptyResultDataAccessException e) {
+            return new ArrayList<>();
+        }
+    }
+
+    public List<Skill> getDisabledSkills () {
+        try {
+            return jdbcTemplate.query("select * from skill WHERE (current_date) < start_date OR COALESCE((current_date >= finish_date),false)",
+                    new SkillRowMapper()
+            );
+        } catch (EmptyResultDataAccessException e) {
+            return new ArrayList<>();
+        }
+    }
 }
