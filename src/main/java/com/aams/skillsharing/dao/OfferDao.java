@@ -81,6 +81,7 @@ public class OfferDao {
                     username
             );
         } catch (EmptyResultDataAccessException e) {
+            System.out.println("oli, he entrado en catch de ofertas vacias :D");
             return new ArrayList<>();
         }
     }

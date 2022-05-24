@@ -58,8 +58,17 @@
                 </a>
             </td>
         </tr>
+        <tr>
+<!--            <td th:if="${session.user != null && session.user.balanceHours ge -20}">-->
+
+            <td th:if="${session.user != null}">
+                <a th:href="@{/offer/add}" class="btn btn-success"
+                   role="button">Add offer</a>
+            </td>
+        </tr>
         </tbody>
     </table>
+
 </div>
 </body>
 </html>

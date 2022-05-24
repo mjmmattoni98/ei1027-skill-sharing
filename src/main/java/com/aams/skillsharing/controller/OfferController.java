@@ -120,6 +120,20 @@ public class OfferController extends RoleController{
         return "offer/add";
     }
 
+    @RequestMapping(value = "/add")
+    public String addOffer(HttpSession session, Model model) {
+        if (session.getAttribute("user") == null){
+            model.addAttribute("user", new InternalUser());
+            return "login";
+        }
+        InternalUser user = (InternalUser) session.getAttribute("user");
+
+        Offer offer = new Offer();
+        offer.setUsername(user.getUsername());
+        model.addAttribute("offer", offer);
+        return "offer/add";
+    }
+
     @PostMapping(value = "/add")
     public String processAddOffer(@ModelAttribute("offer") Offer offer,
                                   BindingResult bindingResult) {
@@ -175,7 +189,7 @@ public class OfferController extends RoleController{
                     "AccesDenied", "../" + user.getUrlMainPage());
         }
 
-        offer.setFinishDate(LocalDate.now());
+        offer.setFinishDate(LocalDate.now().minusDays(1L));
         offerDao.updateOffer(offer);
         return "redirect:../list/";
     }
