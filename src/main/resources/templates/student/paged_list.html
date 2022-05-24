@@ -8,17 +8,17 @@
 <body>
 <div layout:fragment="content">
     <h1>List of skills available in the platform</h1>
-    <div th:if="${#lists.isEmpty(studentsPaged)}">
-        <h2>There are currently no students in the platform</h2>
-    </div>
-    <form class="form-horizontal" action="#" th:action="@{/student/paged_list?page={select}(select=${selectedPage})}"
-          th:object="${name}" method="post">
+    <form class="form-horizontal" action="#" th:action="@{/student/paged_list/name?page={select}(select=${selectedPage})}"
+          th:object="${student_filter}" method="post">
         <label for="name">Filter by name:</label>
-        <input id="name" type="text" name="name" th:field="${name}" class="form-control"/>
+        <input id="name" type="text" name="name" th:field="*{name}" class="form-control"/>
         <button type="submit" class="btn">Filter</button>
     </form>
-    <div th:with="nadadors=${studentsPaged[__${selectedPage}__]}">
-        <table class="table table-striped" th:unless="${#lists.isEmpty(studentsPaged)}">
+    <div th:with="students=${studentsPaged[__${selectedPage}__]}">
+        <div th:if="${#lists.isEmpty(students)}">
+            <h2>There are currently no students in the platform</h2>
+        </div>
+        <table class="table table-striped" th:unless="${#lists.isEmpty(students)}">
             <thead>
             <tr>
                 <th>Name</th>
@@ -30,7 +30,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr th:each="student: ${#lists.sort(studentsPaged)}">
+            <tr th:each="student: ${#lists.sort(students)}">
                 <td th:text="${student.name}"></td>
                 <td th:text="${student.surname}"></td>
                 <td th:text="${student.email}"></td>

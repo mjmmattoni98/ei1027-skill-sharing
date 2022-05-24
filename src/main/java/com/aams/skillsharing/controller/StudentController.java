@@ -57,23 +57,40 @@ public class StudentController extends RoleController {
     }
 
     @RequestMapping("/paged_list")
-    public String listStudentsPaged(Model model, @RequestParam("page") Optional<Integer> page) {
+    public String listStudentsPaged(HttpSession session, Model model, @RequestParam("page") Optional<Integer> page) {
+        InternalUser user = checkSession(session, SKP_ROLE);
+        if (user == null) {
+            model.addAttribute("user", new InternalUser());
+            return "login";
+        }
+
+        System.out.println("listStudentsPaged");
+        model.addAttribute("student_filter", new StudentFilter());
         return getStudentsPaged(model, page, "");
     }
 
-    @RequestMapping("/paged_list/name")
-    public String listStudentsPagedByName(Model model, @RequestParam("page") Optional<Integer> page, @ModelAttribute("name") String name) {
-        return getStudentsPaged(model, page, name);
+    @PostMapping("/paged_list/name")
+    public String listStudentsPagedByName(HttpSession session, Model model, @ModelAttribute("student_filter") StudentFilter studentFilter,
+                                          @RequestParam("page") Optional<Integer> page) {
+        InternalUser user = checkSession(session, SKP_ROLE);
+        if (user == null) {
+            model.addAttribute("user", new InternalUser());
+            return "login";
+        }
+
+        System.out.println("listStudentsPagedByName");
+        model.addAttribute("student_filter", studentFilter);
+        return getStudentsPaged(model, page, studentFilter.getName());
     }
 
     @NotNull
     private String getStudentsPaged(Model model, Optional<Integer> page, String name) {
+        System.out.println("name: " + name);
         List<Student> students;
         model.addAttribute("name", name);
         if (name.equals("")) {
             students = studentDao.getStudents();
-        }
-        else {
+        } else {
             students = studentDao.getStudentsByName(name);
         }
         Collections.sort(students);
@@ -83,11 +100,11 @@ public class StudentController extends RoleController {
         int pageLength = 10;
         int end = pageLength - 1;
         while (end < students.size()) {
+            System.out.println(new ArrayList<>(students.subList(start, end)));
             studentsPaged.add(new ArrayList<>(students.subList(start, end)));
             start += pageLength;
             end += pageLength;
         }
-
         studentsPaged.add(new ArrayList<>(students.subList(start, students.size())));
         model.addAttribute("studentsPaged", studentsPaged);
 
