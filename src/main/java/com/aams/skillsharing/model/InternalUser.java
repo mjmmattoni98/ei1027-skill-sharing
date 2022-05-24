@@ -12,6 +12,6 @@ public class InternalUser implements Serializable {
     private int balanceHours;
 
     public String getUrlMainPage() {
-        return "skill/list";
+        return "homePage/list";
     }
 }
