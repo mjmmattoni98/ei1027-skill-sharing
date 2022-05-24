@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragments/base}">
+<head>
+    <title>Manage skills</title>
+    <meta charset="UTF-8"/>
+</head>
+<body>
+<div layout:fragment="content">
+    <h1>List of skills available in the platform</h1>
+    <div th:if="${#lists.isEmpty(studentsPaged)}">
+        <h2>There are currently no students in the platform</h2>
+    </div>
+    <div th:with="nadadors=${studentsPaged[__${selectedPage}__]}">
+        <table class="table table-striped" th:unless="${#lists.isEmpty(studentsPaged)}">
+            <thead>
+            <tr>
+                <th>Name</th>
+                <th>Surname</th>
+                <th>Email</th>
+                <th>Username</th>
+                <th>Blocked</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="student: ${#lists.sort(studentsPaged)}">
+                <td th:text="${student.name}"></td>
+                <td th:text="${student.surname}"></td>
+                <td th:text="${student.email}"></td>
+                <td th:text="${student.username}"></td>
+                <td th:text="${student.blocked}"></td>
+                <td th:if="${session.user != null and session.user.isSkp}">
+                    <a th:href="@{/student/statistics/{username}(username=${student.username})}" class="btn btn-info"
+                       role="button">See statistics</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <nav aria-label="Selection of student's page">
+        <ul class="pagination">
+            <li th:class="page-item"
+                th:classappend="${selectedPage == 0} ? disabled">
+                <a  th:href="@{/nadador/pagedlist?page={select}(select=${selectedPage - 1})}"
+                    class="page-link">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+            <li th:class="page-item" th:if="${#lists.size(studentsPaged) > 0}"
+                th:classappend="${pageNumber == selectedPage + 1} ? active"
+                th:each="pageNumber : ${pageNumbers}">
+                <a th:href="@{/student/pagedlist?page={select}(select=${pageNumber - 1})}"
+                   th:text="${pageNumber}"
+                   th:class="page-link">
+                </a>
+            </li>
+            <li th:class="page-item"
+                th:classappend="${selectedPage == #lists.size(studentsPaged) - 1} ? disabled">
+                <a  th:href="@{/nadador/pagedlist?page={select}(select=${selectedPage + 1})}"
+                    class="page-link">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</div>
+</body>
+</html>

@@ -23,8 +23,11 @@
             <li><a class="nav-link" href="/collaboration/list" th:href="@{/collaboration/list}">My collaborations</a></li>
           </ul>
         </li>
+        <li th:if="${session.user != null && session.user.skp}">
+          <a class="nav-link" href="/student/paged_list" th:href="@{/student/paged_list}">See students</a>
+        </li>
       </ul>
-      <div  th:if="${session.user == null}" class="login">
+      <div th:if="${session.user == null}" class="login">
           <a class="btn btn-link" href="/login" th:href="@{/login}">Log in</a>
       </div>
       <div th:unless="${session.user == null}" class="dropdown perfil">

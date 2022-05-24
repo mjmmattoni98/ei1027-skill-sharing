@@ -12,7 +12,12 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Controller
 @RequestMapping("/student")
@@ -48,6 +53,37 @@ public class StudentController extends RoleController {
     @Autowired
     public void setEmailDao(EmailDao emailDao) {
         this.emailDao = emailDao;
+    }
+
+    @RequestMapping("/paged_list")
+    public String listStudentsPaged(Model model, @RequestParam("page") Optional<Integer> page) {
+        List<Student> students = studentDao.getStudents();
+        Collections.sort(students);
+
+        List<List<Student>> studentsPaged = new ArrayList<>();
+        int start = 0;
+        int pageLength = 10;
+        int end = pageLength - 1;
+        while (end < students.size()) {
+            studentsPaged.add(new ArrayList<>(students.subList(start, end)));
+            start += pageLength;
+            end += pageLength;
+        }
+
+        studentsPaged.add(new ArrayList<>(students.subList(start, students.size())));
+        model.addAttribute("studentsPaged", studentsPaged);
+
+        int totalPages = studentsPaged.size();
+        if (totalPages > 0) {
+            List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
+                    .boxed()
+                    .collect(Collectors.toList());
+            model.addAttribute("pageNumbers", pageNumbers);
+        }
+
+        int currentPage = page.orElse(0);
+        model.addAttribute("selectedPage", currentPage);
+        return "student/paged_list";
     }
 
     @RequestMapping("/list")
