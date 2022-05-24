@@ -40,7 +40,7 @@ public class HomePageController extends RoleController{
     public String listHomePageStudent(HttpSession session, Model model){
         if(session.getAttribute("user") == null){
             model.addAttribute("user", new InternalUser());
-            return "login";
+            return "redirect:../login";
         }
         InternalUser user = (InternalUser) session.getAttribute("user");
         String username = user.getUsername();
@@ -52,17 +52,5 @@ public class HomePageController extends RoleController{
         return "homePage/list";
     }
 
-    @PostMapping(value="/offerPerSkill")
-    public String checkLogin(@ModelAttribute("offer") Offer offer, HttpSession session, Model model ) {
-        System.out.println("entra?");
-        if (session.getAttribute("user") == null){
-            return "login";
-        }
-        InternalUser user = (InternalUser) session.getAttribute("user");
-        String username = user.getUsername();
-        System.out.println(offerDao.getOffersStudentSkill(username, offer.getName()));
-        model.addAttribute("offers", offerDao.getOffersStudentSkill(username, offer.getName()));
-        return "homePage/list.html";
-    }
 
 }
