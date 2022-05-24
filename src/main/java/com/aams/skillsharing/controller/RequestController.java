@@ -77,6 +77,20 @@ public class RequestController extends RoleController{
         return "request/add";
     }
 
+    @RequestMapping(value = "/add")
+    public String addRequest(HttpSession session, Model model) {
+        if (session.getAttribute("user") == null){
+            model.addAttribute("user", new InternalUser());
+            return "login";
+        }
+        InternalUser user = (InternalUser) session.getAttribute("user");
+
+        Request request = new Request();
+        request.setUsername(user.getUsername());
+        model.addAttribute("request", request);
+        return "request/add";
+    }
+
     @PostMapping(value = "/add")
     public String processAddRequest(@ModelAttribute("request") Request request,
                                     BindingResult bindingResult) {

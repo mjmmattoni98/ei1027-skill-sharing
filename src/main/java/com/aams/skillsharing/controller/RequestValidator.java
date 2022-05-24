@@ -19,7 +19,7 @@ public class RequestValidator implements Validator {
 
         LocalDate startDate = request.getStartDate();
         LocalDate finishDate = request.getFinishDate();
-        if (finishDate.compareTo(startDate) <= 0) {
+        if (finishDate != null && finishDate.compareTo(startDate) <= 0) {
             errors.rejectValue("finishDate", "consistency",
                     "The finish date must be after the start date");
         }
