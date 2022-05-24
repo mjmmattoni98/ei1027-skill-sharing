@@ -40,7 +40,7 @@ public class HomePageController extends RoleController{
     public String listHomePageStudent(HttpSession session, Model model){
         if(session.getAttribute("user") == null){
             model.addAttribute("user", new InternalUser());
-            return "redirect:../login";
+            return "redirect:/login";
         }
         InternalUser user = (InternalUser) session.getAttribute("user");
         String username = user.getUsername();
