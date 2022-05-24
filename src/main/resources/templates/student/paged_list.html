@@ -11,6 +11,12 @@
     <div th:if="${#lists.isEmpty(studentsPaged)}">
         <h2>There are currently no students in the platform</h2>
     </div>
+    <form class="form-horizontal" action="#" th:action="@{/student/paged_list?page={select}(select=${selectedPage})}"
+          th:object="${name}" method="post">
+        <label for="name">Filter by name:</label>
+        <input id="name" type="text" name="name" th:field="${name}" class="form-control"/>
+        <button type="submit" class="btn">Filter</button>
+    </form>
     <div th:with="nadadors=${studentsPaged[__${selectedPage}__]}">
         <table class="table table-striped" th:unless="${#lists.isEmpty(studentsPaged)}">
             <thead>
@@ -42,23 +48,23 @@
         <ul class="pagination">
             <li th:class="page-item"
                 th:classappend="${selectedPage == 0} ? disabled">
-                <a  th:href="@{/nadador/pagedlist?page={select}(select=${selectedPage - 1})}"
-                    class="page-link">
+                <a th:href="@{/student/paged_list?page={select}(select=${selectedPage - 1})}"
+                   class="page-link">
                     <span aria-hidden="true">&laquo;</span>
                 </a>
             </li>
             <li th:class="page-item" th:if="${#lists.size(studentsPaged) > 0}"
                 th:classappend="${pageNumber == selectedPage + 1} ? active"
                 th:each="pageNumber : ${pageNumbers}">
-                <a th:href="@{/student/pagedlist?page={select}(select=${pageNumber - 1})}"
+                <a th:href="@{/student/paged_list?page={select}(select=${pageNumber - 1})}"
                    th:text="${pageNumber}"
                    th:class="page-link">
                 </a>
             </li>
             <li th:class="page-item"
                 th:classappend="${selectedPage == #lists.size(studentsPaged) - 1} ? disabled">
-                <a  th:href="@{/nadador/pagedlist?page={select}(select=${selectedPage + 1})}"
-                    class="page-link">
+                <a th:href="@{/student/pagedlist?page={select}(select=${selectedPage + 1})}"
+                   class="page-link">
                     <span aria-hidden="true">&raquo;</span>
                 </a>
             </li>

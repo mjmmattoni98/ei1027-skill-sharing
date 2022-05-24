@@ -89,4 +89,15 @@ public class StudentDao {
             return new ArrayList<>();
         }
     }
+
+    public List<Student> getStudentsByName(String name){
+        try {
+            return jdbcTemplate.query("SELECT * FROM student WHERE LOWER(name) LIKE ?",
+                    new StudentRowMapper(),
+                    "%" + name.toLowerCase() + "%"
+            );
+        } catch (EmptyResultDataAccessException e) {
+            return new ArrayList<>();
+        }
+    }
 }

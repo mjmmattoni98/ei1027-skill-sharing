@@ -2,6 +2,7 @@ package com.aams.skillsharing.controller;
 
 import com.aams.skillsharing.dao.*;
 import com.aams.skillsharing.model.*;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DuplicateKeyException;
@@ -57,7 +58,24 @@ public class StudentController extends RoleController {
 
     @RequestMapping("/paged_list")
     public String listStudentsPaged(Model model, @RequestParam("page") Optional<Integer> page) {
-        List<Student> students = studentDao.getStudents();
+        return getStudentsPaged(model, page, "");
+    }
+
+    @RequestMapping("/paged_list/name")
+    public String listStudentsPagedByName(Model model, @RequestParam("page") Optional<Integer> page, @ModelAttribute("name") String name) {
+        return getStudentsPaged(model, page, name);
+    }
+
+    @NotNull
+    private String getStudentsPaged(Model model, Optional<Integer> page, String name) {
+        List<Student> students;
+        model.addAttribute("name", name);
+        if (name.equals("")) {
+            students = studentDao.getStudents();
+        }
+        else {
+            students = studentDao.getStudentsByName(name);
+        }
         Collections.sort(students);
 
         List<List<Student>> studentsPaged = new ArrayList<>();
@@ -89,7 +107,7 @@ public class StudentController extends RoleController {
     @RequestMapping("/list")
     public String listStudents(HttpSession session, Model model) {
         InternalUser user = checkSession(session, SKP_ROLE);
-        if (user == null){
+        if (user == null) {
             model.addAttribute("user", new InternalUser());
             return "login";
         }
@@ -99,8 +117,8 @@ public class StudentController extends RoleController {
     }
 
     @RequestMapping("/profile")
-    public String studentProfile(HttpSession session, Model model){
-        if (session.getAttribute("user") == null){
+    public String studentProfile(HttpSession session, Model model) {
+        if (session.getAttribute("user") == null) {
             model.addAttribute("user", new InternalUser());
             return "login";
         }
@@ -111,9 +129,9 @@ public class StudentController extends RoleController {
     }
 
     @RequestMapping("/statistics/{username}")
-    public String studentStatistics(HttpSession session, Model model, @PathVariable String username){
+    public String studentStatistics(HttpSession session, Model model, @PathVariable String username) {
         InternalUser user = checkSession(session, SKP_ROLE);
-        if (user == null){
+        if (user == null) {
             model.addAttribute("user", new InternalUser());
             return "login";
         }
@@ -149,14 +167,12 @@ public class StudentController extends RoleController {
         validator.validate(student, bindingResult);
         if (bindingResult.hasErrors()) return "student/add";
 
-        try{
+        try {
             studentDao.addStudent(student);
-        }
-        catch (DuplicateKeyException e){
+        } catch (DuplicateKeyException e) {
             throw new SkillSharingException("It already exist the username\n" + e.getMessage(),
                     "PKDuplicate", "student/add");
-        }
-        catch (DataAccessException e){
+        } catch (DataAccessException e) {
             throw new SkillSharingException("Error accessing the database\n" + e.getMessage(),
                     "ErrorAccessingDatabase", "/");
         }
@@ -181,7 +197,7 @@ public class StudentController extends RoleController {
     @RequestMapping(value = "/block/{username}")
     public String processBlockStudent(HttpSession session, Model model, @PathVariable String username) {
         InternalUser user = checkSession(session, SKP_ROLE);
-        if (user == null){
+        if (user == null) {
             model.addAttribute("user", new InternalUser());
             return "login";
         }
