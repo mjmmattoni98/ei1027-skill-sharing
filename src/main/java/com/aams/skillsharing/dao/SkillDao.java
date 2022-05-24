@@ -91,7 +91,7 @@ public class SkillDao {
 
     public List<Skill> getAvailableSkills () {
         try {
-            return jdbcTemplate.query("select * from skill WHERE (current_date) >= start_date AND COALESCE((current_date < finish_date),true)",
+            return jdbcTemplate.query("select * from skill WHERE (current_date) >= start_date AND COALESCE((current_date <= finish_date),true)",
                     new SkillRowMapper()
             );
         } catch (EmptyResultDataAccessException e) {
@@ -101,7 +101,7 @@ public class SkillDao {
 
     public List<Skill> getDisabledSkills () {
         try {
-            return jdbcTemplate.query("select * from skill WHERE (current_date) < start_date OR COALESCE((current_date >= finish_date),false)",
+            return jdbcTemplate.query("select * from skill WHERE (current_date) < start_date OR COALESCE((current_date > finish_date),false)",
                     new SkillRowMapper()
             );
         } catch (EmptyResultDataAccessException e) {
