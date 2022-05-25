@@ -3,6 +3,7 @@ package com.aams.skillsharing.controller;
 
 import com.aams.skillsharing.dao.UserDao;
 import com.aams.skillsharing.model.InternalUser;
+import org.jasypt.util.password.BasicPasswordEncryptor;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -25,6 +26,8 @@ public class InternalLoginController {
         this.userDao = userDao;
     }
 
+    private static final BasicPasswordEncryptor encryptor = new BasicPasswordEncryptor();
+
     @RequestMapping("/login")
     public String login(Model model, HttpSession session) {
         if (session.getAttribute("user") == null){
@@ -32,7 +35,8 @@ public class InternalLoginController {
             return "login";
         }
         InternalUser user = (InternalUser) session.getAttribute("user");
-        throw new SkillSharingException("You are already log in", "AlreadyLogIn", "../" + user.getUrlMainPage());
+        return "redirect:" + user.getUrlMainPage();
+//        throw new SkillSharingException("You are already log in", "AlreadyLogIn", "redirect:" + user.getUrlMainPage());
     }
 
     @PostMapping(value="/login")
@@ -43,12 +47,21 @@ public class InternalLoginController {
         if (bindingResult.hasErrors()) {
             return "login";
         }
+
+//        alneeee3
+
         // Comprobar que el login es el correcto intentando cargar el usuario
-        user = userDao.loadUserByUsername(user.getUsername().toLowerCase(), user.getPassword());
-        if (user == null) {
+        InternalUser regiteredUser = userDao.loadUserByUsername(user.getUsername().toLowerCase());
+        if (regiteredUser == null) {
+            bindingResult.rejectValue("user", "badname", "Usuari  incorrecte");
+            return "login";
+        }
+
+        if (!encryptor.checkPassword(user.getPassword(), regiteredUser.getPassword())) {
             bindingResult.rejectValue("password", "badpw", "Contrasenya incorrecta");
             return "login";
         }
+
         // Autenticado correctamente. Guardamos los datos en la sesión
         session.setAttribute("user", user);
 

@@ -2,6 +2,7 @@ package com.aams.skillsharing.controller;
 
 import com.aams.skillsharing.dao.*;
 import com.aams.skillsharing.model.*;
+import org.jasypt.util.password.BasicPasswordEncryptor;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -30,6 +31,7 @@ public class StudentController extends RoleController {
     private EmailDao emailDao;
     private static final StudentValidator validator = new StudentValidator();
     private static final StudentUpdateValidator updateValidator = new StudentUpdateValidator();
+    private static final BasicPasswordEncryptor encryptor = new BasicPasswordEncryptor();
 
     @Autowired
     public void setStudentDao(StudentDao studentDao) {
@@ -185,6 +187,7 @@ public class StudentController extends RoleController {
         if (bindingResult.hasErrors()) return "student/add";
 
         try {
+            student.setPassword(encryptor.encryptPassword(student.getPassword()));
             studentDao.addStudent(student);
         } catch (DuplicateKeyException e) {
             throw new SkillSharingException("It already exist the username\n" + e.getMessage(),
@@ -207,6 +210,8 @@ public class StudentController extends RoleController {
                                       BindingResult bindingResult) {
         updateValidator.validate(student, bindingResult);
         if (bindingResult.hasErrors()) return "student/update";
+
+        student.setPassword(encryptor.encryptPassword(student.getPassword()));
         studentDao.updateStudent(student);
         return "redirect:/student/profile";
     }
