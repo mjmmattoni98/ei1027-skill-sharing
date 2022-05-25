@@ -4,7 +4,7 @@ CREATE TYPE skill_level as ENUM ('expert', 'average', 'low');
 
 CREATE TABLE student (
     username VARCHAR(8) NOT NULL,
-    password VARCHAR(40) NOT NULL,
+    password TEXT NOT NULL,
     balance_hours INTEGER NOT NULL DEFAULT 0,
     is_blocked BOOLEAN NOT NULL DEFAULT FALSE,
     name VARCHAR(40) NOT NULL,
