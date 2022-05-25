@@ -44,15 +44,19 @@ public class SkillDao {
     }
 
     public void disableSkill(Skill skill) {
-        jdbcTemplate.update("UPDATE skill SET finish_date = ? WHERE name = ?",
-                LocalDate.now(),
+        jdbcTemplate.update("UPDATE skill SET start_date = ?, finish_date = ? WHERE name = ?",
+                LocalDate.now().minusDays(2L),
+                LocalDate.now().minusDays(1L),
+                //TODO, hacer esto bonito
                 skill.getName()
         );
     }
 
     public void disableSkill(String name) {
-        jdbcTemplate.update("UPDATE skill SET finish_date = ? WHERE name = ?",
-                LocalDate.now(),
+        jdbcTemplate.update("UPDATE skill SET start_date = ?, finish_date = ? WHERE name = ?",
+                LocalDate.now().minusDays(2L),
+                LocalDate.now().minusDays(1L),
+                //TODO, hacer esto bonito
                 name
         );
     }

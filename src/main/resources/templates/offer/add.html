@@ -12,9 +12,13 @@
           th:object="${offer}" method="post">
 
         <div class="form-group row">
-            <label class="control-label col-sm-2" for="name">Skill:</label>
+            <label class="control-label col-sm-2">Skill:</label>
             <div class="col-sm-4">
-                <input type="text" class="form-control" id="name" th:field="*{name}" th:readonly="${offer.name != null}"/>
+                <select  th:if="${offer.name == null}" class="form-select" aria-label="Default select example" th:field="*{name}">
+                    <option th:each="skill : ${skills}" th:value="${skill.name}" th:text="${skill.name} + ' (' + ${skill.level} + ')'">
+                    </option>
+                </select>
+                <input th:unless="${offer.name == null}" type="text" class="form-control" th:field="*{name}" readonly/>
             </div>
         </div>
 

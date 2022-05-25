@@ -128,7 +128,7 @@ public class SkillController extends RoleController {
 
         List<Offer> offers = offerDao.getOffersSkillNotCollaborating(name);
         for(Offer offer : offers){
-            offer.setFinishDate(LocalDate.now());
+            offer.setFinishDate(LocalDate.now().minusDays(1L));
             offerDao.updateOffer(offer);
 
             Student student = studentDao.getStudent(offer.getUsername());
@@ -143,7 +143,7 @@ public class SkillController extends RoleController {
 
         List<Request> requests = requestDao.getRequestsSkillNotCollaborating(name);
         for(Request request : requests){
-            request.setFinishDate(LocalDate.now());
+            request.setFinishDate(LocalDate.now().minusDays(1L));
             requestDao.updateRequest(request);
 
             Student student = studentDao.getStudent(request.getUsername());

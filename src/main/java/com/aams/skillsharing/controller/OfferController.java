@@ -3,6 +3,7 @@ package com.aams.skillsharing.controller;
 import com.aams.skillsharing.dao.CollaborationDao;
 import com.aams.skillsharing.dao.OfferDao;
 import com.aams.skillsharing.dao.RequestDao;
+import com.aams.skillsharing.dao.SkillDao;
 import com.aams.skillsharing.model.Collaboration;
 import com.aams.skillsharing.model.InternalUser;
 import com.aams.skillsharing.model.Offer;
@@ -22,6 +23,7 @@ import java.util.List;
 @RequestMapping("/offer")
 public class OfferController extends RoleController{
     private OfferDao offerDao;
+    private SkillDao skillDao;
     private RequestDao requestDao;
     private CollaborationDao collaborationDao;
     private static final OfferValidator validator = new OfferValidator();
@@ -39,6 +41,11 @@ public class OfferController extends RoleController{
     @Autowired
     public void setCollaborationDao(CollaborationDao collaborationDao) {
         this.collaborationDao = collaborationDao;
+    }
+
+    @Autowired
+    public void setSkillDao(SkillDao skillDao) {
+        this.skillDao = skillDao;
     }
 
     @RequestMapping("/list")
@@ -131,6 +138,7 @@ public class OfferController extends RoleController{
         Offer offer = new Offer();
         offer.setUsername(user.getUsername());
         model.addAttribute("offer", offer);
+        model.addAttribute("skills", skillDao.getAvailableSkills());
         return "offer/add";
     }
 
