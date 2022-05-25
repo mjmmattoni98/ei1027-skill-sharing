@@ -51,18 +51,8 @@ public class SkillController extends RoleController {
 
     @RequestMapping("/list")
     public String listSkills(Model model) {
-        List<Skill> skills = skillDao.getSkills();
-        List<Skill> skillsAvailable = new LinkedList<>();
-        List<Skill> skillsDisabled = new LinkedList<>();
-        for (Skill skill : skills)
-            if (skill.getFinishDate() != null && skill.getFinishDate().compareTo(LocalDate.now()) <= 0)
-                skillsDisabled.add(skill);
-            else
-                skillsAvailable.add(skill);
-
-
-        model.addAttribute("skills", skillsAvailable);
-        model.addAttribute("skills_disabled", skillsDisabled);
+        model.addAttribute("skills", skillDao.getAvailableSkills());
+        model.addAttribute("skills_disabled", skillDao.getDisabledSkills());
         return "skill/list";
     }
 
