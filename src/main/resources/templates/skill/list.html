@@ -100,15 +100,14 @@
             </tbody>
         </table>
     </div>
+    <p th:if="${session.user != null and session.user.isSkp}">
+        <a th:href="@{/skill/add}" class="btn btn-success" role="button">Add skill</a>
+    </p>
     <div class="col-sm-12 d-flex justify-content-center">
          <span>
              <button onClick="history.back()" class=" btn btn-info" >Back</button>
          </span>
     </div>
-
-    <p th:if="${session.user != null and session.user.isSkp}">
-        <a th:href="@{/skill/add}" class="btn btn-success" role="button">Add skill</a>
-    </p>
 </div>
 </body>
 </html>

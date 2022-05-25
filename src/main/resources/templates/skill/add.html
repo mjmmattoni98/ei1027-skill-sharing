@@ -28,7 +28,7 @@
         <div class="form-group row">
             <label class="control-label col-sm-2" for="level">Level:</label>
             <div class="col-sm-4">
-                <select class="form_control" th:type="text" id="level" th:field="*{level}">
+                <select class="form-select" aria-label="Default select example" th:type="text" id="level" th:field="*{level}">
                     <option th:each="level : ${skillLevels}"
                             th:value="${level}"
                             th:text="${level}"></option>

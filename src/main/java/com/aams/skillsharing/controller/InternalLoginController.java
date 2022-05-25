@@ -60,7 +60,7 @@ public class InternalLoginController {
         }
 
         // Autenticado correctamente. Guardamos los datos en la sesión
-        session.setAttribute("user", user);
+        session.setAttribute("user", regiteredUser);
 
         String nextUrl = user.getUrlMainPage();
 

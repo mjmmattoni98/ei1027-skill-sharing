@@ -5,18 +5,18 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li th:if="${session.user != null}" class="nav-item"><a class="nav-link" href="/" th:href="@{/homePage/list}">Home page</a></li>
-        <li class="nav-item"><a class="nav-link" href="/skill/list" th:href="@{/skill/list}">See skills</a></li>
+        <li class="nav-item"><a class="nav-link" href="/skill/list" th:href="@{/skill/list}">Skills</a></li>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            See Things</a>
+            What's available</a>
           <ul class="dropdown-menu">
-            <li><a class="nav-link" href="/request/list" th:href="@{/request/list}">See requests</a></li>
-            <li><a class="nav-link" href="/offer/list" th:href="@{/offer/list}">See offers</a></li>
+            <li><a class="nav-link" href="/request/list" th:href="@{/request/list}">All requests</a></li>
+            <li><a class="nav-link" href="/offer/list" th:href="@{/offer/list}">All offers</a></li>
           </ul>
         </li>
         <li th:if="${session.user != null}" class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            My Things</a>
+            My elements</a>
           <ul class="dropdown-menu">
             <li><a class="nav-link" th:href="@{/request/list/student/{username}(username=${session.user.username})}">My requests</a></li>
             <li><a class="nav-link" th:href="@{/offer/list/student/{username}(username=${session.user.username})}">My offers</a></li>
@@ -24,7 +24,7 @@
           </ul>
         </li>
         <li th:if="${session.user != null && session.user.skp}">
-          <a class="nav-link" href="/student/paged_list" th:href="@{/student/paged_list}">See students</a>
+          <a class="nav-link" href="/student/paged_list" th:href="@{/student/paged_list}">Students</a>
         </li>
       </ul>
       <div th:if="${session.user == null}" class="login">
