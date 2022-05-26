@@ -26,8 +26,7 @@ CREATE TABLE skill (
     description VARCHAR(30) NOT NULL,
     level SKILL_LEVEL NOT NULL,
     canceled BOOLEAN NOT NULL DEFAULT FALSE,
-    CONSTRAINT skill_pk PRIMARY KEY (name),
-    CONSTRAINT skill_date_ri CHECK(start_date < skill.finish_date)
+    CONSTRAINT skill_pk PRIMARY KEY (name)
 );
 
 CREATE TABLE email(
@@ -47,7 +46,9 @@ CREATE TABLE offer (
     start_date DATE NOT NULL,
     finish_date DATE,
     description TEXT NOT NULL,
+    canceled BOOLEAN NOT NULL DEFAULT FALSE,
     CONSTRAINT offer_pk PRIMARY KEY (id),
+    CONSTRAINT offer_date_check CHECK (start_date <= finish_date OR finish_date IS NULL),
     CONSTRAINT offer_student_fk FOREIGN KEY (username) REFERENCES student(username) ON DELETE  RESTRICT ON UPDATE CASCADE,
     CONSTRAINT offer_skill_fk FOREIGN KEY (name) REFERENCES skill(name) ON DELETE  RESTRICT ON UPDATE CASCADE
 );
@@ -59,7 +60,9 @@ CREATE TABLE request (
     start_date DATE NOT NULL,
     finish_date DATE,
     description TEXT NOT NULL,
+    canceled BOOLEAN NOT NULL DEFAULT FALSE,
     CONSTRAINT request_pk PRIMARY KEY (id),
+    CONSTRAINT request_date_ri CHECK (start_date <= finish_date OR finish_date IS NULL),
     CONSTRAINT request_student_fk FOREIGN KEY (username) REFERENCES student(username) ON DELETE  RESTRICT ON UPDATE CASCADE,
     CONSTRAINT request_skill_fk FOREIGN KEY (name) REFERENCES skill(name) ON DELETE  RESTRICT ON UPDATE CASCADE
 );

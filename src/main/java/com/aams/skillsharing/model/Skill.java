@@ -7,7 +7,7 @@ public class Skill implements Comparable<Skill> {
     private String name;
     private String description;
     private SkillLevel level;
-    private boolean canceled;
+    private boolean canceled = false;
 
     public void setLevel(String level) {
         this.level = SkillLevel.fromId(level);

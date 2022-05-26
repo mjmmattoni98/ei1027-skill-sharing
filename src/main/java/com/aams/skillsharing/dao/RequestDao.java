@@ -23,12 +23,13 @@ public class RequestDao {
     }
 
     public void addRequest(Request request) throws DuplicateKeyException {
-        jdbcTemplate.update("INSERT INTO request(name, username, start_date, finish_date, description) VALUES (?,?,?,?,?)",
+        jdbcTemplate.update("INSERT INTO request(name, username, start_date, finish_date, description, canceled) VALUES (?,?,?,?,?,?)",
                 request.getName(),
                 request.getUsername(),
                 request.getStartDate(),
                 request.getFinishDate(),
-                request.getDescription()
+                request.getDescription(),
+                request.isCanceled()
         );
     }
 
@@ -45,12 +46,14 @@ public class RequestDao {
     }
 
     public void updateRequest(Request request) {
-        jdbcTemplate.update("UPDATE request SET name = ?, username = ?, start_date = ?, finish_date = ?, description = ? WHERE id = ?",
+        jdbcTemplate.update("UPDATE request SET name = ?, username = ?, start_date = ?, finish_date = ?, " +
+                        "description = ?, canceled = ? WHERE id = ?",
                 request.getName(),
                 request.getUsername(),
                 request.getStartDate(),
                 request.getFinishDate(),
                 request.getDescription(),
+                request.isCanceled(),
                 request.getId()
         );
     }
@@ -68,7 +71,7 @@ public class RequestDao {
 
     public List<Request> getRequests() {
         try {
-            return jdbcTemplate.query("SELECT * FROM request",
+            return jdbcTemplate.query("SELECT * FROM request WHERE canceled = false AND (finish_date IS NULL OR finish_date >= CURRENT_DATE)",
                     new RequestRowMapper()
             );
         } catch (EmptyResultDataAccessException e) {
@@ -78,7 +81,8 @@ public class RequestDao {
 
     public List<Request> getRequestsStudent(String username) {
         try {
-            return jdbcTemplate.query("SELECT * FROM request WHERE username = ?",
+            return jdbcTemplate.query("SELECT * FROM request WHERE username = ? AND canceled = false AND " +
+                            "(finish_date IS NULL OR finish_date >= CURRENT_DATE)",
                     new RequestRowMapper(),
                     username
             );
@@ -89,7 +93,8 @@ public class RequestDao {
 
     public List<Request> getRequestsSkill(String name) {
         try {
-            return jdbcTemplate.query("SELECT * FROM request WHERE name = ?",
+            return jdbcTemplate.query("SELECT * FROM request WHERE name = ? AND canceled = false AND " +
+                            "(finish_date IS NULL OR finish_date >= CURRENT_DATE)",
                     new RequestRowMapper(),
                     name
             );
@@ -100,8 +105,8 @@ public class RequestDao {
 
     public List<Request> getRequestsSkillNotCollaborating(String name) {
         try {
-            return jdbcTemplate.query("SELECT * FROM request WHERE name = ? AND " +
-                            "id NOT IN (SELECT id_request FROM collaboration)",
+            return jdbcTemplate.query("SELECT * FROM request WHERE name = ? AND canceled = false AND " +
+                            "id NOT IN (SELECT id_request FROM collaboration) AND (finish_date IS NULL OR finish_date >= CURRENT_DATE)",
                     new RequestRowMapper(),
                     name
             );

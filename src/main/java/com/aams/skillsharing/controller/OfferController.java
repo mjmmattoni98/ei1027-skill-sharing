@@ -56,8 +56,6 @@ public class OfferController extends RoleController{
     @RequestMapping("/list")
     public String listOffers(Model model) {
         List<Offer> offers = offerDao.getOffers();
-        offers.removeIf(offer -> offer.getFinishDate() != null &&
-                offer.getFinishDate().compareTo(LocalDate.now()) < 0);
 
         model.addAttribute("offers", offers);
         return "offer/list";
@@ -75,9 +73,6 @@ public class OfferController extends RoleController{
         // Remove my offers and the offers that are already collaborating with the request
         offers.removeIf(offer -> offer.getUsername().equals(request.getUsername()) ||
                         collaborationDao.getCollaboration(offer.getId(), request.getId()) != null);
-        // Remove offers not available
-        offers.removeIf(offer -> offer.getFinishDate() != null &&
-                offer.getFinishDate().compareTo(LocalDate.now()) < 0);
 
 
         model.addAttribute("request", request.getId());
@@ -98,8 +93,6 @@ public class OfferController extends RoleController{
                     "AccesDenied", "../" + user.getUrlMainPage());
 
         List<Offer> offers = offerDao.getOffersStudent(username);
-        offers.removeIf(offer -> offer.getFinishDate() != null &&
-                offer.getFinishDate().compareTo(LocalDate.now()) < 0);
 
         model.addAttribute("offers", offers);
         model.addAttribute("student", username);
@@ -109,8 +102,6 @@ public class OfferController extends RoleController{
     @RequestMapping("/list/skill/{name}")
     public String listOffersSkill(Model model, @PathVariable String name) {
         List<Offer> offers = offerDao.getOffersSkill(name);
-        offers.removeIf(offer -> offer.getFinishDate() != null &&
-                offer.getFinishDate().compareTo(LocalDate.now()) < 0);
 
         model.addAttribute("offers", offers);
         model.addAttribute("skill", name);
@@ -186,25 +177,6 @@ public class OfferController extends RoleController{
         if (bindingResult.hasErrors()) return "offer/update";
         offerDao.updateOffer(offer);
         return "redirect:list/";
-    }
-
-    @RequestMapping(value = "/cancel/{id}")
-    public String processCancelOffer(HttpSession session, Model model, @PathVariable int id) {
-        if (session.getAttribute("user") == null){
-            model.addAttribute("user", new InternalUser());
-            return "login";
-        }
-        InternalUser user = (InternalUser) session.getAttribute("user");
-
-        Offer offer = offerDao.getOffer(id);
-        if (!offer.getUsername().equals(user.getUsername())) {
-            throw new SkillSharingException("You cannot cancel offers of other students",
-                    "AccesDenied", "../" + user.getUrlMainPage());
-        }
-
-        offer.setFinishDate(LocalDate.now().minusDays(1));
-        offerDao.updateOffer(offer);
-        return "redirect:../list/";
     }
 
 }

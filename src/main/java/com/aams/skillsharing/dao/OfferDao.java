@@ -21,12 +21,13 @@ public class OfferDao {
     }
 
     public void addOffer(Offer offer) throws DuplicateKeyException {
-        jdbcTemplate.update("INSERT INTO offer(name, username, start_date, finish_date, description) VALUES (?,?,?,?,?)",
+        jdbcTemplate.update("INSERT INTO offer(name, username, start_date, finish_date, description, canceled) VALUES (?,?,?,?,?,?)",
                 offer.getName(),
                 offer.getUsername(),
                 offer.getStartDate(),
                 offer.getFinishDate(),
-                offer.getDescription()
+                offer.getDescription(),
+                offer.isCanceled()
         );
     }
 
@@ -43,12 +44,14 @@ public class OfferDao {
     }
 
     public void updateOffer(Offer offer) {
-        jdbcTemplate.update("UPDATE offer SET name = ?, username = ?, start_date = ?, finish_date = ?, description = ? WHERE id = ?",
+        jdbcTemplate.update("UPDATE offer SET name = ?, username = ?, start_date = ?, finish_date = ?, " +
+                        "description = ?, canceled = ? WHERE id = ?",
                 offer.getName(),
                 offer.getUsername(),
                 offer.getStartDate(),
                 offer.getFinishDate(),
                 offer.getDescription(),
+                offer.isCanceled(),
                 offer.getId()
         );
     }
@@ -66,7 +69,7 @@ public class OfferDao {
 
     public List<Offer> getOffers() {
         try {
-            return jdbcTemplate.query("SELECT * FROM offer",
+            return jdbcTemplate.query("SELECT * FROM offer WHERE canceled = false AND (finish_date IS NULL OR finish_date >= CURRENT_DATE)",
                     new OfferRowMapper()
             );
         } catch (EmptyResultDataAccessException e) {
@@ -76,7 +79,8 @@ public class OfferDao {
 
     public List<Offer> getOffersStudent(String username) {
         try {
-            return jdbcTemplate.query("SELECT * FROM offer WHERE username = ?",
+            return jdbcTemplate.query("SELECT * FROM offer WHERE username = ? AND canceled = false AND " +
+                            "(finish_date IS NULL OR finish_date >= CURRENT_DATE)",
                     new OfferRowMapper(),
                     username
             );
@@ -87,7 +91,8 @@ public class OfferDao {
 
     public List<Offer> getOffersStudentSkill(String username, String skill) {
         try {
-            return jdbcTemplate.query("SELECT * FROM offer WHERE username = ? AND name = ?",
+            return jdbcTemplate.query("SELECT * FROM offer WHERE username = ? AND name = ? AND canceled = false AND " +
+                            "(finish_date IS NULL OR finish_date >= CURRENT_DATE)",
                     new OfferRowMapper(),
                     username,
                     skill
@@ -99,7 +104,8 @@ public class OfferDao {
 
     public List<Offer> getOffersSkill(String name) {
         try {
-            return jdbcTemplate.query("SELECT * FROM offer WHERE name = ?",
+            return jdbcTemplate.query("SELECT * FROM offer WHERE name = ? AND canceled = false AND " +
+                            "(finish_date IS NULL OR finish_date >= CURRENT_DATE)",
                     new OfferRowMapper(),
                     name
             );
@@ -110,8 +116,8 @@ public class OfferDao {
 
     public List<Offer> getOffersSkillNotCollaborating(String name) {
         try {
-            return jdbcTemplate.query("SELECT * FROM offer WHERE name = ? AND " +
-                            "id NOT IN (SELECT id_offer FROM collaboration)",
+            return jdbcTemplate.query("SELECT * FROM offer WHERE name = ? AND canceled = false AND " +
+                            "id NOT IN (SELECT id_offer FROM collaboration) AND (finish_date IS NULL OR finish_date >= CURRENT_DATE)",
                     new OfferRowMapper(),
                     name
             );

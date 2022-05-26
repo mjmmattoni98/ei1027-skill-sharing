@@ -23,6 +23,9 @@ public class OfferValidator implements Validator {
         if (finishDate != null && finishDate.compareTo(startDate) <= 0) 
             errors.rejectValue("finishDate", "consistency",
                     "The finish date must be after the start date");
-        
+        if (startDate.compareTo(LocalDate.now()) < 0)
+            errors.rejectValue("startDate", "consistency",
+                    "The start date must be after today");
+
     }
 }
