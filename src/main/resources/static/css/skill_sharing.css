@@ -75,6 +75,57 @@ html, body{
     box-shadow: 0 0 0 0.25rem #0d6efd40;
 }
 
+.btn-UJI2{
+    font-weight: bolder;
+    color: #fff;
+    background-color: #198754;
+    border-color: #198754;
+}
+
+.btn-UJI2:active, .btn-UJI2:focus, .btn-UJI2:hover{
+    color: #fff;
+    background-color: #146c43;
+    border-color: #146c43;
+}
+
+.btn-UJI2:focus{
+    box-shadow: 0 0 0 0.25rem #3c996e80;
+}
+
+.btn-UJI3{
+    font-weight: bolder;
+    color: #fff;
+    background-color: #3C688B;
+    border-color: #3C688B;
+}
+
+.btn-UJI3:active, .btn-UJI3:focus, .btn-UJI3:hover{
+    color: #fff;
+    background-color: #1c4464;
+    border-color: #1c4464;
+}
+
+.btn-UJI3:focus{
+    box-shadow: 0 0 0 0.25rem #0d6efd40;
+}
+
+.btn-UJI4{
+    font-weight: bolder;
+    color: #fff;
+    background-color: #20744d;
+    border-color: #20744d;
+}
+
+.btn-UJI4:active, .btn-UJI4:focus, .btn-UJI4:hover{
+    color: #fff;
+    background-color: #033c21;
+    border-color: #033c21;
+}
+
+.btn-UJI4:focus{
+    box-shadow: 0 0 0 0.25rem #21644580;
+}
+
 /*  NavBar UJI*/
 
 .navbar-UJI .navbar-nav .nav-link{
@@ -180,5 +231,86 @@ html, body{
 
 .menu-login .section-btn-login .btn-UJI {
     width: 100% !important;
+}
+
+/* TARJETA LISTA */
+
+.listar-tarjeta {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.listar-tarjeta .tarjeta{
+    width: calc(25% - 40px);
+    margin: 20px;
+    padding: 0px 10px 20px 10px;
+    border-radius: 10px
+}
+
+.listar-tarjeta .tarjeta header{
+    display: flex;
+    margin-top: 10px;
+    margin-bottom: 0px;
+}
+
+.listar-tarjeta .tarjeta header h3{
+    margin: 0px;
+    text-align: center;
+    width: -webkit-fill-available;
+}
+
+.listar-tarjeta .tarjeta header a{
+    height: 30px;
+    width: 30px;
+    padding: 0px;
+    background-color: transparent;
+    border-color: transparent;
+}
+
+.listar-tarjeta .tarjeta header a svg{
+    width: 30px;
+    height: 30px;
+    color: white;
+    fill="currentColor"
+}
+
+.skp{
+    margin-right: 30px;
+}
+
+.listar-tarjeta .tarjeta .informacion{
+    text-align: center;
+}
+
+.listar-tarjeta .tarjeta footer{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.listar-tarjeta .tarjeta footer.skp{
+    flex-direction: column;
+}
+
+.listar-tarjeta .tarjeta footer a{
+    width: calc(50% - 20px);
+    margin: 10px;
+}
+
+.listar-tarjeta .tarjeta footer.skp a{
+    width: auto !important;
+}
+
+/* list */
+
+.listar-tarjeta #listar-enabled{
+    color: white;
+    background-color: #002744;
+    box-shadow: 2px 2px 20px 4px #00274466;
+}
+
+.listar-tarjeta #listar-disabled{
+    color: black;
+    background-color: #96a6b2;
+    box-shadow: 2px 2px 20px 4px #00274466;
 }
 
