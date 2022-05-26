@@ -25,8 +25,7 @@ CREATE TABLE skill (
     name VARCHAR(30) NOT NULL,
     description VARCHAR(30) NOT NULL,
     level SKILL_LEVEL NOT NULL,
-    start_date DATE NOT NULL,
-    finish_date DATE,
+    canceled BOOLEAN NOT NULL DEFAULT FALSE,
     CONSTRAINT skill_pk PRIMARY KEY (name),
     CONSTRAINT skill_date_ri CHECK(start_date < skill.finish_date)
 );
