@@ -51,11 +51,11 @@ public class InternalLoginController {
         // Comprobar que el login es el correcto intentando cargar el usuario
         InternalUser regiteredUser = userDao.loadUserByUsername(user.getUsername().toLowerCase());
         if (regiteredUser == null) {
-            bindingResult.rejectValue("user", "badname", "Usuari  incorrecte");
+            bindingResult.rejectValue("username", "badname", "Invalid username");
             return "login";
         }
         if (!encryptor.checkPassword(user.getPassword(), regiteredUser.getPassword())) {
-            bindingResult.rejectValue("password", "badpw", "Contrasenya incorrecta");
+            bindingResult.rejectValue("password", "badpw", "Invalid password");
             return "login";
         }
 

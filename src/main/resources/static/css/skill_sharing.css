@@ -172,4 +172,13 @@ html, body{
     font-weight: bolder;
 }
 
+.menu-login .section-btn-login {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.menu-login .section-btn-login .btn-UJI {
+    width: 100% !important;
+}
 
