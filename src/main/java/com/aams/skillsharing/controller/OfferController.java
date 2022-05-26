@@ -1,23 +1,28 @@
 package com.aams.skillsharing.controller;
 
+import java.time.LocalDate;
+import java.util.List;
+
+import javax.servlet.http.HttpSession;
+
 import com.aams.skillsharing.dao.CollaborationDao;
 import com.aams.skillsharing.dao.OfferDao;
 import com.aams.skillsharing.dao.RequestDao;
 import com.aams.skillsharing.dao.SkillDao;
-import com.aams.skillsharing.model.Collaboration;
 import com.aams.skillsharing.model.InternalUser;
 import com.aams.skillsharing.model.Offer;
 import com.aams.skillsharing.model.Request;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.http.HttpSession;
-import java.time.LocalDate;
-import java.util.List;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/offer")
@@ -113,7 +118,7 @@ public class OfferController extends RoleController{
     }
 
     @RequestMapping(value = "/add/{name}")
-    public String addOffer(HttpSession session, Model model, @PathVariable String name) {
+    public String addOfferSkill(HttpSession session, Model model, @PathVariable String name) {
         if (session.getAttribute("user") == null){
             model.addAttribute("user", new InternalUser());
             return "login";
@@ -197,7 +202,7 @@ public class OfferController extends RoleController{
                     "AccesDenied", "../" + user.getUrlMainPage());
         }
 
-        offer.setFinishDate(LocalDate.now().minusDays(1L));
+        offer.setFinishDate(LocalDate.now().minusDays(1));
         offerDao.updateOffer(offer);
         return "redirect:../list/";
     }

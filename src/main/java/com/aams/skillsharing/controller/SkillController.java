@@ -112,50 +112,41 @@ public class SkillController extends RoleController {
                                       BindingResult bindingResult) {
         validator.validate(skill, bindingResult);
         if (bindingResult.hasErrors()) return "skill/update";
+
+        if (skill.isCanceled()){
+            List<Offer> offers = offerDao.getOffersSkillNotCollaborating(skill.getName());
+            for(Offer offer : offers){
+    //            offer.setFinishDate(LocalDate.now().minusDays(1L));
+                offerDao.updateOffer(offer);
+
+                Student student = studentDao.getStudent(offer.getUsername());
+                Email email = new Email();
+                email.setSender("skill.sharing@uji.es");
+                email.setReceiver(student.getEmail());
+                email.setSendDate(LocalDate.now());
+                email.setSubject("Skill disabled");
+                email.setBody("Due to the skill you were offering help has been disabled, you can no longer offer it.");
+                emailDao.addEmail(email);
+            }
+
+            List<Request> requests = requestDao.getRequestsSkillNotCollaborating(skill.getName());
+            for(Request request : requests){
+    //            request.setFinishDate(LocalDate.now().minusDays(1L));
+                requestDao.updateRequest(request);
+
+                Student student = studentDao.getStudent(request.getUsername());
+                Email email = new Email();
+                email.setSender("skill.sharing@uji.es");
+                email.setReceiver(student.getEmail());
+                email.setSendDate(LocalDate.now());
+                email.setSubject("Skill disabled");
+                email.setBody("Due to the skill you were requesting help has been disabled, you can no longer request it.");
+                emailDao.addEmail(email);
+            }    
+        }
+
         skillDao.updateSkill(skill);
         return "redirect:list/";
     }
 
-    @RequestMapping(value = "/disable/{name}")
-    public String processDisableSkill(HttpSession session, Model model, @PathVariable String name) {
-        InternalUser user = checkSession(session, SKP_ROLE);
-        if (user == null){
-            model.addAttribute("user", new InternalUser());
-            return "login";
-        }
-
-        skillDao.disableSkill(name);
-
-        List<Offer> offers = offerDao.getOffersSkillNotCollaborating(name);
-        for(Offer offer : offers){
-            offer.setFinishDate(LocalDate.now().minusDays(1L));
-            offerDao.updateOffer(offer);
-
-            Student student = studentDao.getStudent(offer.getUsername());
-            Email email = new Email();
-            email.setSender("skill.sharing@uji.es");
-            email.setReceiver(student.getEmail());
-            email.setSendDate(LocalDate.now());
-            email.setSubject("Skill disabled");
-            email.setBody("Due to the skill you were offering help has been disabled, you can no longer offer it.");
-            emailDao.addEmail(email);
-        }
-
-        List<Request> requests = requestDao.getRequestsSkillNotCollaborating(name);
-        for(Request request : requests){
-            request.setFinishDate(LocalDate.now().minusDays(1L));
-            requestDao.updateRequest(request);
-
-            Student student = studentDao.getStudent(request.getUsername());
-            Email email = new Email();
-            email.setSender("skill.sharing@uji.es");
-            email.setReceiver(student.getEmail());
-            email.setSendDate(LocalDate.now());
-            email.setSubject("Skill disabled");
-            email.setBody("Due to the skill you were requesting help has been disabled, you can no longer request it.");
-            emailDao.addEmail(email);
-        }
-
-        return "redirect:../list/";
-    }
 }

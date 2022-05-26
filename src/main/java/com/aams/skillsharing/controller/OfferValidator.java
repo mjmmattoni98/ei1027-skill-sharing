@@ -1,11 +1,12 @@
 package com.aams.skillsharing.controller;
 
+import java.time.LocalDate;
+
 import com.aams.skillsharing.model.Offer;
+
 import org.jetbrains.annotations.NotNull;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
-
-import java.time.LocalDate;
 
 public class OfferValidator implements Validator {
     @Override
@@ -19,9 +20,9 @@ public class OfferValidator implements Validator {
 
         LocalDate startDate = offer.getStartDate();
         LocalDate finishDate = offer.getFinishDate();
-        if (finishDate != null && finishDate.compareTo(startDate) <= 0) {
+        if (finishDate != null && finishDate.compareTo(startDate) <= 0) 
             errors.rejectValue("finishDate", "consistency",
                     "The finish date must be after the start date");
-        }
+        
     }
 }

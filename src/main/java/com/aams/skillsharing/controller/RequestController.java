@@ -70,7 +70,7 @@ public class RequestController extends RoleController{
     }
 
     @RequestMapping(value = "/add/{name}")
-    public String addRequest(HttpSession session, Model model, @PathVariable String name) {
+    public String addRequestSkill(HttpSession session, Model model, @PathVariable String name) {
         if (session.getAttribute("user") == null){
             model.addAttribute("user", new InternalUser());
             return "login";
@@ -154,7 +154,7 @@ public class RequestController extends RoleController{
                     "AccesDenied", "../" + user.getUrlMainPage());
         }
 
-        request.setFinishDate(LocalDate.now());
+        request.setFinishDate(LocalDate.now().minusDays(1));
         requestDao.updateRequest(request);
         return "redirect:../list/";
     }

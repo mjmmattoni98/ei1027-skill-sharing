@@ -1,16 +1,17 @@
 package com.aams.skillsharing.dao;
 
-import com.aams.skillsharing.model.Offer;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.sql.DataSource;
+
 import com.aams.skillsharing.model.Request;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
-
-import javax.sql.DataSource;
-import java.util.ArrayList;
-import java.util.List;
 
 @Repository
 public class RequestDao {

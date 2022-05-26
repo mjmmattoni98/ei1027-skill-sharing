@@ -1,13 +1,15 @@
 package com.aams.skillsharing.controller;
 
+import java.time.LocalDate;
+import java.util.LinkedList;
+import java.util.List;
+
 import com.aams.skillsharing.model.Skill;
 import com.aams.skillsharing.model.SkillLevel;
+
 import org.jetbrains.annotations.NotNull;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
-
-import java.util.LinkedList;
-import java.util.List;
 
 public class SkillValidator implements Validator {
     @Override
@@ -25,5 +27,6 @@ public class SkillValidator implements Validator {
         if (!skillLevels.contains(skill.getLevel()))
             errors.rejectValue("level", "incorrect skill level value",
                     "It must be: " + skillLevels);
+            
     }
 }

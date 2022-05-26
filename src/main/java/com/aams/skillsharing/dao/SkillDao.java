@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,12 +23,11 @@ public class SkillDao {
     }
 
     public void addSkill(Skill skill) throws DuplicateKeyException {
-        jdbcTemplate.update("INSERT INTO skill VALUES (?,?,?::skill_level,?,?)",
+        jdbcTemplate.update("INSERT INTO skill VALUES (?,?,?::skill_level,?)",
                 skill.getName(),
                 skill.getDescription(),
                 skill.getLevel(),
-                skill.getStartDate(),
-                skill.getFinishDate()
+                skill.isCanceled()
         );
     }
 
@@ -43,31 +43,11 @@ public class SkillDao {
         );
     }
 
-    public void disableSkill(Skill skill) {
-        jdbcTemplate.update("UPDATE skill SET start_date = ?, finish_date = ? WHERE name = ?",
-                LocalDate.now().minusDays(2L),
-                LocalDate.now().minusDays(1L),
-                //TODO, hacer esto bonito
-                skill.getName()
-        );
-    }
-
-    public void disableSkill(String name) {
-        jdbcTemplate.update("UPDATE skill SET start_date = ?, finish_date = ? WHERE name = ?",
-                LocalDate.now().minusDays(2L),
-                LocalDate.now().minusDays(1L),
-                //TODO, hacer esto bonito
-                name
-        );
-    }
-
     public void updateSkill(Skill skill) {
-        jdbcTemplate.update("UPDATE skill SET description = ?, level = ?::skill_level, start_date = ?, finish_date = ? " +
-                        "WHERE name = ?",
+        jdbcTemplate.update("UPDATE skill SET description = ?, level = ?::skill_level, canceled = ? WHERE name = ?",
                 skill.getDescription(),
                 skill.getLevel(),
-                skill.getStartDate(),
-                skill.getFinishDate(),
+                skill.isCanceled(),
                 skill.getName()
         );
     }
@@ -95,7 +75,7 @@ public class SkillDao {
 
     public List<Skill> getAvailableSkills () {
         try {
-            return jdbcTemplate.query("select * from skill WHERE (current_date) >= start_date AND COALESCE((current_date <= finish_date),true)",
+            return jdbcTemplate.query("select * from skill WHERE canceled = false",
                     new SkillRowMapper()
             );
         } catch (EmptyResultDataAccessException e) {
@@ -105,7 +85,7 @@ public class SkillDao {
 
     public List<Skill> getDisabledSkills () {
         try {
-            return jdbcTemplate.query("select * from skill WHERE (current_date) < start_date OR COALESCE((current_date > finish_date),false)",
+            return jdbcTemplate.query("select * from skill WHERE canceled = true",
                     new SkillRowMapper()
             );
         } catch (EmptyResultDataAccessException e) {
