@@ -36,5 +36,15 @@ public class StudentValidator implements Validator {
         if (!student.getPassword().equals(student.getConfirmPassword()))
             errors.rejectValue("confirmPassword", "consistency", "Your password and confirm " +
                     "password must be same");
+        if(student.getName().length() == 0 || student.getName().trim().length() == 0)
+            errors.rejectValue("name", "consistency", "Your must insert a name");
+        if(student.getSurname().length() == 0 || student.getSurname().trim().length() == 0)
+            errors.rejectValue("surname", "consistency", "Your must insert a surname");
+        if(student.getName().length() == 0 || student.getName().trim().length() == 0)
+            errors.rejectValue("email", "consistency", "Your must insert an email");
+        if(student.getStreet().length() == 0 || student.getStreet().trim().length() == 0)
+            errors.rejectValue("street", "consistency", "Your must insert a street name");
+        if(student.getLocality().length() == 0 || student.getLocality().trim().length() == 0)
+            errors.rejectValue("locality", "consistency", "Your must insert a locality");
     }
 }

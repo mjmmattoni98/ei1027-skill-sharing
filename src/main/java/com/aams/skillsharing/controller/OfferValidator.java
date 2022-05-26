@@ -18,6 +18,9 @@ public class OfferValidator implements Validator {
     public void validate(@NotNull Object o, @NotNull Errors errors) {
         Offer offer = (Offer) o;
 
+        if (offer.getDescription().length() == 0 || offer.getDescription().trim().length() == 0)
+            errors.rejectValue("description", "no description","Description is required");
+
         LocalDate startDate = offer.getStartDate();
         LocalDate finishDate = offer.getFinishDate();
         if (finishDate != null && finishDate.compareTo(startDate) <= 0) 

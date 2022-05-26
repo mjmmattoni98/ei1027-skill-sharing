@@ -13,6 +13,7 @@ import com.aams.skillsharing.model.InternalUser;
 import com.aams.skillsharing.model.Offer;
 import com.aams.skillsharing.model.Request;
 
+import com.aams.skillsharing.model.Skill;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Controller;
@@ -133,16 +134,19 @@ public class OfferController extends RoleController{
 
         Offer offer = new Offer();
         offer.setUsername(user.getUsername());
+
         model.addAttribute("offer", offer);
         model.addAttribute("skills", skillDao.getAvailableSkills());
         return "offer/add";
     }
 
     @PostMapping(value = "/add")
-    public String processAddOffer(@ModelAttribute("offer") Offer offer,
+    public String processAddOffer(@ModelAttribute("offer") Offer offer, Model model,
                                   BindingResult bindingResult) {
         validator.validate(offer, bindingResult);
         if (bindingResult.hasErrors()) {
+            model.addAttribute("skills", skillDao.getAvailableSkills());
+            //TODO esto no hace bien lo que toca
             return "offer/add";
         }
         try {
@@ -171,10 +175,13 @@ public class OfferController extends RoleController{
     }
 
     @PostMapping(value = "/update")
-    public String processUpdateSubmit(@ModelAttribute("offer") Offer offer,
+    public String processUpdateSubmit(@ModelAttribute("offer") Offer offer, Model model,
                                       BindingResult bindingResult) {
         validator.validate(offer, bindingResult);
-        if (bindingResult.hasErrors()) return "offer/update";
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("skills", skillDao.getAvailableSkills());
+            return "offer/update";
+        }
         offerDao.updateOffer(offer);
         return "redirect:list/";
     }

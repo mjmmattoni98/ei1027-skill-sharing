@@ -66,18 +66,20 @@ public class SkillController extends RoleController {
 
         Skill skill = new Skill();
         model.addAttribute("skill", skill);
-        List<String> skillLevels = new LinkedList<>();
-        for(SkillLevel skillLevel : SkillLevel.values())
-            skillLevels.add(skillLevel.getId());
-        model.addAttribute("skillLevels", skillLevels);
+        model.addAttribute("skillLevels", loadSkills());
         return "skill/add";
     }
 
     @PostMapping(value = "/add")
-    public String processAddSkill(@ModelAttribute("skill") Skill skill,
+    public String processAddSkill(@ModelAttribute("skill") Skill skill, Model model,
                                   BindingResult bindingResult) {
         validator.validate(skill, bindingResult);
+
         if (bindingResult.hasErrors()) {
+  /*          List<String> skillLevels = new LinkedList<>();
+            for(SkillLevel skillLevel : SkillLevel.values())
+                skillLevels.add(skillLevel.getId());*/
+            model.addAttribute("skillLevels", loadSkills());
             return "skill/add";
         }
         try {
@@ -100,18 +102,18 @@ public class SkillController extends RoleController {
 
         Skill skill = skillDao.getSkill(name);
         model.addAttribute("skill", skill);
-        List<String> skillLevels = new LinkedList<>();
-        for(SkillLevel skillLevel : SkillLevel.values())
-            skillLevels.add(skillLevel.getId());
-        model.addAttribute("skillLevels", skillLevels);
+        model.addAttribute("skillLevels", loadSkills());
         return "skill/update";
     }
 
     @PostMapping(value = "/update")
-    public String processUpdateSubmit(@ModelAttribute("skill") Skill skill,
+    public String processUpdateSubmit(@ModelAttribute("skill") Skill skill, Model model,
                                       BindingResult bindingResult) {
         validator.validate(skill, bindingResult);
-        if (bindingResult.hasErrors()) return "skill/update";
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("skills", loadSkills());
+            return "skill/update";
+        }
 
         if (skill.isCanceled()){
             List<Offer> offers = offerDao.getOffersSkillNotCollaborating(skill.getName());
@@ -147,6 +149,13 @@ public class SkillController extends RoleController {
 
         skillDao.updateSkill(skill);
         return "redirect:list/";
+    }
+
+    public List<String> loadSkills() {
+        List<String> skillLevels = new LinkedList<>();
+        for(SkillLevel skillLevel : SkillLevel.values())
+            skillLevels.add(skillLevel.getId());
+        return skillLevels;
     }
 
 }

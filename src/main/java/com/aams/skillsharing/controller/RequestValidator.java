@@ -18,6 +18,9 @@ public class RequestValidator implements Validator {
     public void validate(@NotNull Object o, @NotNull Errors errors) {
         Request request = (Request) o;
 
+        if (request.getDescription().length() == 0 || request.getDescription().trim().length() == 0)
+            errors.rejectValue("description", "no description","Description is required");
+
         LocalDate startDate = request.getStartDate();
         LocalDate finishDate = request.getFinishDate();
         if (finishDate != null && finishDate.compareTo(startDate) <= 0) 

@@ -94,11 +94,17 @@ public class RequestController extends RoleController{
     }
 
     @PostMapping(value = "/add")
-    public String processAddRequest(@ModelAttribute("request") Request request,
+    public String processAddRequest(@ModelAttribute("request") Request request, Model model,
                                     BindingResult bindingResult) {
         validator.validate(request, bindingResult);
         if (bindingResult.hasErrors()) {
-            return "request/add";
+            model.addAttribute("skills", skillDao.getAvailableSkills());
+            //TODO esto no hace bien lo que toca
+           /* if (request.getName().length() > 0)
+                return "request/add/{" + request.getName() + "}";
+            else*/
+                return "request/add";
+//            model.addAttribute("request", request);
         }
         try {
             requestDao.addRequest(request);
@@ -126,10 +132,13 @@ public class RequestController extends RoleController{
     }
 
     @PostMapping(value = "/update")
-    public String processUpdateSubmit(@ModelAttribute("request") Request request,
+    public String processUpdateSubmit(@ModelAttribute("request") Request request, Model model,
                                       BindingResult bindingResult) {
         validator.validate(request, bindingResult);
-        if (bindingResult.hasErrors()) return "request/update";
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("skills", skillDao.getAvailableSkills());
+            return "request/update";
+        }
         requestDao.updateRequest(request);
         return "redirect:list/";
     }
