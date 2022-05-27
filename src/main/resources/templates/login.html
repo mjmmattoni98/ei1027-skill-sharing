@@ -17,12 +17,16 @@
       <span class="input-group-text">User</span>
       <input type="text" id="user" class="form-control" name="user" required autofocus th:field="*{username}">
     </section>
+    <p class="error" th:if="${#fields.hasErrors('username')}" th:errors="*{username}" style="font-size:15px"></p>
     <section class="input-group input-group-sm mb-3">
-      <span class="input-group-text">Password</span>
+        <span class="input-group-text">Password</span>
       <input type="password" id="password" class="form-control" name="password" required th:field="*{password}">
     </section>
-    <button type="submit" class="btn btn-UJI">Access</button>
-    <a class="btn btn-link" href="/student/add">Sign up as student</a>
+    <p class="error" th:if="${#fields.hasErrors('password')}" th:errors="*{password}" style="font-size:15px"></p>
+    <section class="section-btn-login">
+      <button type="submit" class="btn btn-UJI">Access</button>
+      <a class="btn btn-link" href="/student/add">Sign up as student</a>
+    </section>
   </form>
 </div>
 </body>
