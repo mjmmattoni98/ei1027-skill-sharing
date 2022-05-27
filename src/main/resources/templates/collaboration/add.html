@@ -13,31 +13,50 @@
 
 <!--        TODO falta mejorar la info que se le presenta al usuario en la colaboracion-->
 
+
+        <input type="text" class="form-control" id="idOffer" th:field="${collaboration.idOffer}" hidden/>
+        <input type="text" class="form-control" id="idRequest" th:field="${collaboration.idRequest}" hidden/>
+
         <div class="form-group row">
-            <label class="control-label col-sm-2" for="idOffer">ID offer:</label>
+            <label class="control-label col-sm-2" for="skill">Requested skill:</label>
             <div class="col-sm-4">
-                <input type="text" class="form-control" id="idOffer" th:field="*{idOffer}" readonly/>
+                <input type="text" class="form-control" id="skill" th:field="${request.name}" readonly/>
             </div>
         </div>
 
         <div class="form-group row">
-            <label class="control-label col-sm-2" for="studentOffer">Student offer:</label>
+            <label class="control-label col-sm-2" for="studentOffer">Offerer student:</label>
             <div class="col-sm-4">
-                <input type="text" class="form-control" id="studentOffer" th:field="*{studentOffer}" readonly/>
+                <input type="text" class="form-control" id="studentOffer" th:field="${collaboration.studentOffer}" readonly/>
             </div>
         </div>
 
         <div class="form-group row">
-            <label class="control-label col-sm-2" for="idRequest">ID request:</label>
+            <label class="control-label col-sm-2" for="studentRequest">Requesting student:</label>
             <div class="col-sm-4">
-                <input type="text" class="form-control" id="idRequest" th:field="*{idRequest}" readonly/>
+                <input type="text" class="form-control" id="studentRequest" th:field="${collaboration.studentRequest}" readonly/>
             </div>
         </div>
 
+<!--        TODO soy subnormal y no se hacer funcionar los dates-->
+<!--        <div class="form-group row">-->
+<!--            <label class="control-label col-sm-2" for="requestStartDate">Student offer:</label>-->
+<!--            <div class="col-sm-4">-->
+<!--                <p type="date" class="form-control" id="requestStartDate" th:field="${request.startDate}" readonly></p>-->
+<!--            </div>-->
+<!--        </div>-->
+
+<!--        <div class="form-group row">-->
+<!--            <label class="control-label col-sm-2" for="requestEndDate">Student offer:</label>-->
+<!--            <div class="col-sm-4">-->
+<!--                <p type="date" class="form-control" id="requestEndDate" th:field="${request.finishDate}" readonly></p>-->
+<!--            </div>-->
+<!--        </div>-->
+
         <div class="form-group row">
-            <label class="control-label col-sm-2" for="studentRequest">Student request:</label>
+            <label class="control-label col-sm-2" for="descriptionRequest">Request description:</label>
             <div class="col-sm-4">
-                <input type="text" class="form-control" id="studentRequest" th:field="*{studentRequest}" readonly/>
+                <input type="text" class="form-control" id="descriptionRequest" th:field="${request.description}" readonly/>
             </div>
         </div>
 

@@ -70,9 +70,19 @@ public class CollaborationController extends RoleController{
             return "login";
         }
 
+        Request request = requestDao.getRequest(idRequest);
+        Offer offer = offerDao.getOffer(idOffer);
+
         Collaboration collaboration = new Collaboration();
-        collaboration.setIdOffer(idOffer);
-        collaboration.setIdRequest(idRequest);
+        collaboration.setIdOffer(offer.getId());
+        collaboration.setIdRequest(request.getId());
+        Student studentOffer = studentDao.getStudent(offer.getUsername());
+        collaboration.setStudentOffer(studentOffer.getName() + " " + studentOffer.getSurname());
+        Student studentRequest = studentDao.getStudent(request.getUsername());
+        collaboration.setStudentRequest(studentRequest.getName() + " " + studentRequest.getSurname());
+
+        model.addAttribute("request", request);
+        model.addAttribute("offer", offer);
         model.addAttribute("collaboration", collaboration);
         return "collaboration/add";
     }
