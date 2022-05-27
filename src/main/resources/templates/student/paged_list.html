@@ -38,7 +38,7 @@
                 <td th:text="${student.blocked}"></td>
                 <td th:if="${session.user != null and session.user.isSkp}">
                     <a th:href="@{/student/statistics/{username}(username=${student.username})}" class="btn btn-info"
-                       role="button">See statistics</a>
+                       role="button">Student statistics</a>
                 </td>
             </tr>
             </tbody>

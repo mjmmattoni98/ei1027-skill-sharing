@@ -46,7 +46,7 @@
             <td th:if="${session.user != null and #strings.equals(session.user.username, request.username) &&
             session.user.balanceHours ge -20}">
                 <a th:href="@{/offer/list/collaborate/{id}(id=${request.id})}" class="btn btn-info"
-                   role="button">See offers to collaborate</a>
+                   role="button">View offers to collaborate</a>
             </td>
             <td th:if="${session.user != null and #strings.equals(session.user.username, request.username)}">
                 <a th:href="@{/request/cancel/{id}(id=${request.id})}" class="btn btn-danger" role="button"
