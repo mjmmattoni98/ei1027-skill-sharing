@@ -17,8 +17,6 @@
             <th><p>Name</p></th>
             <th><p>Description</p></th>
             <th><p>Level</p></th>
-            <th><p>Start date</p></th>
-            <th><p>Finish date</p></th>
             <th th:if="${session.user != null and session.user.isSkp}"></th>
             <th th:if="${session.user != null and session.user.isSkp}"></th>
             <th></th>
@@ -32,8 +30,6 @@
             <td><p th:text="${skill.name}"></p></td>
             <td><p th:text="${skill.description}"></p></td>
             <td><p th:text="${skill.level}"></p></td>
-            <td><p th:text="${skill.startDate}"></p></td>
-            <td><p th:text="${skill.finishDate}"></p></td>
             <td th:if="${session.user != null and session.user.isSkp}">
                 <a th:href="@{/skill/update/{name}(name=${skill.name})}" class="btn btn-warning"
                    role="button">Update</a>
@@ -75,8 +71,6 @@
                 <th>Name</th>
                 <th>Description</th>
                 <th>Level</th>
-                <th>Start date</th>
-                <th>Finish date</th>
                 <th></th>
                 <th></th>
                 <th></th>
@@ -90,8 +84,6 @@
                 <td th:text="${skill.name}"></td>
                 <td th:text="${skill.description}"></td>
                 <td th:text="${skill.level}"></td>
-                <td th:text="${skill.startDate}"></td>
-                <td th:text="${skill.finishDate}"></td>
                 <td th:if="${session.user != null and session.user.isSkp}">
                     <a th:href="@{/skill/update/{name}(name=${skill.name})}" class="btn btn-success"
                        role="button">Able</a>

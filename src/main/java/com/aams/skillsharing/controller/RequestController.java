@@ -72,6 +72,7 @@ public class RequestController extends RoleController{
         InternalUser user = (InternalUser) session.getAttribute("user");
 
         Request request = new Request();
+        request.setFromSkill(true);
         request.setUsername(user.getUsername());
         request.setName(name);
         model.addAttribute("request", request);
@@ -87,6 +88,7 @@ public class RequestController extends RoleController{
         InternalUser user = (InternalUser) session.getAttribute("user");
 
         Request request = new Request();
+        request.setFromSkill(false);
         request.setUsername(user.getUsername());
         model.addAttribute("request", request);
         model.addAttribute("skills", skillDao.getAvailableSkills());
@@ -94,10 +96,12 @@ public class RequestController extends RoleController{
     }
 
     @PostMapping(value = "/add")
-    public String processAddRequest(@ModelAttribute("request") Request request,
+    public String processAddRequest(@ModelAttribute("request") Request request, Model model,
                                     BindingResult bindingResult) {
         validator.validate(request, bindingResult);
         if (bindingResult.hasErrors()) {
+            if (!request.isFromSkill())
+                model.addAttribute("skills", skillDao.getAvailableSkills());
             return "request/add";
         }
         try {
@@ -107,7 +111,7 @@ public class RequestController extends RoleController{
             throw new SkillSharingException("Error accessing the database\n" + e.getMessage(),
                     "ErrorAccessingDatabase", "/");
         }
-        return "redirect:list/";
+        return "redirect:list/student/" + request.getUsername();
     }
 
     @GetMapping(value = "/update/{id}")

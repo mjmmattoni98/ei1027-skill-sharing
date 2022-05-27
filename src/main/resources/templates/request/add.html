@@ -7,18 +7,26 @@
 </head>
 <body>
 <div layout:fragment="content">
-    <h2>New request for skill <b th:text="${request.name}"></b></h2>
+    <h2 th:if="${request.fromSkill}">New request for skill <strong th:text="${request.name}"></strong></h2>
+    <h2 th:unless="${request.fromSkill}">New request</h2>
     <form class="form-horizontal" action="#" th:action="@{/request/add}"
           th:object="${request}" method="post">
+
+        <div class="form-group row" hidden>
+            <label class="control-label col-sm-2" for="fromSkill">From skill:</label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control" id="fromSkill" th:field="*{fromSkill}" readonly/>
+            </div>
+        </div>
 
         <div class="form-group row">
             <label class="control-label col-sm-2" >Skill:</label>
             <div class="col-sm-4">
-                <select  th:if="${request.name == null}" class="form-select" aria-label="Default select example" th:field="*{name}">
+                <select th:unless="*{fromSkill}" class="form-select" aria-label="Default select example" th:field="*{name}">
                     <option th:each="skill : ${skills}" th:value="${skill.name}" th:text="${skill.name} + ' (' + ${skill.level} + ')'">
                     </option>
                 </select>
-                <input th:unless="${request.name == null}" type="text" class="form-control" th:field="*{name}" readonly/>
+                <input th:if="*{fromSkill}" type="text" class="form-control" th:field="*{name}" readonly/>
             </div>
         </div>
 

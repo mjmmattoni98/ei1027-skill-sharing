@@ -115,8 +115,9 @@ public class OfferController extends RoleController{
             return "login";
         }
         InternalUser user = (InternalUser) session.getAttribute("user");
-
+        
         Offer offer = new Offer();
+        offer.setFromSkill(true);
         offer.setUsername(user.getUsername());
         offer.setName(name);
         model.addAttribute("offer", offer);
@@ -132,6 +133,7 @@ public class OfferController extends RoleController{
         InternalUser user = (InternalUser) session.getAttribute("user");
 
         Offer offer = new Offer();
+        offer.setFromSkill(false);
         offer.setUsername(user.getUsername());
         model.addAttribute("offer", offer);
         model.addAttribute("skills", skillDao.getAvailableSkills());
@@ -139,10 +141,12 @@ public class OfferController extends RoleController{
     }
 
     @PostMapping(value = "/add")
-    public String processAddOffer(@ModelAttribute("offer") Offer offer,
+    public String processAddOffer(@ModelAttribute("offer") Offer offer, Model model,
                                   BindingResult bindingResult) {
         validator.validate(offer, bindingResult);
         if (bindingResult.hasErrors()) {
+            if (!offer.isFromSkill())
+                model.addAttribute("skills", skillDao.getAvailableSkills());
             return "offer/add";
         }
         try {
@@ -152,7 +156,7 @@ public class OfferController extends RoleController{
             throw new SkillSharingException("Error accessing the database\n" + e.getMessage(),
                     "ErrorAccessingDatabase", "/");
         }
-        return "redirect:list/";
+        return "redirect:list/student/" + offer.getUsername();
     }
 
     @GetMapping(value = "/update/{id}")
