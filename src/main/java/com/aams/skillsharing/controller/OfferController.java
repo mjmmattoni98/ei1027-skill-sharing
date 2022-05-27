@@ -75,7 +75,7 @@ public class OfferController extends RoleController{
                         collaborationDao.getCollaboration(offer.getId(), request.getId()) != null);
 
 
-        model.addAttribute("request", request.getId());
+        model.addAttribute("request", request);
         model.addAttribute("offers", offers);
         return "offer/list";
     }

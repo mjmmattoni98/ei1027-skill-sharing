@@ -8,7 +8,7 @@
 <body>
 <div layout:fragment="content">
     <div th:if="${request != null}">
-        <h1>List of offers available for collaborating with the request <b th:text="${request}"></b></h1>
+        <h1>List of offers available for collaborating with the skill <b th:text="${request.name}"></b></h1>
     </div>
     <div th:if="${skill != null}">
         <h1>List of offers available for the skill <b th:text="${skill}"></b></h1>
@@ -47,7 +47,7 @@
                    role="button">Update</a>
             </td>
             <td th:if="${session.user != null and request != null && session.user.balanceHours ge -20}">
-                <a th:href="@{/collaboration/add/{idOffer}/{idRequest}(idOffer=${offer.id}, idRequest=${request})}"
+                <a th:href="@{/collaboration/add/{idOffer}/{idRequest}(idOffer=${offer.id}, idRequest=${request.id})}"
                    class="btn btn-success"
                    role="button">Apply for collaboration</a>
             </td>
@@ -60,12 +60,12 @@
         </tr>
         </tbody>
     </table>
-    <tr>
-        <td th:if="${session.user != null and request == null }">
+    <div>
+        <span th:if="${session.user != null and request == null }">
             <a th:href="@{/offer/add}" class="btn btn-success"
-               role="button">Add offer</a>
-        </td>
-    </tr>
+               role="button">Add new offer</a>
+        </span>
+    </div>
     <div class="col-sm-12 d-flex justify-content-center">
          <span>
              <button onClick="history.back()" class=" btn btn-info" >Back</button>

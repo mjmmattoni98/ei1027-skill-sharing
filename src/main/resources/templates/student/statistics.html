@@ -101,8 +101,10 @@
         </tbody>
     </table>
 
-    <a th:href="@{/student/statistics/{username}(username=${student})}" class="btn btn-danger"
-       role="button">Block student</a>
+    <a th:href="@{/student/block/{username}(username=${student})}" class="btn btn-danger"
+       th:onclick="return confirm('Are you sure you want to ban this student?');"
+       role="button">Ban student</a>
+
 </div>
 </body>
 </html>

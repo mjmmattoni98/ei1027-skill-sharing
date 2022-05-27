@@ -151,6 +151,22 @@ public class SkillController extends RoleController {
         return "redirect:list/";
     }
 
+    @RequestMapping(value = "/activate/{name}")
+    public String activateSkill(HttpSession session, Model model, @PathVariable String name) {
+        InternalUser user = checkSession(session, SKP_ROLE);
+        if (user == null){
+            model.addAttribute("user", new InternalUser());
+            return "login";
+        }
+
+        Skill skill = skillDao.getSkill(name);
+        skill.setCanceled(false);
+        skillDao.updateSkill(skill);
+        model.addAttribute("skills", skillDao.getAvailableSkills());
+        model.addAttribute("skills_disabled", skillDao.getDisabledSkills());
+        return "skill/list";
+    }
+
     public List<String> loadSkills() {
         List<String> skillLevels = new LinkedList<>();
         for(SkillLevel skillLevel : SkillLevel.values())

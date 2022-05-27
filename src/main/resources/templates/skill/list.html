@@ -42,10 +42,16 @@
             <p th:classappend="${session.user != null and session.user.isSkp} ? skp : ''" class="informacion" th:text="${skill.level}"></p>
             <p th:classappend="${session.user != null and session.user.isSkp} ? skp : ''" class="informacion" th:text="${skill.description}"></p>
             <footer class="skp">
-                <a th:href="@{/skill/add}" class="btn btn-UJI4" role="button">Add skill</a>
+                <a th:href="@{/skill/activate/{name}(name=${skill.name})}" class="btn btn-UJI4" role="button">Activate skill</a>
             </footer>
         </section>
     </article>
+    <div>
+        <span th:if="${session.user != null}">
+            <a th:href="@{/skill/add}" class="btn btn-success"
+               role="button">Add new skill</a>
+        </span>
+    </div>
 </div>
 </body>
 </html>

@@ -1,6 +1,7 @@
 package com.aams.skillsharing.controller;
 
 
+import com.aams.skillsharing.dao.StudentDao;
 import com.aams.skillsharing.dao.UserDao;
 import com.aams.skillsharing.model.InternalUser;
 import org.jasypt.util.password.BasicPasswordEncryptor;
@@ -20,10 +21,16 @@ import javax.servlet.http.HttpSession;
 @Controller
 public class InternalLoginController {
     private UserDao userDao;
+    private StudentDao studentDao;
 
     @Autowired
     public void setUserDao(UserDao userDao) {
         this.userDao = userDao;
+    }
+
+    @Autowired
+    public void setStudentDao(StudentDao studentDao) {
+        this.studentDao = studentDao;
     }
 
     private static final BasicPasswordEncryptor encryptor = new BasicPasswordEncryptor();
@@ -50,12 +57,17 @@ public class InternalLoginController {
 
         // Comprobar que el login es el correcto intentando cargar el usuario
         InternalUser regiteredUser = userDao.loadUserByUsername(user.getUsername().toLowerCase());
+
         if (regiteredUser == null) {
             bindingResult.rejectValue("username", "badname", "Invalid username");
             return "login";
         }
         if (!encryptor.checkPassword(user.getPassword(), regiteredUser.getPassword())) {
             bindingResult.rejectValue("password", "badpw", "Invalid password");
+            return "login";
+        }
+        if (studentDao.getStudent(user.getUsername()).isBlocked()) {
+            bindingResult.rejectValue("password", "blocked", "Your user has been banned");
             return "login";
         }
 
