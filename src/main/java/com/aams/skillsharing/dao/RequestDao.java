@@ -114,4 +114,18 @@ public class RequestDao {
             return new ArrayList<>();
         }
     }
+
+    public List<Request> fetchLastThreeRequests(String name) {
+        try {
+            return jdbcTemplate.query("SELECT * FROM request WHERE username = ? AND canceled = false " +
+                                            "AND (finish_date IS NULL OR finish_date >= CURRENT_DATE) " +
+                                            "ORDER BY id DESC LIMIT 3",
+                new RequestRowMapper(),
+                name
+            );
+        }
+        catch (EmptyResultDataAccessException e) {
+            return new ArrayList<>();
+        }
+    }
 }
