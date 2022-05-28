@@ -20,7 +20,7 @@
           <ul class="dropdown-menu">
             <li><a class="nav-link" th:href="@{/request/list/student/{username}(username=${session.user.username})}">My requests</a></li>
             <li><a class="nav-link" th:href="@{/offer/list/student/{username}(username=${session.user.username})}">My offers</a></li>
-            <li><a class="nav-link" href="/collaboration/list" th:href="@{/collaboration/list}">My collaborations</a></li>
+            <li><a class="nav-link" href="/collaboration/paged_list" th:href="@{/collaboration/paged_list}">My collaborations</a></li>
           </ul>
         </li>
         <li th:if="${session.user != null && session.user.skp}">

@@ -16,8 +16,8 @@
         <button type="submit" class="btn btn-UJI">Filter</button>
     </form>
     <div th:with="skills=${skills_paged[__${selected_page}__]}">
-        <h2 th:if="${#lists.isEmpty(skills)}">There are currently no skills in the platform</h2>
-        <article class="listar-tarjeta">
+        <h3 class="titulo-seccion" th:if="${#lists.isEmpty(skills)}">There are currently no skills in the platform</h3>
+        <article th:unless="${#lists.isEmpty(skills)}" class="listar-tarjeta">
             <section class="tarjeta" id="listar-enabled"
                      th:each="skill: ${#lists.sort(skills.?[canceled == false])}">
                 <header>

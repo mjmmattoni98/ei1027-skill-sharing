@@ -15,7 +15,7 @@
         <button type="submit" class="btn btn-UJI">Filter</button>
     </form>
     <div th:with="students=${students_paged[__${selected_page}__]}">
-        <h2 th:if="${#lists.isEmpty(students)}">There are currently no students in the platform</h2>
+        <h3  class="titulo-seccion" th:if="${#lists.isEmpty(students)}">There are currently no students in the platform</h3>
         <article th:unless="${#lists.isEmpty(students)}" class="listar-tarjeta">
             <section class="tarjeta" th:id="${student.blocked} ? listar-blocked : listar-enabled"
                      th:each="student: ${#lists.sort(students)}">
