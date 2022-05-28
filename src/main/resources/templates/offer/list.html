@@ -18,7 +18,7 @@
                 </a>
             </header>
             <p th:classappend="${session.user != null and #strings.equals(session.user.username, offer.username)} ? skp : ''" class="informacion" th:text="${offer.description}"></p>
-            <footer class="unafuncion">
+            <footer th:if="${session.user != null and !#strings.equals(session.user.username, offer.username)}" class="unafuncion">
                 <a th:href="@{/collaboration/add/{idOffer}/{idRequest}(idOffer=${offer.id}, idRequest=${request})}"  class="btn btn-UJI2" role="button">Apply for collaboration</a>
             </footer>
         </section>

@@ -247,7 +247,16 @@ html, body{
     border-radius: 10px;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: space-evenly;
+}
+
+.listar-tarjeta .tarjeta.sin-boton{
+    width: calc(25% - 40px);
+    margin: 20px;
+    padding: 0px 10px 20px 10px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
 }
 
 .listar-tarjeta .tarjeta header{
