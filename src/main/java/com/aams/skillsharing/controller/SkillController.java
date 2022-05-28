@@ -2,6 +2,7 @@ package com.aams.skillsharing.controller;
 
 import com.aams.skillsharing.dao.*;
 import com.aams.skillsharing.model.*;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Controller;
@@ -11,8 +12,9 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.time.LocalDate;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Controller
 @RequestMapping("/skill")
@@ -49,11 +51,61 @@ public class SkillController extends RoleController {
         this.studentDao = studentDao;
     }
 
-    @RequestMapping("/list")
+/*    @RequestMapping("/list")
     public String listSkills(Model model) {
         model.addAttribute("skills", skillDao.getAvailableSkills());
         model.addAttribute("skills_disabled", skillDao.getDisabledSkills());
         return "skill/list";
+    }
+*/
+
+    @RequestMapping("/paged_list")
+    public String listSkillsPaged(Model model, @RequestParam("page") Optional<Integer> page) {
+        model.addAttribute("skill_filter", new SkillFilter());
+        return getSkillsPaged(model, page.orElse(0),"");
+    }
+
+    @PostMapping("/paged_list/name")
+    public String listSkillsPagedByName(Model model, @ModelAttribute("skill_filter") SkillFilter skillFilter,
+                                        @RequestParam("page") Optional<Integer> page) {
+        model.addAttribute("skill_filter", skillFilter);
+        return getSkillsPaged(model, page.orElse(0), skillFilter.getName());
+    }
+
+    @NotNull
+    private String getSkillsPaged(Model model, int page, String name) {
+        List<Skill> skills;
+        model.addAttribute("name", name);
+        if (name.equals("")) {
+            skills = skillDao.getSkills();
+        } else {
+            skills = skillDao.getSkillsByName(name);
+        }
+        Collections.sort(skills);
+
+        List<List<Skill>> skillsPaged = new ArrayList<>();
+        int start = 0;
+        int pageLength = 8;
+        int end = pageLength;
+        while (end < skills.size()) {
+            skillsPaged.add(new ArrayList<>(skills.subList(start, end)));
+            start += pageLength;
+            end += pageLength;
+        }
+        skillsPaged.add(new ArrayList<>(skills.subList(start, skills.size())));
+        model.addAttribute("skills_paged", skillsPaged);
+
+        int totalPages = skillsPaged.size();
+        if (totalPages > 0) {
+            List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
+                    .boxed()
+                    .collect(Collectors.toList());
+            model.addAttribute("page_numbers", pageNumbers);
+        }
+
+        model.addAttribute("selected_page", page);
+
+        return "skill/paged_list";
     }
 
     @RequestMapping(value = "/add")

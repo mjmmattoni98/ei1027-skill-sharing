@@ -71,6 +71,17 @@ public class SkillDao {
         }
     }
 
+    public List<Skill> getSkillsByName(String name){
+        try {
+            return jdbcTemplate.query("SELECT * FROM skill WHERE LOWER(name) LIKE ?",
+                    new SkillRowMapper(),
+                    "%" + name.toLowerCase() + "%"
+            );
+        } catch (EmptyResultDataAccessException e) {
+            return new ArrayList<>();
+        }
+    }
+
     public List<Skill> getAvailableSkills () {
         try {
             return jdbcTemplate.query("select * from skill WHERE canceled = false",
@@ -85,6 +96,28 @@ public class SkillDao {
         try {
             return jdbcTemplate.query("select * from skill WHERE canceled = true",
                     new SkillRowMapper()
+            );
+        } catch (EmptyResultDataAccessException e) {
+            return new ArrayList<>();
+        }
+    }
+
+    public List<Skill> getAvailableSkillsByName (String name) {
+        try {
+            return jdbcTemplate.query("select * from skill WHERE canceled = false AND LOWER(name) LIKE ?",
+                    new SkillRowMapper(),
+                    "%" + name.toLowerCase() + "%"
+            );
+        } catch (EmptyResultDataAccessException e) {
+            return new ArrayList<>();
+        }
+    }
+
+    public List<Skill> getDisabledSkillsByName (String name) {
+        try {
+            return jdbcTemplate.query("select * from skill WHERE canceled = true AND LOWER(name) LIKE ?",
+                    new SkillRowMapper(),
+                    "%" + name.toLowerCase() + "%"
             );
         } catch (EmptyResultDataAccessException e) {
             return new ArrayList<>();
