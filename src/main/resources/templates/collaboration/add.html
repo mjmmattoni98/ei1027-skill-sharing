@@ -18,9 +18,6 @@
     <form class="form-horizontal" action="#" th:action="@{/collaboration/add}"
           th:object="${collaboration}" method="post">
 
-<!--        TODO falta mejorar la info que se le presenta al usuario en la colaboracion-->
-
-
         <input type="text" class="form-control" id="idOffer" th:field="${collaboration.idOffer}" hidden/>
         <input type="text" class="form-control" id="idRequest" th:field="${collaboration.idRequest}" hidden/>
 
@@ -47,14 +44,14 @@
 
 <!--        TODO soy subnormal y no se hacer funcionar los dates-->
 <!--        <div class="form-group row">-->
-<!--            <label class="control-label col-sm-2" for="requestStartDate">Student offer:</label>-->
+<!--            <label class="control-label col-sm-2" for="requestStartDate">Start date:</label>-->
 <!--            <div class="col-sm-4">-->
 <!--                <p type="date" class="form-control" id="requestStartDate" th:field="${request.startDate}" readonly></p>-->
 <!--            </div>-->
 <!--        </div>-->
 
 <!--        <div class="form-group row">-->
-<!--            <label class="control-label col-sm-2" for="requestEndDate">Student offer:</label>-->
+<!--            <label class="control-label col-sm-2" for="requestEndDate">Finish date:</label>-->
 <!--            <div class="col-sm-4">-->
 <!--                <p type="date" class="form-control" id="requestEndDate" th:field="${request.finishDate}" readonly></p>-->
 <!--            </div>-->

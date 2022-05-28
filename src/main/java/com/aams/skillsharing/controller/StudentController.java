@@ -67,7 +67,7 @@ public class StudentController extends RoleController {
         }
 
         model.addAttribute("student_filter", new StudentFilter());
-        return getStudentsPaged(model, page, "");
+        return getStudentsPaged(model, page.orElse(0), "", user.getUsername());
     }
 
     @PostMapping("/paged_list/name")
@@ -80,11 +80,11 @@ public class StudentController extends RoleController {
         }
 
         model.addAttribute("student_filter", studentFilter);
-        return getStudentsPaged(model, page, studentFilter.getName());
+        return getStudentsPaged(model, page.orElse(0), studentFilter.getName(), user.getUsername());
     }
 
     @NotNull
-    private String getStudentsPaged(Model model, Optional<Integer> page, String name) {
+    private String getStudentsPaged(Model model, int page, String name, String username) {
         List<Student> students;
         model.addAttribute("name", name);
         if (name.equals("")) {
@@ -92,30 +92,30 @@ public class StudentController extends RoleController {
         } else {
             students = studentDao.getStudentsByName(name);
         }
+        students.removeIf(student -> student.getUsername().equals(username));
         Collections.sort(students);
 
         List<List<Student>> studentsPaged = new ArrayList<>();
         int start = 0;
-        int pageLength = 10;
-        int end = pageLength - 1;
+        int pageLength = 8;
+        int end = pageLength;
         while (end < students.size()) {
             studentsPaged.add(new ArrayList<>(students.subList(start, end)));
             start += pageLength;
             end += pageLength;
         }
         studentsPaged.add(new ArrayList<>(students.subList(start, students.size())));
-        model.addAttribute("studentsPaged", studentsPaged);
+        model.addAttribute("students_paged", studentsPaged);
 
         int totalPages = studentsPaged.size();
         if (totalPages > 0) {
             List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
                     .boxed()
                     .collect(Collectors.toList());
-            model.addAttribute("pageNumbers", pageNumbers);
+            model.addAttribute("page_numbers", pageNumbers);
         }
 
-        int currentPage = page.orElse(0);
-        model.addAttribute("selectedPage", currentPage);
+        model.addAttribute("selected_page", page);
         return "student/paged_list";
     }
 

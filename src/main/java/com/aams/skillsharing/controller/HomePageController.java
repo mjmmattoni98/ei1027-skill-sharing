@@ -44,10 +44,22 @@ public class HomePageController extends RoleController{
         }
         InternalUser user = (InternalUser) session.getAttribute("user");
         String username = user.getUsername();
+
+        /*
+        System.out.println("REQUEEESTSSS" + requestDao.fetchLastThreeRequests(username)); --> 14, 11, 10 para skp
+        System.out.println("OFFERRSSS" + offerDao.fetchLastThreeOffers(username)); --> 17, 6, 4 para skp
+        System.out.println("COLLAAAABBBSSS" + collaborationDao.fetchLastThreeCollabs(username)); --> (3,2), (4,6), (4,3) para skp
+        */
 //        System.out.println("quack");
+
+/*
         model.addAttribute("collaborations", collaborationDao.getCollaborationsStudent(username));
         model.addAttribute("offers", offerDao.getOffersStudent(username));
         model.addAttribute("requests", requestDao.getRequestsStudent(username));
+*/
+        model.addAttribute("collaborations", collaborationDao.fetchLastThreeCollabs(username));
+        model.addAttribute("offers", offerDao.fetchLastThreeOffers(username));
+        model.addAttribute("requests", requestDao.fetchLastThreeRequests(username));
         model.addAttribute("student", username);
         return "homePage/list";
     }

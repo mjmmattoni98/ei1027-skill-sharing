@@ -125,4 +125,19 @@ public class OfferDao {
             return new ArrayList<>();
         }
     }
+
+    public List<Offer> fetchLastThreeOffers(String name) {
+        try {
+            return jdbcTemplate.query("SELECT * FROM offer WHERE username = ? AND canceled = false " +
+                                            "AND (finish_date IS NULL OR finish_date >= CURRENT_DATE) " +
+                                            "ORDER BY id DESC LIMIT 3",
+                new OfferRowMapper(),
+                name
+            );
+        }
+        catch (EmptyResultDataAccessException e) {
+            return new ArrayList<>();
+        }
+    }
+
 }
