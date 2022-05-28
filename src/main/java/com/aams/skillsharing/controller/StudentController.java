@@ -66,7 +66,6 @@ public class StudentController extends RoleController {
             return "login";
         }
 
-//        System.out.println("listStudentsPaged");
         model.addAttribute("student_filter", new StudentFilter());
         return getStudentsPaged(model, page, "");
     }
@@ -80,14 +79,12 @@ public class StudentController extends RoleController {
             return "login";
         }
 
-//        System.out.println("listStudentsPagedByName");
         model.addAttribute("student_filter", studentFilter);
         return getStudentsPaged(model, page, studentFilter.getName());
     }
 
     @NotNull
     private String getStudentsPaged(Model model, Optional<Integer> page, String name) {
-//        System.out.println("name: " + name);
         List<Student> students;
         model.addAttribute("name", name);
         if (name.equals("")) {
@@ -102,7 +99,6 @@ public class StudentController extends RoleController {
         int pageLength = 10;
         int end = pageLength - 1;
         while (end < students.size()) {
-//            System.out.println(new ArrayList<>(students.subList(start, end)));
             studentsPaged.add(new ArrayList<>(students.subList(start, end)));
             start += pageLength;
             end += pageLength;
@@ -123,7 +119,7 @@ public class StudentController extends RoleController {
         return "student/paged_list";
     }
 
-    @RequestMapping("/list")
+/*    @RequestMapping("/list")
     public String listStudents(HttpSession session, Model model) {
         InternalUser user = checkSession(session, SKP_ROLE);
         if (user == null) {
@@ -134,7 +130,7 @@ public class StudentController extends RoleController {
         model.addAttribute("students", studentDao.getStudents());
         return "student/list";
     }
-
+*/
     @RequestMapping("/profile")
     public String studentProfile(HttpSession session, Model model) {
         if (session.getAttribute("user") == null) {

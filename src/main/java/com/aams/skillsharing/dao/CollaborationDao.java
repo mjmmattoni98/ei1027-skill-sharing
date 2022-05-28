@@ -58,7 +58,7 @@ public class CollaborationDao {
     public Collaboration getCollaboration(int idOffer, int idRequest) {
         try {
             return jdbcTemplate.queryForObject("SELECT id_offer, id_request, hours, assessment, state, " +
-                            "o.username as student_offer, r.username as student_request " +
+                            "o.username as student_offer, r.username as student_request, o.name as skill " +
                             "FROM collaboration JOIN offer o ON collaboration.id_offer = o.id " +
                             "JOIN request r ON collaboration.id_request = r.id " +
                             "WHERE id_offer = ? AND id_request = ?",
@@ -74,7 +74,7 @@ public class CollaborationDao {
     public List<Collaboration> getCollaborations(){
         try {
             return jdbcTemplate.query("SELECT id_offer, id_request, hours, assessment, state, o.username as student_offer, " +
-                            "r.username as student_request FROM collaboration JOIN offer o ON collaboration.id_offer = o.id " +
+                            "r.username as student_request, o.name as skill FROM collaboration JOIN offer o ON collaboration.id_offer = o.id " +
                             "JOIN request r ON collaboration.id_request = r.id",
                     new CollaborationRowMapper()
             );
@@ -86,7 +86,7 @@ public class CollaborationDao {
     public List<Collaboration> getCollaborationsStudent(String username){
         try {
             return jdbcTemplate.query("SELECT id_offer, id_request, hours, assessment, state, o.username as student_offer, " +
-                            "r.username as student_request FROM collaboration JOIN offer o ON collaboration.id_offer = o.id " +
+                            "r.username as student_request, o.name as skill FROM collaboration JOIN offer o ON collaboration.id_offer = o.id " +
                             "JOIN request r ON collaboration.id_request = r.id WHERE " +
                             "id_request IN (SELECT id FROM request WHERE username = ?) " +
                             "OR id_offer IN (SELECT id FROM offer WHERE username = ?)",

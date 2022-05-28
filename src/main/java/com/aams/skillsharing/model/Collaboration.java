@@ -11,6 +11,7 @@ public class Collaboration {
     private int hours = 0;
     private int assessment = 1;
     private CollaborationState state = CollaborationState.ACTIVE;
+    private String skill;
 
     public void setState(String state) {
         this.state = CollaborationState.fromId(state);
