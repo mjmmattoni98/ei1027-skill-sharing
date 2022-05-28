@@ -7,6 +7,10 @@
 </head>
 <body>
 <div layout:fragment="content">
+    <h1 class="titulo-seccion" th:if="${skill != null}" th:text="'Request of ' + ${skill}"></h1>
+    <h1 class="titulo-seccion" th:if="${student != null}">My Requests</h1>
+    <h1 class="titulo-seccion" th:if="${skill == null and student == null}">Requests</h1>
+    <h3 class="titulo-seccion" th:if="${#lists.isEmpty(requests)}">No requests available</h3>
     <article class="listar-tarjeta">
         <section class="tarjeta" id="listar-enabled" th:each="request: ${requests}">
             <header>
@@ -18,6 +22,7 @@
                 </a>
             </header>
             <p th:classappend="${session.user != null and #strings.equals(session.user.username, request.username)} ? skp : ''" class="informacion" th:text="${request.description}"></p>
+            <p th:classappend="${session.user != null and #strings.equals(session.user.username, request.username)} ? skp : ''" class="informacion" th:text="${request.username}"></p>
             <footer th:if="${session.user != null and !#strings.equals(session.user.username, request.username)}" class="unafuncion">
                 <a th:href="@{/offer/list/collaborate/{id}(id=${request.id})}" class="btn btn-UJI2" role="button">Apply for collaboration</a>
             </footer>

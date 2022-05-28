@@ -236,6 +236,29 @@ public class StudentController extends RoleController {
         email.setSender("skill.sharing@gmail.com");
         emailDao.addEmail(email);
 
-        return "redirect:../list/";
+        return "redirect:../paged_list/";
+    }
+
+    @RequestMapping(value = "/unblock/{username}")
+    public String processUnblockStudent(HttpSession session, Model model, @PathVariable String username) {
+        InternalUser user = checkSession(session, SKP_ROLE);
+        if (user == null) {
+            model.addAttribute("user", new InternalUser());
+            return "login";
+        }
+
+        Student student = studentDao.getStudent(username);
+        student.setBlocked(false);
+        studentDao.updateStudent(student);
+
+        Email email = new Email();
+        email.setReceiver(student.getEmail());
+        email.setSubject("Block account");
+        email.setBody("Your account has been blocked by the administrator");
+        email.setSendDate(LocalDate.now());
+        email.setSender("skill.sharing@gmail.com");
+        emailDao.addEmail(email);
+
+        return "redirect:../paged_list/";
     }
 }

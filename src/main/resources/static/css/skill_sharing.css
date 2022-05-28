@@ -126,6 +126,23 @@ html, body{
     box-shadow: 0 0 0 0.25rem #21644580;
 }
 
+.btn-UJI5{
+    font-weight: bolder;
+    color: #fff;
+    background-color: #b73737;
+    border-color: #b73737;
+}
+
+.btn-UJI5:active, .btn-UJI5:focus, .btn-UJI5:hover{
+    color: #fff;
+    background-color: #9b2c2c;
+    border-color: #9b2c2c;
+}
+
+.btn-UJI5:focus{
+    box-shadow: 0 0 0 0.25rem #fd0d0d40 ;
+}
+
 /*  NavBar UJI*/
 
 .navbar-UJI .navbar-nav .nav-link{
@@ -185,6 +202,33 @@ html, body{
 .navbar .perfil li {
     display: flex;
     justify-content: center;
+}
+
+/* form filtro */
+
+.form-filtro{
+    display: flex;
+    align-items: center;
+    width: 700px;
+    margin-inline: 25px;
+}
+
+.form-filtro label {
+    min-width: max-content;
+}
+
+.form-filtro input {
+    margin-inline: 10px;
+}
+
+/* nav-pag */
+.nav-pag{
+    display: flex;
+    justify-content: center;
+}
+
+.nav-pag ul{
+    margin: 0;
 }
 
 /* LOGIN */
@@ -328,6 +372,12 @@ html, body{
 .listar-tarjeta #listar-disabled{
     color: black;
     background-color: #96a6b2;
+    box-shadow: 2px 2px 20px 4px #00274466;
+}
+
+.listar-tarjeta #listar-blocked{
+    color: white;
+    background-color: #890000;
     box-shadow: 2px 2px 20px 4px #00274466;
 }
 

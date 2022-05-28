@@ -7,44 +7,38 @@
 </head>
 <body>
 <div layout:fragment="content">
-    <h1>List of skills available in the platform</h1>
-    <form class="form-horizontal" action="#" th:action="@{/student/paged_list/name?page={select}(select=${selectedPage})}"
-          th:object="${student_filter}" method="post">
+    <h1 class="titulo-seccion">Students</h1>
+    <form class="form-filtro" action="#" th:action="@{/student/paged_list/name?page={select}(select=${selectedPage})}" th:object="${student_filter}" method="post">
         <label for="name">Filter by name:</label>
         <input id="name" type="text" name="name" th:field="*{name}" class="form-control"/>
-        <button type="submit" class="btn">Filter</button>
+        <button type="submit" class="btn btn-UJI">Filter</button>
     </form>
     <div th:with="students=${studentsPaged[__${selectedPage}__]}">
-        <div th:if="${#lists.isEmpty(students)}">
-            <h2>There are currently no students in the platform</h2>
-        </div>
-        <table class="table table-striped" th:unless="${#lists.isEmpty(students)}">
-            <thead>
-            <tr>
-                <th>Name</th>
-                <th>Surname</th>
-                <th>Email</th>
-                <th>Username</th>
-                <th>Blocked</th>
-                <th></th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="student: ${#lists.sort(students)}">
-                <td th:text="${student.name}"></td>
-                <td th:text="${student.surname}"></td>
-                <td th:text="${student.email}"></td>
-                <td th:text="${student.username}"></td>
-                <td th:text="${student.blocked}"></td>
-                <td th:if="${session.user != null and session.user.isSkp}">
-                    <a th:href="@{/student/statistics/{username}(username=${student.username})}" class="btn btn-info"
-                       role="button">Student statistics</a>
-                </td>
-            </tr>
-            </tbody>
-        </table>
+        <h2 th:if="${#lists.isEmpty(students)}">There are currently no students in the platform</h2>
+        <article th:unless="${#lists.isEmpty(students)}" class="listar-tarjeta">
+        <section class="tarjeta" th:id="${student.blocked} ? listar-blocked : listar-enabled" th:each="student: ${#lists.sort(students)}">
+            <header>
+                <h3 th:text="${student.name} + ' ' + ${student.surname}"></h3>
+                <a th:if="${session.user != null and session.user.isSkp and student.blocked}" th:href="@{/student/unblock/{username}(username=${student.username})}" role="button">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-nut-fill" viewBox="0 0 16 16" >
+                        <path d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2zm3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"/>
+                    </svg>
+                </a>
+                <a th:if="${session.user != null and session.user.isSkp and !student.blocked}" th:href="@{/student/block/{username}(username=${student.username})}" role="button">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-nut-fill" viewBox="0 0 16 16" >
+                        <path d="M11 1a2 2 0 0 0-2 2v4a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h5V3a3 3 0 0 1 6 0v4a.5.5 0 0 1-1 0V3a2 2 0 0 0-2-2z"/>
+                    </svg>
+                </a>
+            </header>
+            <p class="informacion" th:text="${student.email}"></p>
+            <p class="informacion" th:text="${student.username}"></p>
+            <footer class="unafuncion">
+                <a th:href="@{/student/statistics/{username}(username=${student.username})}"  th:classappend="${student.blocked} ? btn-UJI5 : btn-UJI3" class="btn" role="button">Stadistics</a>
+            </footer>
+        </section>
+    </article>
     </div>
-    <nav aria-label="Selection of student's page">
+    <nav class="nav-pag" aria-label="Selection of student's page">
         <ul class="pagination">
             <li th:class="page-item"
                 th:classappend="${selectedPage == 0} ? disabled">
@@ -67,11 +61,6 @@
                    class="page-link">
                     <span aria-hidden="true">&raquo;</span>
                 </a>
-            </li>
-            <li class="col-sm-12 d-flex justify-content-center">
-                 <span>
-                     <button onClick="history.back()" class=" btn btn-info" >Back</button>
-                 </span>
             </li>
         </ul>
     </nav>
