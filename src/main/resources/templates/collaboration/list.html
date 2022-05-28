@@ -9,7 +9,6 @@
 <div layout:fragment="content">
     <h1 class="titulo-seccion">My Collaborations</h1>
     <h3 class="titulo-seccion" th:if="${#lists.isEmpty(collaborations)}">You don't have collaborations</h3>
-    </div>
     <article class="listar-tarjeta">
         <section class="tarjeta" th:id="${#strings.equals(collaboration.state, 'active')} ? listar-enabled : listar-disabled" th:each="collaboration: ${collaborations}">
             <header>
