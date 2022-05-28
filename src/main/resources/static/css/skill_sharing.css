@@ -244,7 +244,10 @@ html, body{
     width: calc(25% - 40px);
     margin: 20px;
     padding: 0px 10px 20px 10px;
-    border-radius: 10px
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 .listar-tarjeta .tarjeta header{
@@ -287,7 +290,12 @@ html, body{
     flex-wrap: wrap;
 }
 
-.listar-tarjeta .tarjeta footer.skp{
+.listar-tarjeta .tarjeta footer.unafuncion{
+    display: flex;
+    flex-direction: column;
+}
+
+.listar-tarjeta .tarjeta footer.client{
     flex-direction: column;
 }
 
@@ -296,7 +304,7 @@ html, body{
     margin: 10px;
 }
 
-.listar-tarjeta .tarjeta footer.skp a{
+.listar-tarjeta .tarjeta footer.unafuncion a{
     width: auto !important;
 }
 

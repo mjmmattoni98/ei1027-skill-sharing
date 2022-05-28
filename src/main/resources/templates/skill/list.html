@@ -7,6 +7,7 @@
 </head>
 <body>
 <div layout:fragment="content">
+
     <h1 class="titulo-seccion">Skills</h1>
     <article class="listar-tarjeta">
         <section class="tarjeta" id="listar-enabled" th:each="skill: ${#lists.sort(skills)}">
@@ -41,7 +42,7 @@
             </header>
             <p th:classappend="${session.user != null and session.user.isSkp} ? skp : ''" class="informacion" th:text="${skill.level}"></p>
             <p th:classappend="${session.user != null and session.user.isSkp} ? skp : ''" class="informacion" th:text="${skill.description}"></p>
-            <footer class="skp">
+            <footer class="unafuncion">
                 <a th:href="@{/skill/activate/{name}(name=${skill.name})}" class="btn btn-UJI4" role="button">Activate skill</a>
             </footer>
         </section>
