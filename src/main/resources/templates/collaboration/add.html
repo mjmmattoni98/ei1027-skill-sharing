@@ -15,63 +15,51 @@
         </a>
         <h2>New collaboration</h2>
     </div>
-    <form class="form-horizontal" action="#" th:action="@{/collaboration/add}"
-          th:object="${collaboration}" method="post">
+    <form class="formulario form-horizontal" action="#" th:action="@{/collaboration/add}" th:object="${collaboration}" method="post">
 
-        <input type="text" class="form-control" id="idOffer" th:field="${collaboration.idOffer}" hidden/>
-        <input type="text" class="form-control" id="idRequest" th:field="${collaboration.idRequest}" hidden/>
+        <section class="input-group input-group-sm mb-3" hidden>
+            <span class="input-group-text">idOffer:</span>
+            <input type="text" class="form-control" id="idOffer" th:field="${collaboration.idOffer}"/>
+        </section>
 
-        <div class="form-group row">
-            <label class="control-label col-sm-2" for="skill">Requested skill:</label>
-            <div class="col-sm-4">
-                <input type="text" class="form-control" id="skill" th:field="${request.name}" readonly/>
-            </div>
-        </div>
+        <section class="input-group input-group-sm mb-3" hidden>
+            <span class="input-group-text">idRequest:</span>
+            <input type="text" class="form-control" id="idRequest" th:field="${collaboration.idRequest}"/>
+        </section>
 
-        <div class="form-group row">
-            <label class="control-label col-sm-2" for="studentOffer">Offerer student:</label>
-            <div class="col-sm-4">
-                <input type="text" class="form-control" id="studentOffer" th:field="${collaboration.studentOffer}" readonly/>
-            </div>
-        </div>
+        <section class="input-group input-group-sm mb-3">
+            <span class="input-group-text">Skill:</span>
+            <input type="text" class="form-control" id="skill" th:field="${request.name}" readonly/>
+        </section>
 
-        <div class="form-group row">
-            <label class="control-label col-sm-2" for="studentRequest">Requesting student:</label>
-            <div class="col-sm-4">
-                <input type="text" class="form-control" id="studentRequest" th:field="${collaboration.studentRequest}" readonly/>
-            </div>
-        </div>
+        <section class="input-group input-group-sm mb-3">
+            <span class="input-group-text">Name:</span>
+            <input type="text" class="form-control" id="studentOffer" th:field="${collaboration.studentOffer}" readonly/>
+        </section>
 
-<!--        TODO soy subnormal y no se hacer funcionar los dates-->
-<!--        <div class="form-group row">-->
-<!--            <label class="control-label col-sm-2" for="requestStartDate">Start date:</label>-->
-<!--            <div class="col-sm-4">-->
-<!--                <p type="date" class="form-control" id="requestStartDate" th:field="${request.startDate}" readonly></p>-->
-<!--            </div>-->
-<!--        </div>-->
+        <section class="input-group input-group-sm mb-3" hidden>
+            <span class="input-group-text">Requesting student:</span>
+            <input type="text" class="form-control" id="studentRequest" th:field="${collaboration.studentRequest}" readonly/>
+        </section>
 
-<!--        <div class="form-group row">-->
-<!--            <label class="control-label col-sm-2" for="requestEndDate">Finish date:</label>-->
-<!--            <div class="col-sm-4">-->
-<!--                <p type="date" class="form-control" id="requestEndDate" th:field="${request.finishDate}" readonly></p>-->
-<!--            </div>-->
-<!--        </div>-->
+        <section class="input-group input-group-sm mb-3">
+            <span class="input-group-text">Description:</span>
+            <input type="text" class="form-control" id="descriptionRequest" th:field="${request.description}" readonly/>
+        </section>
 
-        <div class="form-group row">
-            <label class="control-label col-sm-2" for="descriptionRequest">Request description:</label>
-            <div class="col-sm-4">
-                <input type="text" class="form-control" id="descriptionRequest" th:field="${request.description}" readonly/>
-            </div>
-        </div>
+        <section class="input-group input-group-sm mb-3">
+            <span class="input-group-text">Start date:</span>
+            <input type="date" class="form-control" id="startDate" th:field="${request.startDate}" readonly/>
+        </section>
 
-        <div class="form-group row">
-            <div class="col-sm-offset-2 col-sm-4">
-                <button type="submit" class="btn btn-primary">Create collaboration</button>
-                <span>
-                     <button onClick="history.back()" class=" btn btn-info" >Back</button>
-                 </span>
-            </div>
-        </div>
+        <section class="input-group input-group-sm mb-3">
+            <span class="input-group-text">Finish date:</span>
+            <input type="date" class="form-control" id="finishDate" th:field="${request.finishDate}" readonly/>
+        </section>
+
+        <section class="section-btn-login">
+            <button type="submit" class="btn btn-UJI">Create collaboration</button>
+        </section>
     </form>
 </div>
 </body>
