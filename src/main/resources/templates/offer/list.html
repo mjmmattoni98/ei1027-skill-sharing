@@ -26,6 +26,7 @@
     <h1 class="titulo-seccion" th:if="${student != null}">My Offers</h1>
     <h1 class="titulo-seccion" th:if="${skill == null and student == null and request == null}">Offers</h1>
     <h3 class="titulo-seccion" th:if="${#lists.isEmpty(offers)}">No offers available</h3>
+    <a th:href="@{/offer/add}" class="btn btn-UJI2" role="button" style="margin-left:40px;">Add new offer</a>
     <article class="listar-tarjeta">
         <section class="tarjeta" id="listar-enabled" th:each="offer: ${offers}">
             <header>
