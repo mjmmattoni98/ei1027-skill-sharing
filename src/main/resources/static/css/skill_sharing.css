@@ -78,13 +78,13 @@ html, body{
 
 .btn-UJI{
     font-weight: bolder;
-    color: #fff;
+    color: #fff !important;
     background-color: #3C688B;
     border-color: #3C688B;
 }
 
 .btn-UJI:active, .btn-UJI:focus, .btn-UJI:hover{
-    color: #fff;
+    color: #fff !important;
     background-color: #002744;
     border-color: #002744;
 }
