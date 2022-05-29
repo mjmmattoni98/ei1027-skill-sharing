@@ -257,7 +257,7 @@ public class OfferController extends RoleController{
             if (username.equals("")) {
                 offers = offerDao.getOffersSkill(request.getName());
             } else {
-                offers = offerDao.getOffersSkillByUsername(skill, request.getName());
+                offers = offerDao.getOffersSkillByUsername(request.getName(), username);
             }
             // Remove my offers and the offers that are already collaborating with the request
             offers.removeIf(offer -> offer.getUsername().equals(request.getUsername()) ||
