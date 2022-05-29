@@ -123,4 +123,19 @@ public class SkillDao {
             return new ArrayList<>();
         }
     }
+
+    public List<Skill> getSkillsOfUsernames (String username) {
+        try {
+            return jdbcTemplate.query("SELECT s.* FROM skill AS s " +
+                                        "JOIN request AS r ON s.name = r.name " +
+                                        "JOIN offer AS o ON s.name = o.name " +
+                                        " WHERE (r.username = ? OR o.username = ?)",
+                    new SkillRowMapper(),
+                    username,
+                    username);
+        }
+        catch (EmptyResultDataAccessException e) {
+            return new ArrayList<>();
+        }
+    }
 }
