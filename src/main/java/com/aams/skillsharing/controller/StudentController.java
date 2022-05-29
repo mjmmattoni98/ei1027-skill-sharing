@@ -75,7 +75,19 @@ public class StudentController extends RoleController {
     }
 
     @PostMapping("/paged_list/name")
-    public String listStudentsPagedByName(HttpSession session, Model model, @ModelAttribute("student_filter") StudentFilter studentFilter,
+    public String getListStudentsPagedByName(HttpSession session, Model model, @ModelAttribute("student_filter") StudentFilter studentFilter) {
+        InternalUser user = checkSession(session, SKP_ROLE);
+        if (user == null) {
+            model.addAttribute("user", new InternalUser());
+            return "login";
+        }
+
+        model.addAttribute("student_filter", studentFilter);
+        return getStudentsPaged(model, 0, studentFilter.getName(), user.getUsername());
+    }
+
+    @GetMapping("/paged_list/name")
+    public String postListStudentsPagedByName(HttpSession session, Model model, @RequestParam("name") Optional<String> name,
                                           @RequestParam("page") Optional<Integer> page) {
         InternalUser user = checkSession(session, SKP_ROLE);
         if (user == null) {
@@ -83,6 +95,8 @@ public class StudentController extends RoleController {
             return "login";
         }
 
+        StudentFilter studentFilter = new StudentFilter();
+        studentFilter.setName(name.orElse(""));
         model.addAttribute("student_filter", studentFilter);
         return getStudentsPaged(model, page.orElse(0), studentFilter.getName(), user.getUsername());
     }
