@@ -200,6 +200,9 @@ public class StudentController extends RoleController {
     @PostMapping(value = "/add")
     public String processAddStudent(@ModelAttribute("student") Student student, BindingResult bindingResult) {
 
+        if (!studentDao.getStudentsByUsername(student.getUsername()).isEmpty())
+            bindingResult.rejectValue("username", "duplicated", "This username already exists. Please log in.");
+
         validator.validate(student, bindingResult);
         if (bindingResult.hasErrors()) return "student/add";
 
@@ -213,6 +216,7 @@ public class StudentController extends RoleController {
             throw new SkillSharingException("Error accessing the database\n" + e.getMessage(),
                     "ErrorAccessingDatabase", "/");
         }
+
         return "redirect:/student/profile";
     }
 

@@ -146,6 +146,6 @@ public class EmailController extends RoleController{
                     "AccesDenied", "../" + user.getUrlMainPage());
 
         emailDao.deleteEmail(id);
-        return "redirect:../list/";
+        return "redirect:../paged_list/";
     }
 }

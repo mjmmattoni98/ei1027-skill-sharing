@@ -60,11 +60,13 @@
       <span class="input-group-text">Number:</span>
       <input type="number" class="form-control" th:classappend="${#fields.hasErrors('number')} ? needcorrection" min="1" th:min="1" id="number" th:field="*{number}" required/>
     </section>
+    <p class="error" th:if="${#fields.hasErrors('number')}" th:errors="*{email}"></p>
 
     <section class="input-group input-group-sm mb-3">
       <span class="input-group-text">Postal code:</span>
       <input type="number" class="form-control" th:classappend="${#fields.hasErrors('number')} ? needcorrection" min="1" th:min="1" id="pc" th:field="*{pc}" required/>
     </section>
+    <p class="error" th:if="${#fields.hasErrors('pc')}" th:errors="*{pc}"></p>
 
     <section class="input-group input-group-sm mb-3">
       <span class="input-group-text">Locality:</span>

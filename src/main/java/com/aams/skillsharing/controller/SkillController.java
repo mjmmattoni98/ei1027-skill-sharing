@@ -139,12 +139,12 @@ public class SkillController extends RoleController {
     @PostMapping(value = "/add")
     public String processAddSkill(@ModelAttribute("skill") Skill skill, Model model,
                                   BindingResult bindingResult) {
-        validator.validate(skill, bindingResult);
 
+        if (!skillDao.getSkillsByName(skill.getName()).isEmpty())
+            bindingResult.rejectValue("name", "duplicated", "This skill already exists");
+
+        validator.validate(skill, bindingResult);
         if (bindingResult.hasErrors()) {
-  /*          List<String> skillLevels = new LinkedList<>();
-            for(SkillLevel skillLevel : SkillLevel.values())
-                skillLevels.add(skillLevel.getId());*/
             model.addAttribute("skillLevels", loadSkills());
             return "skill/add";
         }

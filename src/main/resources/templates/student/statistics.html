@@ -18,21 +18,21 @@
     <div style="display: flex; flex-direction: column; align-items: center;">
         <div class="formulario-stats form-horizontal" th:object="${student}">
             <section class="input-group input-group-sm">
-                <span class="input-group-text bc-blue">Total Offers:</span>
+                <span class="input-group-text bc-blue">Total Offers</span>
                 <input type="text" class="form-control bc-white" th:field="${stats.totalOffers}" readonly/>
             </section>
             <section class="input-group input-group-sm">
-                <span class="input-group-text bc-blue">Total Requests:</span>
+                <span class="input-group-text bc-blue">Total Requests</span>
                 <input type="text" class="form-control bc-white" th:field="${stats.totalRequests}" readonly/>
             </section>
         </div>
         <div class="formulario-stats form-horizontal mb-3" th:object="${student}">
             <section class="input-group input-group-sm">
-                <span class="input-group-text bc-blue">Total Collaborations:</span>
+                <span class="input-group-text bc-blue">Total Collaborations</span>
                 <input type="text" class="form-control bc-white" th:field="${stats.totalCollaborations}" readonly/>
             </section>
             <section class="input-group input-group-sm">
-                <span class="input-group-text bc-blue">Avarage Collaborations Score:</span>
+                <span class="input-group-text bc-blue">Average Collaborations Score</span>
                 <input type="text" class="form-control bc-white" th:field="${stats.avgAssesmentScore}" readonly/>
             </section>
         </div>
@@ -41,17 +41,17 @@
 
         <div class="formulario-stats form-horizontal" th:object="${student}">
             <section class="input-group input-group-sm">
-                <span class="input-group-text bc-blue">Balance Hours:</span>
+                <span class="input-group-text bc-blue">Balance Hours</span>
                 <input type="text" class="form-control bc-white" th:field="${stats.balanceHours}" readonly/>
             </section>
             <section class="input-group input-group-sm">
-                <span class="input-group-text bc-blue">Total Hours:</span>
+                <span class="input-group-text bc-blue">Total Hours</span>
                 <input type="text" class="form-control bc-white" th:field="${stats.totalHours}" readonly/>
             </section>
         </div>
         <div class="formulario-stats-2 form-horizontal mb-3" th:object="${student}">
             <section class="input-group input-group-sm">
-                <span class="input-group-text bc-blue">Avarage Collaboration Hours:</span>
+                <span class="input-group-text bc-blue">Average Collaboration Hours</span>
                 <input type="text" class="form-control bc-white" th:field="${stats.avgCollaborationHours}" readonly/>
             </section>
         </div>
@@ -59,7 +59,7 @@
 
         <div th:if="!${#lists.isEmpty(stats.skillsTakenPart)}" class="formulario-stats-2 form-horizontal mb-3" th:object="${student}">
             <section class="input-group input-group-sm">
-                <span class="input-group-text bc-blue">Skills Taken Part</span>
+                <span class="input-group-text bc-blue">Skills that has participated</span>
             </section>
             <section class="input-group input-group-sm" th:each="skill: ${stats.skillsTakenPart}">
                 <span class="input-group-text bc-white" th:text="${skill}"></span>

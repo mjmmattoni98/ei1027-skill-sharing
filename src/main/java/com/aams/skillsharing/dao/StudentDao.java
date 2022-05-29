@@ -101,4 +101,15 @@ public class StudentDao {
             return new ArrayList<>();
         }
     }
+
+    public List<Student> getStudentsByUsername(String username){
+        try {
+            return jdbcTemplate.query("SELECT * FROM student WHERE username = ?",
+                    new StudentRowMapper(),
+                    username
+            );
+        } catch (EmptyResultDataAccessException e) {
+            return new ArrayList<>();
+        }
+    }
 }
