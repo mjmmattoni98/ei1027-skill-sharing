@@ -43,6 +43,7 @@ public class EmailController extends RoleController{
 
         Student student = studentDao.getStudent(user.getUsername());
         model.addAttribute("email_filter", new EmailFilter());
+        model.addAttribute( "student", user.getUsername());
         return getStudentsPaged(model, page.orElse(0), "", student.getEmail());
     }
 
