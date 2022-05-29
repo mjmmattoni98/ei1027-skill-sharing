@@ -79,11 +79,36 @@ public class RequestDao {
         }
     }
 
+    public List<Request> getRequestsByUsername(String username) {
+        try {
+            return jdbcTemplate.query("SELECT * FROM request WHERE canceled = false AND LOWER(username) LIKE ? " +
+                            "AND (finish_date IS NULL OR finish_date >= CURRENT_DATE)",
+                    new RequestRowMapper(),
+                    "%" + username.toLowerCase() + "%"
+            );
+        } catch (EmptyResultDataAccessException e) {
+            return new ArrayList<>();
+        }
+    }
+
     public List<Request> getRequestsStudent(String username) {
         try {
             return jdbcTemplate.query("SELECT * FROM request WHERE username = ? AND canceled = false AND " +
                             "(finish_date IS NULL OR finish_date >= CURRENT_DATE)",
                     new RequestRowMapper(),
+                    username
+            );
+        } catch (EmptyResultDataAccessException e) {
+            return new ArrayList<>();
+        }
+    }
+
+    public List<Request> getRequestsStudentBySkill(String username, String skill) {
+        try {
+            return jdbcTemplate.query("SELECT * FROM request WHERE LOWER(name) LIKE ? AND username = ? AND canceled = false AND " +
+                            "(finish_date IS NULL OR finish_date >= CURRENT_DATE)",
+                    new RequestRowMapper(),
+                    "%" + skill.toLowerCase() + "%",
                     username
             );
         } catch (EmptyResultDataAccessException e) {
@@ -97,6 +122,19 @@ public class RequestDao {
                             "(finish_date IS NULL OR finish_date >= CURRENT_DATE)",
                     new RequestRowMapper(),
                     name
+            );
+        } catch (EmptyResultDataAccessException e) {
+            return new ArrayList<>();
+        }
+    }
+
+    public List<Request> getRequestsSkillByUsername(String name, String username) {
+        try {
+            return jdbcTemplate.query("SELECT * FROM request WHERE name = ? AND canceled = false AND " +
+                            "(finish_date IS NULL OR finish_date >= CURRENT_DATE) AND LOWER(username) LIKE ?",
+                    new RequestRowMapper(),
+                    name,
+                    "%" + username.toLowerCase() + "%"
             );
         } catch (EmptyResultDataAccessException e) {
             return new ArrayList<>();

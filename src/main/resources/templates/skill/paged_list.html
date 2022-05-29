@@ -42,7 +42,7 @@
                 <p class="informacion"
                    th:text="${skill.description}"></p>
                 <footer>
-                    <a th:href="@{/request/list/skill/{name}(name=${skill.name})}" class="btn btn-UJI3" role="button">View requests</a>
+                    <a th:href="@{/request/paged_list/skill/{name}(name=${skill.name})}" class="btn btn-UJI3" role="button">View requests</a>
                     <a th:href="@{/offer/list/skill/{name}(name=${skill.name})}" class="btn btn-UJI3" role="button">View offers</a>
                     <a th:if="${session.user != null && session.user.balanceHours >= -20}" th:href="@{/request/add/{name}(name=${skill.name})}" class="btn btn-UJI2" role="button">Add request</a>
                     <a th:if="${session.user != null && session.user.balanceHours >= -20}" th:href="@{/offer/add/{name}(name=${skill.name})}" class="btn btn-UJI2" role="button">Add offer</a>
@@ -71,7 +71,7 @@
             </section>
         </article>
     </div>
-    <nav class="nav-pag" aria-label="Selection of skill-available's page">
+    <nav class="nav-pag" aria-label="Selection of skill's page">
         <ul class="pagination">
             <li th:class="page-item"
                 th:classappend="${selected_page == 0} ? disabled">

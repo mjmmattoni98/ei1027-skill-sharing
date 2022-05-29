@@ -10,7 +10,7 @@
           <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             What's available</a>
           <ul class="dropdown-menu">
-            <li><a class="nav-link" href="/request/list" th:href="@{/request/list}">All requests</a></li>
+            <li><a class="nav-link" href="/request/paged_list" th:href="@{/request/paged_list}">All requests</a></li>
             <li><a class="nav-link" href="/offer/list" th:href="@{/offer/list}">All offers</a></li>
           </ul>
         </li>
@@ -18,7 +18,7 @@
           <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             My elements</a>
           <ul class="dropdown-menu">
-            <li><a class="nav-link" th:href="@{/request/list/student/{username}(username=${session.user.username})}">My requests</a></li>
+            <li><a class="nav-link" th:href="@{/request/paged_list/student}">My requests</a></li>
             <li><a class="nav-link" th:href="@{/offer/list/student/{username}(username=${session.user.username})}">My offers</a></li>
             <li><a class="nav-link" href="/collaboration/paged_list" th:href="@{/collaboration/paged_list}">My collaborations</a></li>
           </ul>
