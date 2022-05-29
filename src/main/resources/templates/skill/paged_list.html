@@ -10,7 +10,7 @@
     <h1 class="titulo-seccion">Skills</h1>
 
     <form class="form-filtro" action="#"
-          th:action="@{/skill/paged_list/name?page={select}(select=${selected_page})}"
+          th:action="@{/skill/paged_list/name}"
           th:object="${skill_filter}" method="post">
         <input id="name" type="text" placeholder="Filter skills by name" name="name" th:field="*{name}" class="form-control"/>
         <button type="submit" class="btn btn-UJI">Filter</button>
@@ -75,21 +75,21 @@
         <ul class="pagination">
             <li th:class="page-item"
                 th:classappend="${selected_page == 0} ? disabled">
-                <a th:href="@{/skill/paged_list?page={select}(select=${selected_page - 1})}" class="page-link">
+                <a th:href="@{/skill/paged_list/name?name={name}&page={select}(name=${name}, select=${selected_page - 1})}" class="page-link">
                     <span aria-hidden="true">&laquo;</span>
                 </a>
             </li>
             <li th:class="page-item" th:if="${#lists.size(skills_paged) > 0}"
                 th:classappend="${page_number == selected_page + 1} ? active"
                 th:each="page_number : ${page_numbers}">
-                <a th:href="@{/skill/paged_list?page={select}(select=${page_number - 1})}"
+                <a th:href="@{/skill/paged_list/name?name={name}&page={select}(name=${name}, select=${page_number - 1})}"
                    th:text="${page_number}"
                    th:class="page-link">
                 </a>
             </li>
             <li th:class="page-item"
                 th:classappend="${selected_page == #lists.size(skills_paged) - 1} ? disabled">
-                <a th:href="@{/skill/paged_list?page={select}(select=${selected_page + 1})}" class="page-link">
+                <a th:href="@{/skill/paged_list/name?name={name}&page={select}(name=${name}, select=${selected_page + 1})}" class="page-link">
                     <span aria-hidden="true">&raquo;</span>
                 </a>
             </li>
