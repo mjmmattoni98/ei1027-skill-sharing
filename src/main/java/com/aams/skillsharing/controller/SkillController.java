@@ -66,8 +66,17 @@ public class SkillController extends RoleController {
     }
 
     @PostMapping("/paged_list/name")
-    public String listSkillsPagedByName(Model model, @ModelAttribute("skill_filter") SkillFilter skillFilter,
+    public String postListSkillsPagedByName(Model model, @ModelAttribute("skill_filter") SkillFilter skillFilter) {
+        model.addAttribute("skill_filter", skillFilter);
+        return getSkillsPaged(model, 0, skillFilter.getName());
+    }
+
+    @GetMapping("/paged_list/name")
+    public String getListSkillsPagedByName(Model model, @RequestParam("name") Optional<String> name,
                                         @RequestParam("page") Optional<Integer> page) {
+
+        SkillFilter skillFilter = new SkillFilter();
+        skillFilter.setName(name.orElse(""));
         model.addAttribute("skill_filter", skillFilter);
         return getSkillsPaged(model, page.orElse(0), skillFilter.getName());
     }
@@ -75,13 +84,18 @@ public class SkillController extends RoleController {
     @NotNull
     private String getSkillsPaged(Model model, int page, String name) {
         List<Skill> skills;
+        List<Skill> skillsDisabled;
         model.addAttribute("name", name);
         if (name.equals("")) {
-            skills = skillDao.getSkills();
+            skills = skillDao.getAvailableSkills();
+            skillsDisabled = skillDao.getDisabledSkills();
         } else {
-            skills = skillDao.getSkillsByName(name);
+            skills = skillDao.getAvailableSkillsByName(name);
+            skillsDisabled = skillDao.getDisabledSkillsByName(name);
         }
         Collections.sort(skills);
+        Collections.sort(skillsDisabled);
+        skills.addAll(skillsDisabled);
 
         List<List<Skill>> skillsPaged = new ArrayList<>();
         int start = 0;
