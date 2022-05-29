@@ -11,8 +11,8 @@
     <form class="form-filtro" action="#"
           th:action="@{/skill/paged_list/name?page={select}(select=${selected_page})}"
           th:object="${skill_filter}" method="post">
-        <label for="name">Filter skills by name:</label>
-        <input id="name" type="text" name="name" th:field="*{name}" class="form-control"/>
+<!--        <label for="name">Filter skills by name:</label>-->
+        <input id="name" type="text" placeholder="Filter skills by name" name="name" th:field="*{name}" class="form-control"/>
         <button type="submit" class="btn btn-UJI">Filter</button>
     </form>
     <div th:with="skills=${skills_paged[__${selected_page}__]}">

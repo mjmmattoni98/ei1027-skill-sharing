@@ -11,8 +11,8 @@
     <form class="form-filtro" action="#"
           th:action="@{/collaboration/paged_list/name?page={select}(select=${selected_page})}"
           th:object="${collaboration_filter}" method="post">
-        <label for="name">Filter by skill:</label>
-        <input id="name" type="text" name="name" th:field="*{skill}" class="form-control"/>
+<!--        <label for="name">:</label>-->
+        <input id="name" type="text" name="name" placeholder="Filter collaborations by skill" th:field="*{skill}" class="form-control"/>
         <button type="submit" class="btn btn-UJI">Filter</button>
     </form>
     <div th:with="collaborations=${collaborations_paged[__${selected_page}__]}">
