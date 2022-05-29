@@ -92,8 +92,9 @@ public class StudentDao {
 
     public List<Student> getStudentsByName(String name){
         try {
-            return jdbcTemplate.query("SELECT * FROM student WHERE LOWER(name) LIKE ?",
+            return jdbcTemplate.query("SELECT * FROM student WHERE LOWER(name) LIKE ? OR LOWER(surname) LIKE ?",
                     new StudentRowMapper(),
+                    "%" + name.toLowerCase() + "%",
                     "%" + name.toLowerCase() + "%"
             );
         } catch (EmptyResultDataAccessException e) {
