@@ -48,7 +48,7 @@ html, body{
 
 .titulo-seccion{
     text-align: center;
-    padding-bottom: 25px;
+    padding-block: 25px;
 }
 
 .titulo-seccion-back{
@@ -389,7 +389,12 @@ html, body{
 
 /* list */
 
-.listar-tarjeta #listar-enabled{
+.listar-tarjeta #listar-enabled,
+.listar-tarjeta #listar-enabled2,
+.listar-tarjeta #listar-enabled3,
+.listar-tarjeta #listar-enabled4,
+.listar-tarjeta #listar-enabled5,
+.listar-tarjeta #listar-enabled6{
     color: white;
     background-color: #002744;
     box-shadow: 2px 2px 20px 4px #00274466;
