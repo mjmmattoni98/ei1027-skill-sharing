@@ -10,8 +10,8 @@
     <h1 class="titulo-seccion">Students</h1>
     <form class="form-filtro" action="#" th:action="@{/student/paged_list/name?page={select}(select=${selected_page})}"
           th:object="${student_filter}" method="post">
-        <label for="name">Filter by name:</label>
-        <input id="name" type="text" name="name" th:field="*{name}" class="form-control"/>
+<!--        <label for="name">Filter by name:</label>-->
+        <input id="name" type="text" placeholder="Filter students by name" name="name" th:field="*{name}" class="form-control"/>
         <button type="submit" class="btn btn-UJI">Filter</button>
     </form>
     <div th:with="students=${students_paged[__${selected_page}__]}">
