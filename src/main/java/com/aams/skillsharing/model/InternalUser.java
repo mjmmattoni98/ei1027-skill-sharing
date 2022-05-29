@@ -10,6 +10,7 @@ public class InternalUser implements Serializable {
     private String password;
     private boolean isSkp;
     private int balanceHours;
+    private String email;
 
     public String getUrlMainPage() {
         return "homePage/list";

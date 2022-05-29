@@ -61,6 +61,8 @@ html, body{
     width: 30px;
     margin-block: auto;
     color: black;
+    position: relative;
+    left: 30px;
 }
 
 .titulo-seccion-back h2{
@@ -250,13 +252,9 @@ html, body{
 /* LOGIN */
 
 .menu-login{
-    width: 550px;
-    margin: auto;
     padding: 0px 30px 30px 30px;
     border: #002744 solid 1px;
     border-radius: 5px;
-    display: flex;
-    flex-direction: column;
 }
 
 .menu-login h3 {
@@ -267,29 +265,38 @@ html, body{
     padding-inline: 15px;
 }
 
-.menu-login span {
-    width: 85px;
+/* Menu Forms*/
+
+.formulario{
+    width: 550px;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.formulario span {
+    width: 150px;
     justify-content: center;
     font-weight: bolder;
 }
 
-.menu-login a, .menu-login a:hover{
+.formulario a, .menu-login a:hover{
     color: gray;
     font-weight: bolder;
 }
 
-.menu-login a:hover{
+.formulario a:hover{
     color: gray;
     font-weight: bolder;
 }
 
-.menu-login .section-btn-login {
+.formulario .section-btn-login {
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-.menu-login .section-btn-login .btn-UJI {
+.formulario .section-btn-login .btn-UJI {
     width: 100% !important;
 }
 

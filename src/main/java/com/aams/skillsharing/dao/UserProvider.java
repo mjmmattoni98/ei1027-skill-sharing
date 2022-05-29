@@ -27,7 +27,7 @@ public class UserProvider implements UserDao{
         Map<String, InternalUser> knownUsers = new HashMap<>();
 
         try {
-            List<InternalUser> internalUsers = jdbcTemplate.query("SELECT username, password, is_skp, balance_hours" +
+            List<InternalUser> internalUsers = jdbcTemplate.query("SELECT username, password, is_skp, balance_hours, email " +
                             " FROM student;",
                     new UserRowMapper()
             );
