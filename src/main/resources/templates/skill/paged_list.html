@@ -8,15 +8,15 @@
 <body>
 <div layout:fragment="content">
     <h1 class="titulo-seccion">Skills</h1>
-    <span th:if="${session.user != null && session.user.isSkp}">
-                <a th:href="@{/skill/add}" class="btn btn-success"
-                   role="button">Add new skill</a>
-        </span>
+
     <form class="form-filtro" action="#"
           th:action="@{/skill/paged_list/name?page={select}(select=${selected_page})}"
           th:object="${skill_filter}" method="post">
         <input id="name" type="text" placeholder="Filter skills by name" name="name" th:field="*{name}" class="form-control"/>
         <button type="submit" class="btn btn-UJI">Filter</button>
+        <div th:if="${session.user != null && session.user.isSkp}">
+            <a th:href="@{/skill/add}" class="btn btn-UJI2" role="button">Add new skill</a>
+        </div>
     </form>
     <div th:with="skills=${skills_paged[__${selected_page}__]}">
         <h3 class="titulo-seccion" th:if="${#lists.isEmpty(skills)}">There are currently no skills in the platform</h3>

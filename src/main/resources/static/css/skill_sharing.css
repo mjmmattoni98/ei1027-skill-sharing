@@ -227,12 +227,13 @@ html, body{
 .form-filtro{
     display: flex;
     align-items: center;
-    width: 700px;
     margin-inline: 25px;
 }
 
-.form-filtro label {
-    min-width: max-content;
+.form-filtro div {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
 }
 
 .form-filtro input {
