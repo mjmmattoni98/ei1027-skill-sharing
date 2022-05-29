@@ -15,70 +15,54 @@
         </a>
         <h2>Update collaboration</h2>
     </div>
-    <form class="form-horizontal" action="#" th:action="@{/collaboration/update}"
-          th:object="${collaboration}" method="post">
+    <form class="formulario form-horizontal" action="#" th:action="@{/collaboration/update}" th:object="${collaboration}" method="post">
+        <section class="input-group input-group-sm mb-3" hidden>
+            <span class="input-group-text">ID offer:</span>
+            <input type="text" class="form-control" id="idOffer" th:field="*{idOffer}" readonly/>
+        </section>
 
-        <div class="form-group row">
-            <label class="control-label col-sm-2" for="idOffer">ID offer:</label>
-            <div class="col-sm-4">
-                <input type="text" class="form-control" id="idOffer" th:field="*{idOffer}" readonly/>
-            </div>
-        </div>
+        <section class="input-group input-group-sm mb-3">
+            <span class="input-group-text">Skill:</span>
+            <input type="text" class="form-control" id="skill" th:field="*{skill}" readonly/>
+        </section>
 
-        <div class="form-group row">
-            <label class="control-label col-sm-2" for="studentOffer">Student offer:</label>
-            <div class="col-sm-4">
-                <input type="text" class="form-control" id="studentOffer" th:field="*{studentOffer}" readonly/>
-            </div>
-        </div>
+        <section class="input-group input-group-sm mb-3" hidden>
+            <span class="input-group-text">Student offer:</span>
+            <input type="text" class="form-control" id="studentOffer" th:field="*{studentOffer}" readonly/>
+        </section>
 
-        <div class="form-group row">
-            <label class="control-label col-sm-2" for="idRequest">ID request:</label>
-            <div class="col-sm-4">
-                <input type="text" class="form-control" id="idRequest" th:field="*{idRequest}" readonly/>
-            </div>
-        </div>
+        <section class="input-group input-group-sm mb-3" hidden>
+            <span class="input-group-text">ID request:</span>
+            <input type="text" class="form-control" id="idRequest" th:field="*{idRequest}" readonly/>
+        </section>
 
-        <div class="form-group row">
-            <label class="control-label col-sm-2" for="studentRequest">Student request:</label>
-            <div class="col-sm-4">
-                <input type="text" class="form-control" id="studentRequest" th:field="*{studentRequest}" readonly/>
-            </div>
-        </div>
+        <section class="input-group input-group-sm mb-3">
+            <span class="input-group-text">Student request:</span>
+            <input type="text" class="form-control" id="studentRequest" th:field="*{studentRequest}" readonly/>
+        </section>
 
-        <div class="form-group row">
-            <label class="control-label col-sm-2" for="hours">Hours:</label>
-            <div class="col-sm-4">
-                <input type="number" class="form-control" id="hours" th:field="*{hours}"/>
-            </div>
-        </div>
+        <section class="input-group input-group-sm mb-3">
+            <span class="input-group-text">Hours:</span>
+            <input type="number" class="form-control" id="hours" th:field="*{hours}"/>
+        </section>
 
-        <div class="form-group row">
-            <label class="control-label col-sm-2" for="assessment">Assessment score:</label>
-            <div class="col-sm-4">
-                <input type="number" class="form-control" th:min="1" th:max="5" min="1" max="5" id="assessment"
-                       th:field="*{assessment}"/>
-            </div>
-            <div class="error" th:if="${#fields.hasErrors('assessment')}" th:errors="*{assessment}"></div>
-        </div>
+        <section class="input-group input-group-sm mb-3">
+            <span class="input-group-text">Assessment score:</span>
+            <input type="number" class="form-control" th:min="1" th:max="5" min="1" max="5" id="assessment" th:field="*{assessment}"/>
+        </section>
+        <p class="error" th:if="${#fields.hasErrors('assessment')}" th:errors="*{assessment}"></p>
 
-        <div class="form-group row">
-            <label class="control-label col-sm-2" for="state">Collaboration's state:</label>
-            <div class="col-sm-4">
-                <select class="form-select" aria-label="Default select example" th:type="text" id="state" th:field="*{state}">
-                    <option th:each="state : ${states}"
-                            th:value="${state}"
-                            th:text="${state}"></option>
-                </select>
-            </div>
-            <div class="error" th:if="${#fields.hasErrors('state')}" th:errors="*{state}"></div>
-        </div>
+        <section class="input-group input-group-sm mb-3">
+            <span class="input-group-text">Collaboration's state:</span>
+            <select class="form-select" aria-label="Default select example" th:type="text" id="state" th:field="*{state}">
+                <option th:each="state : ${states}" th:value="${state}" th:text="${state}"></option>
+            </select>
+        </section>
+        <p class="error" th:if="${#fields.hasErrors('state')}" th:errors="*{state}"></p>
 
-        <div class="form-group row">
-            <div class="col-sm-offset-2 col-sm-4">
-                <button type="submit" class="btn btn-primary">Update collaboration</button>
-            </div>
-        </div>
+        <section class="section-btn-login">
+            <button type="submit" class="btn btn-UJI">Update collaboration</button>
+        </section>
     </form>
 </div>
 </body>
