@@ -28,6 +28,6 @@ public class RequestValidator implements Validator {
                     "The finish date must be after the start date");
         if (startDate.compareTo(LocalDate.now()) < 0)
             errors.rejectValue("startDate", "consistency",
-                    "The start date must be after today");
+                    "The start date must be today or after");
     }
 }

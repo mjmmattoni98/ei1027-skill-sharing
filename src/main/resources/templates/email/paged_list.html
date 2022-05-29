@@ -7,7 +7,7 @@
 </head>
 <body>
 <div layout:fragment="content">
-    <h1>List of emails</h1>
+    <h1 class="titulo-seccion">List of emails</h1>
     <form class="form-filtro" action="#" th:action="@{/email/paged_list/sender}"
           th:object="${email_filter}" method="post">
         <!--        <label for="name">Filter by name:</label>-->

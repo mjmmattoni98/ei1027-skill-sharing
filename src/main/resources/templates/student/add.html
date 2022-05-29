@@ -13,7 +13,7 @@
         <path fill-rule="evenodd" d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-4.5-.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5z"/>
       </svg>
     </a>
-    <h2>Introduce your info</h2>
+    <h2>Register your information</h2>
   </div>
   <form class="formulario form-horizontal" action="#" th:action="@{/student/add}" th:object="${student}" method="post">
 
@@ -30,18 +30,18 @@
     <p class="error" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></p>
 
     <section class="input-group input-group-sm mb-3">
-      <span class="input-group-text">Confirme Password:</span>
+      <span class="input-group-text">Confirm Password:</span>
       <input type="password" class="form-control" id="confirm_password" th:field="*{confirmPassword}" required/>
     </section>
     <p class="error" th:if="${#fields.hasErrors('confirmPassword')}" th:errors="*{confirmPassword}"></p>
 
     <section class="input-group input-group-sm mb-3">
-      <span class="input-group-text">Name:</span>
+      <span class="input-group-text">Name(s):</span>
       <input type="text" maxlength="40" class="form-control" id="name" th:field="*{name}" required/>
     </section>
 
     <section class="input-group input-group-sm mb-3">
-      <span class="input-group-text">Surname:</span>
+      <span class="input-group-text">Surname(s):</span>
       <input type="text" maxlength="40" class="form-control" th:classappend="${#fields.hasErrors('surname')} ? needcorrection" id="surname" th:field="*{surname}" required/>
     </section>
 
@@ -72,7 +72,7 @@
     </section>
 
     <section class="input-group input-group-sm mb-3">
-      <span class="input-group-text">Degree:</span>
+      <span class="input-group-text">Career degree:</span>
       <input type="text" class="form-control" id="degree" th:field="*{degree}" required/>
     </section>
 
