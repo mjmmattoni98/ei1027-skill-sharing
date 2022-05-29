@@ -7,76 +7,62 @@
 </head>
 <body>
 <div layout:fragment="content">
-    <div class="titulo-seccion-back">
-        <a href="#" onClick="history.back()">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-nut-fill" viewBox="0 0 16 16" >
-                <path fill-rule="evenodd" d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-4.5-.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5z"/>
-            </svg>
-        </a>
-        <h2>Your profile info</h2>
-    </div>
-    <table class="table table-striped">
-        <tbody>
-        <tr>
-            <td>Username:</td>
-            <td th:text="${student.username}"></td>
-        </tr>
-        <tr>
-<!--            <td>Password:</td>-->
-            <td th:text="${student.password}" hidden></td>
-        </tr>
-        <tr>
-            <td>Name:</td>
-            <td th:text="${student.name}"></td>
-        </tr>
-        <tr>
-            <td>Surname:</td>
-            <td th:text="${student.surname}"></td>
-        </tr>
-        <tr>
-            <td>Street:</td>
-            <td th:text="${student.street}"></td>
-        </tr>
-        <tr>
-            <td>Number:</td>
-            <td th:text="${student.number}"></td>
-        </tr>
-        <tr>
-            <td>Postal code:</td>
-            <td th:text="${student.pc}"></td>
-        </tr>
-        <tr>
-            <td>Locality:</td>
-            <td th:text="${student.locality}"></td>
-        </tr>
-        <tr>
-            <td>Email:</td>
-            <td th:text="${student.email}"></td>
-        </tr>
-        <tr>
-            <td>Balance of hours:</td>
-            <td th:text="${student.balanceHours}"></td>
-        </tr>
-        <tr>
-            <td>Blocked:</td>
-            <td th:text="${student.blocked}"></td>
-        </tr>
-        </tbody>
-    </table>
-    <p>
-        <a th:href="@{/student/update/{username}(username=${student.username})}" class="btn btn-warning" role="button">
-            Update info
-        </a>
-    </p>
-    <p>
-        <a th:href="@{/email/list/{receiver}(receiver=${student.email})}" class="btn btn-info" role="button">
-            Emails
-        </a>
-    </p>
-    <div class="col-sm-12 d-flex justify-content-center">
-         <span>
-             <button onClick="history.back()" class=" btn btn-info" >Back</button>
-         </span>
+    <h2 class="titulo-seccion">Your profile</h2>
+
+    <div class="formulario form-horizontal" th:object="${student}">
+        <section class="input-group input-group-sm mb-3">
+            <span class="input-group-text">Username:</span>
+            <input type="text" class="form-control" th:field="${student.username}" readonly/>
+        </section>
+
+        <section class="input-group input-group-sm mb-3" hidden>
+            <span class="input-group-text">Password:</span>
+            <input type="password" class="form-control" th:field="${student.password}" readonly hidden/>
+        </section>
+
+        <section class="input-group input-group-sm mb-3">
+            <span class="input-group-text">Name:</span>
+            <input type="text" class="form-control" th:field="${student.name}" readonly/>
+        </section>
+
+        <section class="input-group input-group-sm mb-3">
+            <span class="input-group-text">Street:</span>
+            <input type="text" class="form-control" th:field="${student.street}" readonly/>
+        </section>
+
+        <section class="input-group input-group-sm mb-3">
+            <span class="input-group-text">Number:</span>
+            <input type="number" class="form-control" th:field="${student.number}" readonly/>
+        </section>
+
+        <section class="input-group input-group-sm mb-3">
+            <span class="input-group-text">Postal Code:</span>
+            <input type="number" class="form-control" th:field="${student.pc}" readonly/>
+        </section>
+
+        <section class="input-group input-group-sm mb-3">
+            <span class="input-group-text">Locality:</span>
+            <input type="text" class="form-control" th:field="${student.locality}" readonly/>
+        </section>
+
+        <section class="input-group input-group-sm mb-3">
+            <span class="input-group-text">Email:</span>
+            <input type="email" class="form-control" th:field="${student.email}" readonly/>
+        </section>
+
+        <section class="input-group input-group-sm mb-3">
+            <span class="input-group-text">Balance of hourse:</span>
+            <input type="number" class="form-control" th:field="${student.balanceHours}" readonly/>
+        </section>
+
+        <section class="input-group input-group-sm mb-3" hidden>
+            <span class="input-group-text">Blocked:</span>
+            <input type="text" class="form-control" th:field="${student.blocked}" readonly/>
+        </section>
+
+        <section class="section-btn-login">
+            <a th:href="@{/student/update/{username}(username=${student.username})}" id="blanco" class="btn btn-UJI">Change Profile</a>
+        </section>
     </div>
 </div>
 </body>
