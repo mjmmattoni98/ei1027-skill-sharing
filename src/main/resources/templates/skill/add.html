@@ -15,55 +15,40 @@
         </a>
         <h2>New skill</h2>
     </div>
-    <form class="form-horizontal" action="#" th:action="@{/skill/add}"
-          th:object="${skill}" method="post">
+    <form class="formulario form-horizontal" action="#" th:action="@{/skill/add}" th:object="${skill}" method="post">
 
-        <div class="form-group row">
-            <label class="control-label col-sm-2" for="name">Name:</label>
-            <div class="col-sm-4">
-                <input type="text" maxlength="30" class="form-control" id="name" th:field="*{name}" required/>
-            </div>
-            <p class="error" th:if="${#fields.hasErrors('name')}" th:errors="*{name}" style="font-size:15px"></p>
-        </div>
+        <section class="input-group input-group-sm mb-3">
+            <span class="input-group-text">Name:</span>
+            <input type="text" maxlength="30" class="form-control" id="name" th:field="*{name}" required/>
+        </section>
+        <p class="error" th:if="${#fields.hasErrors('name')}" th:errors="*{name}" style="font-size:15px"></p>
 
-        <div class="form-group row">
-            <label class="control-label col-sm-2" for="description">Description:</label>
-            <div class="col-sm-4">
-                <input type="text" maxlength="30" class="form-control" id="description" th:field="*{description}" required/>
-            </div>
-            <p class="error" th:if="${#fields.hasErrors('description')}" th:errors="*{description}" style="font-size:15px"></p>
-        </div>
+        <section class="input-group input-group-sm mb-3">
+            <span class="input-group-text">Description:</span>
+            <input type="text" maxlength="30" class="form-control" id="description" th:field="*{description}" required/>
+        </section>
+        <p class="error" th:if="${#fields.hasErrors('description')}" th:errors="*{description}" style="font-size:15px"></p>
 
-        <div class="form-group row">
-            <label class="control-label col-sm-2" for="level">Level:</label>
-            <div class="col-sm-4">
+        <section class="input-group input-group-sm mb-3">
+            <span class="input-group-text">Level:</span>
                 <select class="form-select" aria-label="Default select example" th:type="text" id="level" th:field="*{level}">
-                    <option th:each="level : ${skillLevels}"
-                            th:value="${level}"
-                            th:text="${level}"></option>
+                    <option th:each="level : ${skillLevels}" th:value="${level}" th:text="${level}"></option>
                 </select>
-            </div>
-            <div class="error" th:if="${#fields.hasErrors('level')}" th:errors="*{level}"></div>
-        </div>
+        </section>
+        <p class="error" th:if="${#fields.hasErrors('level')}" th:errors="*{level}"></p>
 
-        <div class="form-group row">
+
+        <div class="form-group row" hidden>
             <label class="control-label col-sm-2">Canceled </label>
             <div class="col-sm-4">
                 <input id="canceled" type="checkbox" style="width: 30px; height: 30px" class="form-check-input" value="checkbox" th:field="*{canceled}"/>
             </div>
         </div>
 
-        <div class="form-group row">
-            <div class="col-sm-offset-2 col-sm-4">
-                <button type="submit" class="btn btn-primary">Create skill</button>
-            </div>
-        </div>
+        <section class="section-btn-login">
+            <button type="submit" class="btn btn-UJI">Create skill</button>
+        </section>
     </form>
-    <div class="col-sm-12 d-flex justify-content-center">
-         <span>
-             <button onClick="history.back()" class=" btn btn-info" >Back</button>
-         </span>
-    </div>
 </div>
 </body>
 </html>

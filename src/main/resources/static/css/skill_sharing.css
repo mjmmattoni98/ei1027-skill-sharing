@@ -48,7 +48,7 @@ html, body{
 
 .titulo-seccion{
     text-align: center;
-    padding-bottom: 25px;
+    padding-block: 25px;
 }
 
 .titulo-seccion-back{
@@ -78,13 +78,13 @@ html, body{
 
 .btn-UJI{
     font-weight: bolder;
-    color: #fff;
+    color: #fff !important;
     background-color: #3C688B;
     border-color: #3C688B;
 }
 
 .btn-UJI:active, .btn-UJI:focus, .btn-UJI:hover{
-    color: #fff;
+    color: #fff !important;
     background-color: #002744;
     border-color: #002744;
 }
@@ -227,12 +227,13 @@ html, body{
 .form-filtro{
     display: flex;
     align-items: center;
-    width: 700px;
     margin-inline: 25px;
 }
 
-.form-filtro label {
-    min-width: max-content;
+.form-filtro div {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
 }
 
 .form-filtro input {
@@ -349,8 +350,8 @@ html, body{
 }
 
 .listar-tarjeta .tarjeta header a svg{
-    width: 30px;
-    height: 30px;
+    width: 20px;
+    height: 20px;
     color: white;
     fill="currentColor"
 }
@@ -388,7 +389,12 @@ html, body{
 
 /* list */
 
-.listar-tarjeta #listar-enabled{
+.listar-tarjeta #listar-enabled,
+.listar-tarjeta #listar-enabled2,
+.listar-tarjeta #listar-enabled3,
+.listar-tarjeta #listar-enabled4,
+.listar-tarjeta #listar-enabled5,
+.listar-tarjeta #listar-enabled6{
     color: white;
     background-color: #002744;
     box-shadow: 2px 2px 20px 4px #00274466;
