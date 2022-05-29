@@ -335,7 +335,9 @@ html, body{
 .listar-tarjeta .tarjeta header h3{
     margin: 0px;
     text-align: center;
-    width: -webkit-fill-available;
+     width: -moz-available;
+     width: -webkit-fill-available;
+     width: fill-available;
 }
 
 .listar-tarjeta .tarjeta header a{
