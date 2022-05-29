@@ -301,6 +301,66 @@ html, body{
     width: 100% !important;
 }
 
+/* Form statics*/
+
+
+.formulario-stats{
+    width: 500px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin: auto;
+}
+
+.formulario-stats section{
+    display: flex;
+    flex-direction: column;
+}
+
+.formulario-stats span{
+    width: 250px;
+    justify-content: center;
+    font-weight: bolder;
+}
+
+.formulario-stats input{
+    width: auto !important;
+    text-align:center;
+}
+
+.formulario-stats-2{
+    width: 500px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: auto;
+}
+
+.formulario-stats-2 section{
+    display: flex;
+    flex-direction: column;
+}
+
+.formulario-stats-2 span{
+    width: 500px;
+    justify-content: center;
+    font-weight: bolder;
+}
+
+.formulario-stats-2 input{
+    width: auto !important;
+    text-align:center;
+}
+
+.bc-white{
+    background-color: white !important;
+}
+
+.bc-blue{
+    color: white;
+    background-color: #3C688B !important;
+}
+
 /* TARJETA LISTA */
 
 .listar-tarjeta {

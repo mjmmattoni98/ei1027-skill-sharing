@@ -175,6 +175,7 @@ public class StudentController extends RoleController {
         stats.setSkillsTakenPart(skillString);
 
         model.addAttribute("stats", stats);
+        model.addAttribute("student", username);
         return "student/statistics";
     }
 
