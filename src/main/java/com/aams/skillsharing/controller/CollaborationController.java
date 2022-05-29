@@ -66,9 +66,8 @@ public class CollaborationController extends RoleController{
     }
 
     @PostMapping("/paged_list/name")
-    public String listStudentsPagedByName(HttpSession session, Model model,
-                                          @ModelAttribute("collaboration_filter") CollaborationFilter collaborationFilter,
-                                          @RequestParam("page") Optional<Integer> page) {
+    public String postListStudentsPagedByName(HttpSession session, Model model,
+                                          @ModelAttribute("collaboration_filter") CollaborationFilter collaborationFilter) {
         if (session.getAttribute("user") == null){
             model.addAttribute("user", new InternalUser());
             return "login";
@@ -78,13 +77,32 @@ public class CollaborationController extends RoleController{
         String username = user.getUsername();
         model.addAttribute("student", username);
         model.addAttribute("collaboration_filter", collaborationFilter);
+        return getStudentsPaged(model, 0, collaborationFilter.getSkill(), username);
+    }
+
+    @GetMapping("/paged_list/name")
+    public String getListStudentsPagedByName(HttpSession session, Model model,
+                                          @RequestParam("name") Optional<String> skill,
+                                          @RequestParam("page") Optional<Integer> page) {
+        if (session.getAttribute("user") == null){
+            model.addAttribute("user", new InternalUser());
+            return "login";
+        }
+        InternalUser user = (InternalUser) session.getAttribute("user");
+
+        String username = user.getUsername();
+        model.addAttribute("student", username);
+
+        CollaborationFilter collaborationFilter = new CollaborationFilter();
+        collaborationFilter.setSkill(skill.orElse(""));
+        model.addAttribute("collaboration_filter", collaborationFilter);
         return getStudentsPaged(model, page.orElse(0), collaborationFilter.getSkill(), username);
     }
 
     @NotNull
     private String getStudentsPaged(Model model, int page, String skill, String username) {
         List<Collaboration> collaborations;
-        model.addAttribute("skill", skill);
+        model.addAttribute("name", skill);
         if (skill.equals("")) {
             collaborations = collaborationDao.getCollaborationsStudent(username);
         } else {

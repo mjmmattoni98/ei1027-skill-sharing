@@ -9,7 +9,7 @@
 <div layout:fragment="content">
     <h1 class="titulo-seccion">My Collaborations</h1>
     <form class="form-filtro" action="#"
-          th:action="@{/collaboration/paged_list/name?page={select}(select=${selected_page})}"
+          th:action="@{/collaboration/paged_list/name}"
           th:object="${collaboration_filter}" method="post">
 <!--        <label for="name">:</label>-->
         <input id="name" type="text" name="name" placeholder="Filter collaborations by skill" th:field="*{skill}" class="form-control"/>
@@ -45,7 +45,7 @@
         <ul class="pagination">
             <li th:class="page-item"
                 th:classappend="${selected_page == 0} ? disabled">
-                <a th:href="@{/collaboration/paged_list?page={select}(select=${selected_page - 1})}"
+                <a th:href="@{/collaboration/paged_list/name?name={name}&page={select}(name=${name}, select=${selected_page - 1})}"
                    class="page-link">
                     <span aria-hidden="true">&laquo;</span>
                 </a>
@@ -53,14 +53,14 @@
             <li th:class="page-item" th:if="${#lists.size(collaborations_paged) > 0}"
                 th:classappend="${page_number == selected_page + 1} ? active"
                 th:each="page_number : ${page_numbers}">
-                <a th:href="@{/collaboration/paged_list?page={select}(select=${page_number - 1})}"
+                <a th:href="@{/collaboration/paged_list/name?name={name}&page={select}(name=${name}, select=${page_number - 1})}"
                    th:text="${page_number}"
                    th:class="page-link">
                 </a>
             </li>
             <li th:class="page-item"
                 th:classappend="${selected_page == #lists.size(collaborations_paged) - 1} ? disabled">
-                <a th:href="@{/collaboration/paged_list?page={select}(select=${selected_page + 1})}"
+                <a th:href="@{/collaboration/paged_list/name?name={name}&page={select}(name=${name}, select=${selected_page + 1})}"
                    class="page-link">
                     <span aria-hidden="true">&raquo;</span>
                 </a>
