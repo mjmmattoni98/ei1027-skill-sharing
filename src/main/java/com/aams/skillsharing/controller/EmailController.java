@@ -144,7 +144,6 @@ public class EmailController extends RoleController{
         if (!student.getEmail().equals(email.getReceiver()))
             throw new SkillSharingException("You cannot delete emails of other students",
                     "AccesDenied", "../" + user.getUrlMainPage());
-
         emailDao.deleteEmail(id);
         return "redirect:../paged_list/";
     }

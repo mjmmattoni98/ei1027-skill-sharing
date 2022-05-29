@@ -15,27 +15,27 @@
           th:object="${request_filter}" method="post">
         <input type="text" placeholder="Filter requests by student's username" name="name" th:field="*{username}" class="form-control"/>
         <button type="submit" class="btn btn-UJI">Filter</button>
-        <!--        <div th:if="${session.user != null && session.user.isSkp}">
-                    <a th:href="@{/skill/add}" class="btn btn-UJI2" role="button">Add new skill</a>
-                </div>-->
+        <div th:if="${session.user != null}">
+            <a th:href="@{/skill/add}" class="btn btn-UJI2" role="button">Add new skill</a>
+        </div>
     </form>
     <form th:if="${skill == null && student != null}" class="form-filtro" action="#"
           th:action="@{/request/paged_list/student/skill}"
           th:object="${request_filter}" method="post">
         <input type="text" placeholder="Filter requests by skill" name="name" th:field="*{skill}" class="form-control"/>
         <button type="submit" class="btn btn-UJI">Filter</button>
-        <!--        <div th:if="${session.user != null && session.user.isSkp}">
-                    <a th:href="@{/skill/add}" class="btn btn-UJI2" role="button">Add new skill</a>
-                </div>-->
+        <div th:if="${session.user != null}">
+            <a th:href="@{/skill/add}" class="btn btn-UJI2" role="button">Add new skill</a>
+        </div>
     </form>
     <form th:if="${skill != null && student == null}" class="form-filtro" action="#"
           th:action="@{/request/paged_list/skill/{name}/username(name=${skill})}"
           th:object="${request_filter}" method="post">
         <input type="text" placeholder="Filter requests by student's username" name="name" th:field="*{username}" class="form-control"/>
         <button type="submit" class="btn btn-UJI">Filter</button>
-        <!--        <div th:if="${session.user != null && session.user.isSkp}">
-                    <a th:href="@{/skill/add}" class="btn btn-UJI2" role="button">Add new skill</a>
-                </div>-->
+        <div th:if="${session.user != null}">
+            <a th:href="@{/skill/add}" class="btn btn-UJI2" role="button">Add new skill</a>
+        </div>
     </form>
     <div th:with="requests=${requests_paged[__${selected_page}__]}">
         <h3 class="titulo-seccion" th:if="${#lists.isEmpty(requests)}">No requests available</h3>
