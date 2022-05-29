@@ -14,10 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -180,9 +177,9 @@ public class StudentController extends RoleController {
                 skillString.add(skill.getName());
 
         stats.setBalanceHours(student.getBalanceHours());
-        stats.setAvgAssesmentScore(collaborations.stream().mapToInt(Collaboration::getAssessment).average().orElse(0));
+        stats.setAvgAssesmentScore(Math.round(collaborations.stream().mapToInt(Collaboration::getAssessment).average().orElse(0) * 100.00) / 100.00);
         stats.setTotalHours(collaborations.stream().mapToDouble(Collaboration::getHours).sum());
-        stats.setAvgCollaborationHours(collaborations.stream().mapToDouble(Collaboration::getHours).average().orElse(0));
+        stats.setAvgCollaborationHours(Math.round(collaborations.stream().mapToDouble(Collaboration::getHours).average().orElse(0) * 100.00) / 100.00);
         stats.setTotalOffers(offerDao.getOffersStudent(username).size());
         stats.setTotalRequests(requestDao.getRequestsStudent(username).size());
         stats.setTotalCollaborations(collaborations.size());
@@ -203,6 +200,9 @@ public class StudentController extends RoleController {
     @PostMapping(value = "/add")
     public String processAddStudent(@ModelAttribute("student") Student student, BindingResult bindingResult) {
 
+        if (!studentDao.getStudentsByUsername(student.getUsername()).isEmpty())
+            bindingResult.rejectValue("username", "duplicated", "This username already exists. Please log in.");
+
         validator.validate(student, bindingResult);
         if (bindingResult.hasErrors()) return "student/add";
 
@@ -216,6 +216,7 @@ public class StudentController extends RoleController {
             throw new SkillSharingException("Error accessing the database\n" + e.getMessage(),
                     "ErrorAccessingDatabase", "/");
         }
+
         return "redirect:/student/profile";
     }
 

@@ -25,11 +25,11 @@ public class StudentUpdateValidator implements Validator {
         if (student.getUsername().length() != 8)
             errors.rejectValue("username", "length", "You must submit your al username");
         if(student.getNumber() < 1)
-            errors.rejectValue("number", "consistency", "Your number must be greater than 0");
-        if(student.getPc() < 1)
-            errors.rejectValue("pc", "consistency", "Your pc must be greater than 0");
+            errors.rejectValue("number", "consistency", "Insert a valid address number");
+        if(student.getPc() < 1001 || student.getPc() > 52999)
+            errors.rejectValue("pc", "consistency", "Insert a valid spanish postal code");
         if(!VALID_EMAIL_ADDRESS_REGEX.matcher(student.getEmail()).matches())
-            errors.rejectValue("email", "consistency", "Your email is not valid");
+            errors.rejectValue("email", "consistency", "Insert a valid email");
 //        if(!VALID_PASSWORD_REGEX.matcher(student.getPassword()).matches())
 //            errors.rejectValue("password", "consistency", "Your password must be at least 8 " +
 //                    "characters long and contain at least one number");

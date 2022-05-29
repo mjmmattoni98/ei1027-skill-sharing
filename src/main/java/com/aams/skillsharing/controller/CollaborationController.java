@@ -193,7 +193,7 @@ public class CollaborationController extends RoleController{
             throw new SkillSharingException("Error accessing the database\n" + e.getMessage(),
                     "ErrorAccessingDatabase", "/");
         }
-        return "redirect:list/";
+        return "redirect:paged_list/";
     }
 
     @GetMapping(value = "/update/{idOffer}/{idRequest}")
@@ -251,6 +251,6 @@ public class CollaborationController extends RoleController{
         }
 
         collaborationDao.updateCollaboration(collaboration);
-        return "redirect:list/";
+        return "redirect:paged_list/";
     }
 }
