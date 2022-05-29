@@ -8,7 +8,7 @@
 <body>
 <div layout:fragment="content">
     <h1 class="titulo-seccion">Students</h1>
-    <form class="form-filtro" action="#" th:action="@{/student/paged_list/name?page={select}(select=${selected_page})}"
+    <form class="form-filtro" action="#" th:action="@{/student/paged_list/name}"
           th:object="${student_filter}" method="post">
 <!--        <label for="name">Filter by name:</label>-->
         <input id="name" type="text" placeholder="Filter students by name" name="name" th:field="*{name}" class="form-control"/>
@@ -50,7 +50,7 @@
         <ul class="pagination">
             <li th:class="page-item"
                 th:classappend="${selected_page == 0} ? disabled">
-                <a th:href="@{/student/paged_list?page={select}(select=${selected_page - 1})}"
+                <a th:href="@{/student/paged_list?name={name}&page={select}(name=${name}, select=${selected_page - 1})}"
                    class="page-link">
                     <span aria-hidden="true">&laquo;</span>
                 </a>
@@ -58,14 +58,14 @@
             <li th:class="page-item" th:if="${#lists.size(students_paged) > 0}"
                 th:classappend="${page_number == selected_page + 1} ? active"
                 th:each="page_number : ${page_numbers}">
-                <a th:href="@{/student/paged_list?page={select}(select=${page_number - 1})}"
+                <a th:href="@{/student/paged_list?name={name}&page={select}(name=${name}, select=${page_number - 1})}"
                    th:text="${page_number}"
                    th:class="page-link">
                 </a>
             </li>
             <li th:class="page-item"
                 th:classappend="${selected_page == #lists.size(students_paged) - 1} ? disabled">
-                <a th:href="@{/student/paged_list?page={select}(select=${selected_page + 1})}"
+                <a th:href="@{/student/paged_list?name={name}&page={select}(name=${name}, select=${selected_page + 1})}"
                    class="page-link">
                     <span aria-hidden="true">&raquo;</span>
                 </a>
