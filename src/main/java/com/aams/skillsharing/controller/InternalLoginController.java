@@ -67,7 +67,7 @@ public class InternalLoginController {
             return "login";
         }
         if (studentDao.getStudent(user.getUsername()).isBlocked()) {
-            bindingResult.rejectValue("password", "blocked", "Your user has been banned");
+            bindingResult.rejectValue("password", "blocked", "Your user has been banned. Please contact skillsharing@gmail.com");
             return "login";
         }
 
