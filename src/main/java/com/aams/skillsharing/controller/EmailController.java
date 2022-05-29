@@ -42,13 +42,12 @@ public class EmailController extends RoleController{
         InternalUser user = (InternalUser) session.getAttribute("user");
 
         Student student = studentDao.getStudent(user.getUsername());
-
         model.addAttribute("email_filter", new EmailFilter());
         return getStudentsPaged(model, page.orElse(0), "", student.getEmail());
     }
 
-    @PostMapping("/paged_list/sender")
-    public String listEmailsPagedBySender(HttpSession session, Model model, @ModelAttribute("email_filter") EmailFilter emailFilter,
+    @GetMapping("/paged_list/sender")
+    public String getListEmailsPagedBySender(HttpSession session, Model model, @RequestParam("sender") Optional<String> sender,
                                           @RequestParam("page") Optional<Integer> page) {
         if (session.getAttribute("user") == null){
             model.addAttribute("user", new InternalUser());
@@ -58,8 +57,24 @@ public class EmailController extends RoleController{
 
         Student student = studentDao.getStudent(user.getUsername());
 
+        EmailFilter emailFilter = new EmailFilter();
+        emailFilter.setEmail(sender.orElse(""));
         model.addAttribute("email_filter", emailFilter);
         return getStudentsPaged(model, page.orElse(0), emailFilter.getEmail(), student.getEmail());
+    }
+
+    @PostMapping("/paged_list/sender")
+    public String postListEmailsPagedBySender(HttpSession session, Model model, @ModelAttribute("email_filter") EmailFilter emailFilter) {
+        if (session.getAttribute("user") == null){
+            model.addAttribute("user", new InternalUser());
+            return "login";
+        }
+        InternalUser user = (InternalUser) session.getAttribute("user");
+
+        Student student = studentDao.getStudent(user.getUsername());
+
+        model.addAttribute("email_filter", emailFilter);
+        return getStudentsPaged(model, 0, emailFilter.getEmail(), student.getEmail());
     }
 
     @NotNull
