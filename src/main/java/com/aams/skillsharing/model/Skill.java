@@ -19,6 +19,14 @@ public class Skill implements Comparable<Skill> {
         return this.level.getId();
     }
 
+    public boolean isCanceled() {
+        return canceled;
+    }
+
+    public void setCanceled(boolean canceled) {
+        this.canceled = canceled;
+    }
+
     @Override
     public int compareTo(Skill o) {
         return this.getName().compareTo(o.getName());

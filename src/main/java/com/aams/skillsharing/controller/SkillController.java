@@ -141,7 +141,7 @@ public class SkillController extends RoleController {
             throw new SkillSharingException("Error accessing the database\n" + e.getMessage(),
                     "ErrorAccessingDatabase", "/");
         }
-        return "redirect:list/";
+        return "redirect:paged_list/";
     }
 
     @GetMapping(value = "/update/{name}")
@@ -203,8 +203,8 @@ public class SkillController extends RoleController {
         return "redirect:paged_list/";
     }
 
-    @RequestMapping(value = "/activate/{name}")
-    public String activateSkill(HttpSession session, Model model, @PathVariable String name, @RequestParam("page") Optional<Integer> page) {
+    @RequestMapping(value = "/activateDisable/{name}")
+    public String activateOrDisableSkill(HttpSession session, Model model, @PathVariable String name, @RequestParam("page") Optional<Integer> page) {
         InternalUser user = checkSession(session, SKP_ROLE);
         if (user == null){
             model.addAttribute("user", new InternalUser());
@@ -212,16 +212,10 @@ public class SkillController extends RoleController {
         }
 
         Skill skill = skillDao.getSkill(name);
-        skill.setCanceled(false);
+        skill.setCanceled(!skill.isCanceled());
         skillDao.updateSkill(skill);
-
-
-//        model.addAttribute("skills", skillDao.getAvailableSkills());
-//        model.addAttribute("skills_disabled", skillDao.getDisabledSkills());
         model.addAttribute("skill_filter", new SkillFilter());
-//        return "/paged_list";
         return getSkillsPaged(model, page.orElse(0),"");
-
     }
 
     public List<String> loadSkills() {
