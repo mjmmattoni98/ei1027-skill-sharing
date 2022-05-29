@@ -2,6 +2,7 @@ package com.aams.skillsharing.controller;
 
 import com.aams.skillsharing.dao.*;
 import com.aams.skillsharing.model.*;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Controller;
@@ -11,8 +12,9 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.time.LocalDate;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Controller
 @RequestMapping("/collaboration")
@@ -49,7 +51,71 @@ public class CollaborationController extends RoleController{
         this.studentDao = studentDao;
     }
 
-    @RequestMapping("/list")
+    @RequestMapping("/paged_list")
+    public String listStudentsPaged(HttpSession session, Model model, @RequestParam("page") Optional<Integer> page) {
+        if (session.getAttribute("user") == null){
+            model.addAttribute("user", new InternalUser());
+            return "login";
+        }
+        InternalUser user = (InternalUser) session.getAttribute("user");
+
+        String username = user.getUsername();
+        model.addAttribute("student", username);
+        model.addAttribute("collaboration_filter", new CollaborationFilter());
+        return getStudentsPaged(model, page.orElse(0), "", username);
+    }
+
+    @PostMapping("/paged_list/name")
+    public String listStudentsPagedByName(HttpSession session, Model model,
+                                          @ModelAttribute("collaboration_filter") CollaborationFilter collaborationFilter,
+                                          @RequestParam("page") Optional<Integer> page) {
+        if (session.getAttribute("user") == null){
+            model.addAttribute("user", new InternalUser());
+            return "login";
+        }
+        InternalUser user = (InternalUser) session.getAttribute("user");
+
+        String username = user.getUsername();
+        model.addAttribute("student", username);
+        model.addAttribute("collaboration_filter", collaborationFilter);
+        return getStudentsPaged(model, page.orElse(0), collaborationFilter.getSkill(), username);
+    }
+
+    @NotNull
+    private String getStudentsPaged(Model model, int page, String skill, String username) {
+        List<Collaboration> collaborations;
+        model.addAttribute("skill", skill);
+        if (skill.equals("")) {
+            collaborations = collaborationDao.getCollaborationsStudent(username);
+        } else {
+            collaborations = collaborationDao.getCollaborationsStudentBySkill(username, skill);
+        }
+
+        List<List<Collaboration>> collaborationsPaged = new ArrayList<>();
+        int start = 0;
+        int pageLength = 8;
+        int end = pageLength;
+        while (end < collaborations.size()) {
+            collaborationsPaged.add(new ArrayList<>(collaborations.subList(start, end)));
+            start += pageLength;
+            end += pageLength;
+        }
+        collaborationsPaged.add(new ArrayList<>(collaborations.subList(start, collaborations.size())));
+        model.addAttribute("collaborations_paged", collaborationsPaged);
+
+        int totalPages = collaborationsPaged.size();
+        if (totalPages > 0) {
+            List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
+                    .boxed()
+                    .collect(Collectors.toList());
+            model.addAttribute("page_numbers", pageNumbers);
+        }
+
+        model.addAttribute("selected_page", page);
+        return "collaboration/paged_list";
+    }
+
+/*    @RequestMapping("/list")
     public String listCollaborationsStudent(HttpSession session, Model model) {
         if (session.getAttribute("user") == null){
             model.addAttribute("user", new InternalUser());
@@ -62,7 +128,7 @@ public class CollaborationController extends RoleController{
         model.addAttribute("student", username);
         return "collaboration/list";
     }
-
+*/
     @RequestMapping(value = "/add/{idOffer}/{idRequest}")
     public String addCollaboration(HttpSession session, Model model, @PathVariable int idOffer, @PathVariable int idRequest) {
         if (session.getAttribute("user") == null){

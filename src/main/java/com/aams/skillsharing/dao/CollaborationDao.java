@@ -99,6 +99,23 @@ public class CollaborationDao {
         }
     }
 
+    public List<Collaboration> getCollaborationsStudentBySkill(String username, String skill){
+        try {
+            return jdbcTemplate.query("SELECT id_offer, id_request, hours, assessment, state, o.username as student_offer, " +
+                            "r.username as student_request, o.name as skill FROM collaboration JOIN offer o ON collaboration.id_offer = o.id " +
+                            "JOIN request r ON collaboration.id_request = r.id WHERE LOWER(o.name) LIKE ? AND " +
+                            "(id_request IN (SELECT id FROM request WHERE username = ?) " +
+                            "OR id_offer IN (SELECT id FROM offer WHERE username = ?))",
+                    new CollaborationRowMapper(),
+                    "%" + skill.toLowerCase() + "%",
+                    username,
+                    username
+            );
+        } catch (EmptyResultDataAccessException e) {
+            return new ArrayList<>();
+        }
+    }
+
     public List<Collaboration> fetchLastThreeCollabs(String name) {
         try {
             return jdbcTemplate.query("SELECT id_offer, id_request, hours, assessment, state, o.username as student_offer, r.username as student_request, o.name as skill " +
