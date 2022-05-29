@@ -19,7 +19,7 @@
         <div th:if="${#lists.isEmpty(emails)}">
             You don't have any emails.
         </div>
-        <div class="accordion" th:each="email: ${#lists.sort(emails)}">
+        <div th:unless="${#lists.isEmpty(emails)}" class="accordion" th:each="email: ${#lists.sort(emails)}">
             <div class="accordion-item">
                 <h2 class="accordion-header" th:id="heading + ${email.id}">
                     <button class="accordion-button collapsed" type="button"
