@@ -26,6 +26,10 @@ html, body{
     flex-direction: column;
 }
 
+.accordion-button:not(.collapsed){
+    color: black;
+}
+
 .div-fondo{
     height: 100%;
     width: 100%;
@@ -326,6 +330,7 @@ html, body{
 .formulario-stats input{
     width: auto !important;
     text-align:center;
+    font-weight: bolder;
 }
 
 .formulario-stats-2{
