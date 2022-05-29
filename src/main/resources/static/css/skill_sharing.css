@@ -349,8 +349,8 @@ html, body{
 }
 
 .listar-tarjeta .tarjeta header a svg{
-    width: 30px;
-    height: 30px;
+    width: 20px;
+    height: 20px;
     color: white;
     fill="currentColor"
 }
