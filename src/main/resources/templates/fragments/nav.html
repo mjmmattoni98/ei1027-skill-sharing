@@ -11,7 +11,7 @@
             What's available</a>
           <ul class="dropdown-menu">
             <li><a class="nav-link" href="/request/paged_list" th:href="@{/request/paged_list}">All requests</a></li>
-            <li><a class="nav-link" href="/offer/list" th:href="@{/offer/list}">All offers</a></li>
+            <li><a class="nav-link" href="/offer/paged_list" th:href="@{/offer/paged_list}">All offers</a></li>
           </ul>
         </li>
         <li th:if="${session.user != null}" class="nav-item dropdown">
@@ -19,7 +19,7 @@
             My elements</a>
           <ul class="dropdown-menu">
             <li><a class="nav-link" th:href="@{/request/paged_list/student}">My requests</a></li>
-            <li><a class="nav-link" th:href="@{/offer/list/student/{username}(username=${session.user.username})}">My offers</a></li>
+            <li><a class="nav-link" th:href="@{/offer/paged_list/student}">My offers</a></li>
             <li><a class="nav-link" href="/collaboration/paged_list" th:href="@{/collaboration/paged_list}">My collaborations</a></li>
           </ul>
         </li>

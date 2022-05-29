@@ -1,7 +1,11 @@
 package com.aams.skillsharing.controller;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import javax.servlet.http.HttpSession;
 
@@ -9,20 +13,15 @@ import com.aams.skillsharing.dao.CollaborationDao;
 import com.aams.skillsharing.dao.OfferDao;
 import com.aams.skillsharing.dao.RequestDao;
 import com.aams.skillsharing.dao.SkillDao;
-import com.aams.skillsharing.model.InternalUser;
-import com.aams.skillsharing.model.Offer;
-import com.aams.skillsharing.model.Request;
+import com.aams.skillsharing.model.*;
 
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/offer")
@@ -53,7 +52,7 @@ public class OfferController extends RoleController{
         this.skillDao = skillDao;
     }
 
-    @RequestMapping("/list")
+/*    @RequestMapping("/list")
     public String listOffers(Model model) {
         List<Offer> offers = offerDao.getOffers();
 
@@ -106,6 +105,189 @@ public class OfferController extends RoleController{
         model.addAttribute("offers", offers);
         model.addAttribute("skill", name);
         return "offer/list";
+    }*/
+
+    @RequestMapping("/paged_list")
+    public String listOffersPaged(Model model, @RequestParam("page") Optional<Integer> page) {
+        model.addAttribute("offer_filter", new OfferFilter());
+        return getOffersPaged(model, page.orElse(0), "", "", "", "", null);
+    }
+
+    @PostMapping("/paged_list/username")
+    public String postListOffersPagedByName(Model model, @ModelAttribute("offer_filter") OfferFilter offerFilter) {
+        model.addAttribute("offer_filter", offerFilter);
+        return getOffersPaged(model, 0, offerFilter.getUsername(), "", "", "", null);
+    }
+
+    @GetMapping("/paged_list/username")
+    public String getListOffersPagedByName(Model model, @RequestParam("username") Optional<String> username,
+                                             @RequestParam("page") Optional<Integer> page) {
+        OfferFilter offerFilter = new OfferFilter();
+        offerFilter.setUsername(username.orElse(""));
+        model.addAttribute("offer_filter", offerFilter);
+        return getOffersPaged(model, page.orElse(0), offerFilter.getUsername(), "", "", "", null);
+    }
+
+    @RequestMapping("/paged_list/student")
+    public String listOffersStudentPaged(HttpSession session, Model model, @RequestParam("page") Optional<Integer> page) {
+        if (session.getAttribute("user") == null) {
+            model.addAttribute("user", new InternalUser());
+            return "login";
+        }
+        InternalUser user = (InternalUser) session.getAttribute("user");
+
+        model.addAttribute("student", user.getUsername());
+        model.addAttribute("offer_filter", new OfferFilter());
+        return getOffersPaged(model, page.orElse(0), "", "", "", user.getUsername(), null);
+    }
+
+    @PostMapping("/paged_list/student/skill")
+    public String postListOffersStudentPagedByName(HttpSession session, Model model, @ModelAttribute("offer_filter") OfferFilter offerFilter) {
+        if (session.getAttribute("user") == null) {
+            model.addAttribute("user", new InternalUser());
+            return "login";
+        }
+        InternalUser user = (InternalUser) session.getAttribute("user");
+
+        model.addAttribute("student", user.getUsername());
+        model.addAttribute("offer_filter", offerFilter);
+        return getOffersPaged(model, 0, "", offerFilter.getSkill(), "", user.getUsername(), null);
+    }
+
+    @GetMapping("/paged_list/student/skill")
+    public String getListOffersStudentPagedByName(HttpSession session, Model model, @RequestParam("name") Optional<String> name,
+                                                    @RequestParam("page") Optional<Integer> page) {
+        if (session.getAttribute("user") == null) {
+            model.addAttribute("user", new InternalUser());
+            return "login";
+        }
+        InternalUser user = (InternalUser) session.getAttribute("user");
+
+        model.addAttribute("student", user.getUsername());
+        OfferFilter offerFilter = new OfferFilter();
+        offerFilter.setSkill(name.orElse(""));
+        model.addAttribute("offer_filter", offerFilter);
+        return getOffersPaged(model, page.orElse(0), "", offerFilter.getSkill(), "", user.getUsername(), null);
+    }
+
+    @RequestMapping("/paged_list/skill/{name}")
+    public String listOffersSkillPaged(Model model, @PathVariable String name, @RequestParam("page") Optional<Integer> page) {
+        model.addAttribute("skill", name);
+        model.addAttribute("offer_filter", new OfferFilter());
+        return getOffersPaged(model, page.orElse(0), "", "", name, "", null);
+    }
+
+    @PostMapping("/paged_list/skill/{name}/username")
+    public String postListOffersSkillPagedByName(@PathVariable String name, Model model,
+                                                   @ModelAttribute("offer_filter") OfferFilter offerFilter) {
+        model.addAttribute("skill", name);
+        model.addAttribute("offer_filter", offerFilter);
+        return getOffersPaged(model, 0, offerFilter.getUsername(), "", name, "", null);
+    }
+
+    @GetMapping("/paged_list/skill/{name}/username")
+    public String getListOffersSkillPagedByName(Model model, @PathVariable String name,
+                                                  @RequestParam("username") Optional<String> username,
+                                                  @RequestParam("page") Optional<Integer> page) {
+        model.addAttribute("skill", name);
+        OfferFilter offerFilter = new OfferFilter();
+        offerFilter.setUsername(username.orElse(""));
+        model.addAttribute("request_filter", offerFilter);
+        return getOffersPaged(model, page.orElse(0), offerFilter.getUsername(), "", name, "", null);
+    }
+
+    @RequestMapping("/paged_list/collaborate/{id}")
+    public String listOffersCollaboratePaged(Model model, @PathVariable int id, @RequestParam("page") Optional<Integer> page) {
+        Request request = requestDao.getRequest(id);
+        model.addAttribute("request", request);
+        model.addAttribute("offer_filter", new OfferFilter());
+        return getOffersPaged(model, page.orElse(0), "", "", "", "", request);
+    }
+
+    @PostMapping("/paged_list/collaborate/{id}/username")
+    public String postListOffersCollaboratePagedByRequest(@PathVariable int id, Model model,
+                                                 @ModelAttribute("offer_filter") OfferFilter offerFilter) {
+        Request request = requestDao.getRequest(id);
+        model.addAttribute("request", request);
+        model.addAttribute("offer_filter", offerFilter);
+        return getOffersPaged(model, 0, offerFilter.getUsername(), "", "", "", request);
+    }
+
+    @GetMapping("/paged_list/collaborate/{id}/username")
+    public String getListOffersCollaboratePagedByRequest(Model model, @PathVariable int id,
+                                                @RequestParam("username") Optional<String> username,
+                                                @RequestParam("page") Optional<Integer> page) {
+        Request request = requestDao.getRequest(id);
+        model.addAttribute("request", request);
+        OfferFilter offerFilter = new OfferFilter();
+        offerFilter.setUsername(username.orElse(""));
+        model.addAttribute("request_filter", offerFilter);
+        return getOffersPaged(model, page.orElse(0), offerFilter.getUsername(), "", "", "", request);
+    }
+
+    @NotNull
+    private String getOffersPaged(Model model, int page, String username, String name, String skill, String student, Request request) {
+        List<Offer> offers = null;
+        if (skill.isEmpty() && student.isEmpty()) {
+            model.addAttribute("username", username);
+            if (username.equals("")) {
+                offers = offerDao.getOffers();
+            } else {
+                offers = offerDao.getOffersByUsername(username);
+            }
+        }
+        if (!skill.isEmpty()) {
+            model.addAttribute("username", username);
+            if (username.equals("")) {
+                offers = offerDao.getOffersSkill(skill);
+            } else {
+                offers = offerDao.getOffersSkillByUsername(skill, username);
+            }
+        }
+        if (!student.isEmpty()) {
+            model.addAttribute("name", name);
+            if (name.equals("")) {
+                offers = offerDao.getOffersStudent(student);
+            } else {
+                offers = offerDao.getOffersStudentBySkill(student, name);
+            }
+        }
+        if (request != null) {
+            model.addAttribute("username", username);
+            if (username.equals("")) {
+                offers = offerDao.getOffersSkill(request.getName());
+            } else {
+                offers = offerDao.getOffersSkillByUsername(skill, request.getName());
+            }
+            // Remove my offers and the offers that are already collaborating with the request
+            offers.removeIf(offer -> offer.getUsername().equals(request.getUsername()) ||
+                    collaborationDao.getCollaboration(offer.getId(), request.getId()) != null);
+        }
+
+
+        List<List<Offer>> offersPaged = new ArrayList<>();
+        int start = 0;
+        int pageLength = 8;
+        int end = pageLength;
+        while (end < offers.size()) {
+            offersPaged.add(new ArrayList<>(offers.subList(start, end)));
+            start += pageLength;
+            end += pageLength;
+        }
+        offersPaged.add(new ArrayList<>(offers.subList(start, offers.size())));
+        model.addAttribute("offers_paged", offersPaged);
+
+        int totalPages = offersPaged.size();
+        if (totalPages > 0) {
+            List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
+                    .boxed()
+                    .collect(Collectors.toList());
+            model.addAttribute("page_numbers", pageNumbers);
+        }
+
+        model.addAttribute("selected_page", page);
+
+        return "offer/paged_list";
     }
 
     @RequestMapping(value = "/add/{name}")

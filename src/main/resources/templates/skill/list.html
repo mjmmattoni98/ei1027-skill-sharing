@@ -22,8 +22,8 @@
             <p th:classappend="${session.user != null and session.user.isSkp} ? skp : ''" class="informacion" th:text="${skill.level}"></p>
             <p th:classappend="${session.user != null and session.user.isSkp} ? skp : ''" class="informacion" th:text="${skill.description}"></p>
             <footer>
-                <a th:href="@{/request/list/skill/{name}(name=${skill.name})}" class="btn btn-UJI3" role="button">View requests</a>
-                <a th:href="@{/offer/list/skill/{name}(name=${skill.name})}" class="btn btn-UJI3" role="button">View offers</a>
+                <a th:href="@{/request/paged_list/skill/{name}(name=${skill.name})}" class="btn btn-UJI3" role="button">View requests</a>
+                <a th:href="@{/offer/paged_list/skill/{name}(name=${skill.name})}" class="btn btn-UJI3" role="button">View offers</a>
                 <a th:if="${session.user != null && session.user.balanceHours ge -20}" th:href="@{/request/add/{name}(name=${skill.name})}" class="btn btn-UJI2" role="button">Add request</a>
                 <a th:if="${session.user != null && session.user.balanceHours ge -20}" th:href="@{/offer/add/{name}(name=${skill.name})}" class="btn btn-UJI2" role="button">Add offer</a>
             </footer>

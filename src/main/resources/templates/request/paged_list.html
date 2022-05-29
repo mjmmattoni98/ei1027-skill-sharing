@@ -57,7 +57,7 @@
                    class="informacion" th:text="${request.username}"></p>
                 <footer th:if="${session.user != null and #strings.equals(session.user.username, request.username) && session.user.balanceHours ge -20}"
                         class="unafuncion">
-                    <a th:href="@{/offer/list/collaborate/{id}(id=${request.id})}" class="btn btn-UJI3" role="button">See
+                    <a th:href="@{/offer/paged_list/collaborate/{id}(id=${request.id})}" class="btn btn-UJI3" role="button">See
                         offers to collaborate</a>
                 </footer>
             </section>

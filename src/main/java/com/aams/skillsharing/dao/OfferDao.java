@@ -77,11 +77,36 @@ public class OfferDao {
         }
     }
 
+    public List<Offer> getOffersByUsername(String username) {
+        try {
+            return jdbcTemplate.query("SELECT * FROM offer WHERE canceled = false AND LOWER(username) LIKE ? " +
+                            "AND (finish_date IS NULL OR finish_date >= CURRENT_DATE)",
+                    new OfferRowMapper(),
+                    "%" + username.toLowerCase() + "%"
+            );
+        } catch (EmptyResultDataAccessException e) {
+            return new ArrayList<>();
+        }
+    }
+
     public List<Offer> getOffersStudent(String username) {
         try {
             return jdbcTemplate.query("SELECT * FROM offer WHERE username = ? AND canceled = false AND " +
                             "(finish_date IS NULL OR finish_date >= CURRENT_DATE)",
                     new OfferRowMapper(),
+                    username
+            );
+        } catch (EmptyResultDataAccessException e) {
+            return new ArrayList<>();
+        }
+    }
+
+    public List<Offer> getOffersStudentBySkill(String username, String skill) {
+        try {
+            return jdbcTemplate.query("SELECT * FROM offer WHERE LOWER(name) LIKE ? AND username = ? AND canceled = false AND " +
+                            "(finish_date IS NULL OR finish_date >= CURRENT_DATE)",
+                    new OfferRowMapper(),
+                    "%" + skill.toLowerCase() + "%",
                     username
             );
         } catch (EmptyResultDataAccessException e) {
@@ -108,6 +133,19 @@ public class OfferDao {
                             "(finish_date IS NULL OR finish_date >= CURRENT_DATE)",
                     new OfferRowMapper(),
                     name
+            );
+        } catch (EmptyResultDataAccessException e) {
+            return new ArrayList<>();
+        }
+    }
+
+    public List<Offer> getOffersSkillByUsername(String name, String username) {
+        try {
+            return jdbcTemplate.query("SELECT * FROM offer WHERE name = ? AND canceled = false AND " +
+                            "(finish_date IS NULL OR finish_date >= CURRENT_DATE) AND LOWER(username) LIKE ?",
+                    new OfferRowMapper(),
+                    name,
+                    "%" + username.toLowerCase() + "%"
             );
         } catch (EmptyResultDataAccessException e) {
             return new ArrayList<>();
