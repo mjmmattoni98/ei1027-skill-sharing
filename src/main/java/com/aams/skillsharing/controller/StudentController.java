@@ -29,6 +29,7 @@ public class StudentController extends RoleController {
     private OfferDao offerDao;
     private RequestDao requestDao;
     private EmailDao emailDao;
+    private SkillDao skillDao;
     private static final StudentValidator validator = new StudentValidator();
     private static final StudentUpdateValidator updateValidator = new StudentUpdateValidator();
     private static final BasicPasswordEncryptor encryptor = new BasicPasswordEncryptor();
@@ -57,6 +58,9 @@ public class StudentController extends RoleController {
     public void setEmailDao(EmailDao emailDao) {
         this.emailDao = emailDao;
     }
+
+    @Autowired
+    public void setSkillDao(SkillDao skillDao) { this.skillDao = skillDao; }
 
     @RequestMapping("/paged_list")
     public String listStudentsPaged(HttpSession session, Model model, @RequestParam("page") Optional<Integer> page) {
@@ -152,20 +156,25 @@ public class StudentController extends RoleController {
         }
 
         Student student = studentDao.getStudent(username);
-        model.addAttribute("student", username);
-        model.addAttribute("balance_hours", student.getBalanceHours());
 
-        List<Offer> offers = offerDao.getOffersStudent(username);
-        model.addAttribute("offers", offers);
-
-        List<Request> requests = requestDao.getRequestsStudent(username);
-        model.addAttribute("requests", requests);
-
+        Statistics stats = new Statistics();
         List<Collaboration> collaborations = collaborationDao.getCollaborationsStudent(username);
-        model.addAttribute("collaborations", collaborations);
-        double averageAssessment = collaborations.stream().mapToInt(Collaboration::getAssessment).average().orElse(0);
-        model.addAttribute("average_assessment", averageAssessment);
+        List<Skill> skills = skillDao.getSkillsOfUsernames(username);
+        List<String> skillString = new ArrayList<>();
+        for (Skill skill : skills)
+            if (!skillString.contains(skill.getName()))
+                skillString.add(skill.getName());
 
+        stats.setBalanceHours(student.getBalanceHours());
+        stats.setAvgAssesmentScore(collaborations.stream().mapToInt(Collaboration::getAssessment).average().orElse(0));
+        stats.setTotalHours(collaborations.stream().mapToDouble(Collaboration::getHours).sum());
+        stats.setAvgCollaborationHours(collaborations.stream().mapToDouble(Collaboration::getHours).average().orElse(0));
+        stats.setTotalOffers(offerDao.getOffersStudent(username).size());
+        stats.setTotalRequests(requestDao.getRequestsStudent(username).size());
+        stats.setTotalCollaborations(collaborations.size());
+        stats.setSkillsTakenPart(skillString);
+
+        model.addAttribute("stats", stats);
         return "student/statistics";
     }
 
